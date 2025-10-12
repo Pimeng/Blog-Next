@@ -14,7 +14,7 @@
 
 - [Cloudflare 提供的 Pages](//cloudflare.com)
 
-- [弦塔](//xtower.site)
+- [弦塔](//blog.xtower.site)
 
 - 这个博客的框架
 ::github{repo="CuteLeaf/Firefly"}
