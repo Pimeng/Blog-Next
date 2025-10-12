@@ -1,1 +1,1 @@
-源自 https://github.com/Cuteleaf/Firefly.git
+源自 https://github.com/Cuteleaf/Firefly
