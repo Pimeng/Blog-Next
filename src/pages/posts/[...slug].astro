@@ -108,7 +108,7 @@ const jsonLd = {
                 i18n(
                   remarkPluginFrontmatter.minutes === 1
                     ? I18nKey.minuteCount
-                    : I18nKey.minutesCount
+                    : I18nKey.minutesCount,
                 )
             }
           </div>
@@ -202,7 +202,7 @@ const jsonLd = {
               <div class="text-[1.0rem] leading-tight text-black/75 dark:text-white/75">
                 {i18n(I18nKey.lastModifiedPrefix)}{" "}
                 {dayjs(entry.data.updated || entry.data.published).format(
-                  "YYYY-MM-DD"
+                  "YYYY-MM-DD",
                 )}
               </div>
               <p class="text-[0.8rem] leading-tight text-black/75 dark:text-white/75">

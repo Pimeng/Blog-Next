@@ -42,25 +42,7 @@ export const ja: Translation = {
   [Key.author]: "著者",
   [Key.publishedAt]: "公開日",
   [Key.license]: "ライセンス",
-  [Key.anime]: "アニメ",
-
-  // アニメページ
-  [Key.animeTitle]: "私のアニメリスト",
-  [Key.animeSubtitle]: "私の二次元の旅を記録する",
-  [Key.animeList]: "アニメリスト",
-  [Key.animeTotal]: "合計",
-  [Key.animeWatching]: "視聴中",
-  [Key.animeCompleted]: "完了",
-  [Key.animeAvgRating]: "平均評価",
-  [Key.animeStatusWatching]: "視聴中",
-  [Key.animeStatusCompleted]: "完了",
-  [Key.animeStatusPlanned]: "予定",
-  [Key.animeYear]: "年",
-  [Key.animeStudio]: "スタジオ",
-  [Key.animeEmpty]: "アニメデータなし",
-  [Key.animeEmptyBangumi]:
-    "Bangumiの設定またはネットワーク接続を確認してください",
-
+  
   // ページネーション
   [Key.paginationFirst]: "最初",
   [Key.paginationPrev]: "前へ",
@@ -77,31 +59,6 @@ export const ja: Translation = {
   [Key.notFoundDescription]:
     "申し訳ありませんが、アクセスしたページは存在しないか、移動されています。",
   [Key.backToHome]: "ホームに戻る",
-
-  // プロジェクトページ
-  [Key.projects]: "プロジェクト",
-  [Key.projectsSubtitle]: "私の開発プロジェクトポートフォリオ",
-  [Key.projectsAll]: "すべて",
-  [Key.projectsWeb]: "ウェブアプリケーション",
-  [Key.projectsMobile]: "モバイルアプリケーション",
-  [Key.projectsDesktop]: "デスクトップアプリケーション",
-  [Key.projectsOther]: "その他",
-  [Key.projectTechStack]: "技術スタック",
-  [Key.projectLiveDemo]: "ライブデモ",
-  [Key.projectSourceCode]: "ソースコード",
-  [Key.projectDescription]: "プロジェクト説明",
-  [Key.projectStatus]: "ステータス",
-  [Key.projectStatusCompleted]: "完了",
-  [Key.projectStatusInProgress]: "進行中",
-  [Key.projectStatusPlanned]: "予定",
-  [Key.projectsTotal]: "プロジェクト合計",
-  [Key.projectsCompleted]: "完了",
-  [Key.projectsInProgress]: "進行中",
-  [Key.projectsTechStack]: "技術スタック統計",
-  [Key.projectsFeatured]: "注目プロジェクト",
-  [Key.projectsPlanned]: "予定",
-  [Key.projectsDemo]: "ライブデモ",
-  [Key.projectsSource]: "ソースコード",
 
   // RSSページ
   [Key.rss]: "RSSフィード",
@@ -123,33 +80,6 @@ export const ja: Translation = {
     "Feedly、Inoreaderまたは他のRSSリーダーを使用してこのサイトを購読することを推奨します。",
   [Key.rssCopied]: "RSSリンクがクリップボードにコピーされました！",
   [Key.rssCopyFailed]: "コピーに失敗しました。手動でリンクをコピーしてください",
-
-  // スキルページ
-  [Key.skills]: "スキル",
-  [Key.skillsSubtitle]: "私の技術スキルと専門知識",
-  [Key.skillsFrontend]: "フロントエンド開発",
-  [Key.skillsBackend]: "バックエンド開発",
-  [Key.skillsDatabase]: "データベース",
-  [Key.skillsTools]: "開発ツール",
-  [Key.skillsOther]: "その他のスキル",
-  [Key.skillLevel]: "熟練度",
-  [Key.skillLevelBeginner]: "初心者",
-  [Key.skillLevelIntermediate]: "中級者",
-  [Key.skillLevelAdvanced]: "上級者",
-  [Key.skillLevelExpert]: "エキスパート",
-  [Key.skillExperience]: "経験",
-  [Key.skillYears]: "年",
-  [Key.skillMonths]: "ヶ月",
-  [Key.skillsTotal]: "スキル合計",
-  [Key.skillsExpert]: "エキスパートレベル",
-  [Key.skillsAdvanced]: "上級者",
-  [Key.skillsIntermediate]: "中級者",
-  [Key.skillsBeginner]: "初心者",
-  [Key.skillsAdvancedTitle]: "専門スキル",
-  [Key.skillsProjects]: "関連プロジェクト",
-  [Key.skillsDistribution]: "スキル分布",
-  [Key.skillsByLevel]: "レベル別分布",
-  [Key.skillsByCategory]: "カテゴリ別分布",
 
   // タイムラインページ
   [Key.timeline]: "タイムライン",

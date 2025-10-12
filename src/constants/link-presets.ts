@@ -23,17 +23,7 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
     url: "/friends/",
     icon: "material-symbols:group",
   },
-  [LinkPreset.Anime]: {
-    name: i18n(I18nKey.anime),
-    url: "/anime/",
-    icon: "material-symbols:movie",
-  },
 
-  [LinkPreset.Projects]: {
-    name: i18n(I18nKey.projects),
-    url: "/projects/",
-    icon: "material-symbols:work",
-  },
   [LinkPreset.Skills]: {
     name: i18n(I18nKey.skills),
     url: "/skills/",

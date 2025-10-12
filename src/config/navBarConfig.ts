@@ -5,7 +5,6 @@ export const navBarConfig: NavBarConfig = {
   links: [
     LinkPreset.Home,
     LinkPreset.Archive,
-    LinkPreset.Anime,
     // 支持自定义导航栏链接,并且支持多级菜单
     {
       name: "链接",
@@ -14,13 +13,13 @@ export const navBarConfig: NavBarConfig = {
       children: [
         {
           name: "GitHub",
-          url: "https://github.com/CuteLeaf/Firefly",
+          url: "https://github.com/Pimeng",
           external: true,
           icon: "fa6-brands:github",
         },
         {
           name: "Bilibili",
-          url: "https://space.bilibili.com/38932988",
+          url: "https://space.bilibili.com/36191664",
           external: true,
           icon: "fa6-brands:bilibili",
         },
@@ -31,28 +30,6 @@ export const navBarConfig: NavBarConfig = {
       url: "/content/",
       icon: "material-symbols:info",
       children: [LinkPreset.About, LinkPreset.Friends],
-    },
-    {
-      name: "其他",
-      url: "#",
-      icon: "material-symbols:more-horiz",
-      children: [
-        {
-          name: "我的项目",
-          url: "/projects/",
-          icon: "material-symbols:work",
-        },
-        {
-          name: "我的技能",
-          url: "/skills/",
-          icon: "material-symbols:psychology",
-        },
-        {
-          name: "我的经历",
-          url: "/timeline/",
-          icon: "material-symbols:timeline",
-        },
-      ],
     },
   ],
 };

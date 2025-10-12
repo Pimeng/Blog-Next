@@ -285,7 +285,7 @@ const size = config.size || { width: 280, height: 250 };
 
     // 确保DOM中没有残留的消息容器
     const existingMessages = document.querySelectorAll(
-      ".live2d-message-container"
+      ".live2d-message-container",
     );
     existingMessages.forEach((msg) => {
       if (msg.parentNode) {
@@ -419,7 +419,7 @@ const size = config.size || { width: 280, height: 250 };
       console.log(`No motions available for group: ${groupName}`);
       // Fallback to any available motion group
       const availableGroups = Object.keys(motionGroups).filter(
-        (key) => motionGroups[key].length > 0
+        (key) => motionGroups[key].length > 0,
       );
       if (availableGroups.length > 0) {
         groupName = availableGroups[0];
@@ -460,33 +460,6 @@ const size = config.size || { width: 280, height: 250 };
         canvas.style.transform = "scale(1)";
       }, 150);
     }
-  }
-
-  // Load Live2D and initialize
-  function loadLive2DSDK() {
-    // Check if Live2D SDK is already loaded
-    if (window.loadlive2d) {
-      initLive2D();
-      return;
-    }
-
-    // Load Live2D SDK
-    const script = document.createElement("script");
-    script.src = "/pio/static/live2d-sdk/live2d.min.js";
-    script.onload = () => {
-      // Wait a bit for the SDK to initialize
-      setTimeout(() => {
-        if (window.loadlive2d) {
-          initLive2D();
-        } else {
-          console.error("loadlive2d function not found after loading SDK");
-        }
-      }, 100);
-    };
-    script.onerror = () => {
-      console.error("Failed to load Live2D SDK");
-    };
-    document.head.appendChild(script);
   }
 
   // Handle responsive display

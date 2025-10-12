@@ -2,20 +2,18 @@
 import BackToTop from "@components/control/BackToTop.astro";
 import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
-import SideBar from "@components/widget/SideBar.astro";
-import SpineModel from "@components/widget/SpineModel.astro";
 import Live2DWidget from "@components/widget/Live2DWidget.astro";
+import SideBar from "@components/widget/SideBar.astro";
 import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
 import FullscreenWallpaper from "../components/misc/FullscreenWallpaper.astro";
 import IconifyLoader from "../components/misc/IconifyLoader.astro";
 import ImageWrapper from "../components/misc/ImageWrapper.astro";
 import TypewriterText from "../components/TypewriterText.astro";
-import TOC from "../components/widget/TOC.astro";
 import FloatingTOC from "../components/widget/FloatingTOC.astro";
+import TOC from "../components/widget/TOC.astro";
 import { siteConfig } from "../config";
 import { sidebarLayoutConfig } from "../config/sidebarConfig";
-import { live2dModelConfig } from "../config/pioConfig";
 import {
 	BANNER_HEIGHT,
 	BANNER_HEIGHT_EXTEND,
@@ -96,24 +94,46 @@ const isBackgroundEnabled = siteConfig.backgroundWallpaper.enable;
 const wavesConfig = siteConfig.backgroundWallpaper.banner?.waves?.enable;
 const isWavesEnabled = isBannerMode && isBackgroundEnabled && wavesConfig;
 // 处理分设备控制的波浪动画
-const wavesEnabledOnDesktop = typeof wavesConfig === 'object' ? wavesConfig.desktop : wavesConfig;
-const wavesEnabledOnMobile = typeof wavesConfig === 'object' ? wavesConfig.mobile : wavesConfig;
+const wavesEnabledOnDesktop =
+	typeof wavesConfig === "object" ? wavesConfig.desktop : wavesConfig;
+const wavesEnabledOnMobile =
+	typeof wavesConfig === "object" ? wavesConfig.mobile : wavesConfig;
 
 // 处理分设备控制的横幅信贷显示
-const creditEnableConfig = siteConfig.backgroundWallpaper.banner?.credit?.enable;
-const creditEnabledOnDesktop = typeof creditEnableConfig === 'object' ? creditEnableConfig.desktop : creditEnableConfig;
-const creditEnabledOnMobile = typeof creditEnableConfig === 'object' ? creditEnableConfig.mobile : creditEnableConfig;
+const creditEnableConfig =
+	siteConfig.backgroundWallpaper.banner?.credit?.enable;
+const creditEnabledOnDesktop =
+	typeof creditEnableConfig === "object"
+		? creditEnableConfig.desktop
+		: creditEnableConfig;
+const creditEnabledOnMobile =
+	typeof creditEnableConfig === "object"
+		? creditEnableConfig.mobile
+		: creditEnableConfig;
 
-const hasBannerCredit = isBannerMode && isBackgroundEnabled && creditEnableConfig;
+const hasBannerCredit =
+	isBannerMode && isBackgroundEnabled && creditEnableConfig;
 
 // 处理分设备控制的横幅信贷文本和链接
 const creditTextConfig = siteConfig.backgroundWallpaper.banner?.credit?.text;
-const creditTextDesktop = typeof creditTextConfig === 'object' ? creditTextConfig.desktop : creditTextConfig;
-const creditTextMobile = typeof creditTextConfig === 'object' ? creditTextConfig.mobile : creditTextConfig;
+const creditTextDesktop =
+	typeof creditTextConfig === "object"
+		? creditTextConfig.desktop
+		: creditTextConfig;
+const creditTextMobile =
+	typeof creditTextConfig === "object"
+		? creditTextConfig.mobile
+		: creditTextConfig;
 
 const creditUrlConfig = siteConfig.backgroundWallpaper.banner?.credit?.url;
-const creditUrlDesktop = typeof creditUrlConfig === 'object' ? creditUrlConfig.desktop : creditUrlConfig;
-const creditUrlMobile = typeof creditUrlConfig === 'object' ? creditUrlConfig.mobile : creditUrlConfig;
+const creditUrlDesktop =
+	typeof creditUrlConfig === "object"
+		? creditUrlConfig.desktop
+		: creditUrlConfig;
+const creditUrlMobile =
+	typeof creditUrlConfig === "object"
+		? creditUrlConfig.mobile
+		: creditUrlConfig;
 
 const hasBannerLink = !!(creditUrlDesktop || creditUrlMobile);
 
@@ -127,13 +147,15 @@ const showHomeText = isBannerMode && !!homeTextEnable && isHomePage;
 const mobileNonHomeBannerClass = !isHomePage ? "mobile-hide-banner" : "";
 
 // 计算主内容区域位置，考虑手机端非首页时banner被隐藏
-const mainPanelTop = isBannerMode && isBackgroundEnabled
-	? `calc(${BANNER_HEIGHT}vh - ${MAIN_PANEL_OVERLAPS_BANNER_HEIGHT}rem)`
-	: "5.5rem";
+const mainPanelTop =
+	isBannerMode && isBackgroundEnabled
+		? `calc(${BANNER_HEIGHT}vh - ${MAIN_PANEL_OVERLAPS_BANNER_HEIGHT}rem)`
+		: "5.5rem";
 const mobileNonHomeMainTop = !isHomePage ? "5.5rem" : mainPanelTop;
 
 // 当banner模式被禁用时，主内容区域应该始终从顶栏下面开始
-const finalMainPanelTop = isBannerMode && isBackgroundEnabled ? mainPanelTop : "5.5rem";
+const finalMainPanelTop =
+	isBannerMode && isBackgroundEnabled ? mainPanelTop : "5.5rem";
 
 // 检查侧边栏是否启用，动态调整网格布局
 // 全局启用状态
@@ -397,8 +419,6 @@ const transparentClass = shouldEnableTransparency
         </div>
 
         <BackToTop></BackToTop>
-        <SpineModel></SpineModel>
-        {live2dModelConfig.enable && <Live2DWidget config={live2dModelConfig} />}
     </div>
 </div>
 

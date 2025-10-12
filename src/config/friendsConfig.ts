@@ -8,7 +8,7 @@ export const friendsConfig: FriendLink[] = [
     desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
     siteurl: "https://github.com/withastro/astro",
     tags: ["Framework"],
-    weight: 10, // 权重，数字越大排序越靠前
+    weight: 999999, // 权重，数字越大排序越靠前
     enabled: true, // 是否启用
   },
   {
@@ -17,7 +17,7 @@ export const friendsConfig: FriendLink[] = [
     desc: "Firefly主题模板文档",
     siteurl: "https://docs-firefly.cuteleaf.cn",
     tags: ["Docs"],
-    weight: 9,
+    weight: 999998,
     enabled: true,
   },
 ];
