@@ -62,7 +62,15 @@ Raft.v1.09.rar
 
 ## 游玩步骤
 
-房主创建世界，难度、世界名自选，然后选择好友可以加入
+首先先下载 Steam ，因为木筏求生这款游戏就是基于 Steam 联机的，需要注意的是，不需要实际购买该游戏，只需要后台运行 Steam 就行。然后房主和玩家添加好友即可，不需要玩家之间添加好友。
+
+（如果不知道如何安装 Steam 可以看这个视频 [哔哩哔哩上的 Steam安装保姆级教程](https://www.bilibili.com/video/BV1D6N7eTE9k) ，这里就不过多赘述了。Steam 国内加速下载地址：[点我下载安装 Windows Steam](https://xzz.pmnet.work/d/%E8%BD%AF%E4%BB%B6%20Software/%E7%94%B5%E8%84%91%20PC/Steam/SteamSetup.exe)、[UU加速器](https://uu.163.com/)）
+
+:::warning
+房主，房客（其他玩家）需要互相添加 Steam 好友，否则将无法加入/搜索房间
+:::
+
+房主创建世界，难度、世界名自选，然后选择好友的名字即可加入房间。
 
 :::note
 此处如果选择 “无人可以加入” 那么相当于单人游戏了
