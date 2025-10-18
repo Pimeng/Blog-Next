@@ -43,41 +43,41 @@ Raft.v1.09.rar
 ```
 
 :::note
-如果是局域网联机跳过安装直接到[游戏联机](#%E6%B8%B8%E7%8E%A9%E6%AD%A5%E9%AA%A4)步骤）
+如果是局域网联机，可跳过安装，直接前往[游玩步骤](#%E6%B8%B8%E7%8E%A9%E6%AD%A5%E9%AA%A4)。
 :::
 
 ## 异地联机组网步骤（同一网络跳过这个步骤）
 
-房主创建一个Radmin网络
+房主创建一个 Radmin 网络
 
 ![Radmin1](/assets/images/raft-link/radmin1.png)
 
 网络名字和密码随意，需要记住然后发送给朋友用于加入网络
 ![alt text](/assets/images/raft-link/radmin2.png)
 
-朋友这边加入同一个Radmin网络（相当于加入同一局域网，游戏会自动识别然后进入同一局域网的房间）
+朋友这边加入同一个 Radmin 网络（相当于加入同一局域网，游戏会自动识别然后进入同一局域网的房间）。
 
 组网之后如下图所示
 ![Radmin](/assets/images/raft-link/radmin.png)
 
 ## 游玩步骤
 
-首先先下载 Steam ，因为木筏求生这款游戏就是基于 Steam 联机的，需要注意的是，不需要实际购买该游戏，只需要后台运行 Steam 就行。然后房主和玩家添加好友即可，不需要玩家之间添加好友。
+首先下载 Steam，因为木筏求生这款游戏是基于 Steam 联机的。需要注意的是，不需要实际购买该游戏，只需后台运行 Steam 即可。然后房主和玩家互相添加好友即可，玩家之间无需互加。
 
-（如果不知道如何安装 Steam 可以看这个视频 [哔哩哔哩上的 Steam安装保姆级教程](https://www.bilibili.com/video/BV1D6N7eTE9k) ，这里就不过多赘述了。Steam 国内加速下载地址：[点我下载安装 Windows Steam](https://xzz.pmnet.work/d/%E8%BD%AF%E4%BB%B6%20Software/%E7%94%B5%E8%84%91%20PC/Steam/SteamSetup.exe)、[UU加速器](https://uu.163.com/)）
+（如果不知道如何安装 Steam，可以看这个视频 [哔哩哔哩上的 Steam 安装保姆级教程](https://www.bilibili.com/video/BV1D6N7eTE9k)，这里就不过多赘述了。Steam 国内加速下载地址：[点我下载安装 Windows Steam](https://xzz.pmnet.work/d/%E8%BD%AF%E4%BB%B6%20Software/%E7%94%B5%E8%84%91%20PC/Steam/SteamSetup.exe)、[UU加速器](https://uu.163.com/)）
 
 :::warning
-房主，房客（其他玩家）需要互相添加 Steam 好友，否则将无法加入/搜索房间
+房主、房客（其他玩家）需要互相添加 Steam 好友，否则将无法加入/搜索房间。
 :::
 
 房主创建世界，难度、世界名自选，然后选择好友的名字即可加入房间。
 
 :::note
-此处如果选择 “无人可以加入” 那么相当于单人游戏了
+此处如果选择“无人可以加入”，那么相当于单人游戏。
 :::
 
 ![游戏界面](/assets/images/raft-link/game.png)
 
-然后好友方面点击加入世界，然后选择你好友的名字的房间，点击 “加入世界” 即可，此方案可以适用于异地联机（Radmin Lan）和局域网联机（直接联机即可）
+好友点击“加入世界”，选择你好友的房间，点击“加入世界”即可。此方案适用于异地联机（Radmin LAN）和局域网联机（直接联机即可）。
 
 <p style="font-size:30px;text-align: center;">祝游玩愉快！</p>
