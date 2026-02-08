@@ -38,7 +38,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-			src: "/assets/images/favicon.ico", // 图标文件路径
+			src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=32", // 图标文件路径
 			theme: "light", // 可选，指定主题 'light' | 'dark'
 			sizes: "32x32", // 可选，图标大小
 		},
@@ -51,7 +51,7 @@ export const siteConfig: SiteConfig = {
 	// { type: "image", value: "https://example.com/logo.png", alt: "Firefly Logo" }
 	logoIcon: {
 		type: "image",
-		value: "/assets/images/favicon.ico",
+		value: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=100",
 		alt: "PM",
 	},
 
@@ -112,7 +112,7 @@ export const siteConfig: SiteConfig = {
 				},
 				text: {
 					desktop: "", // 桌面端要显示的来源文本
-					mobile: "Mobile Credit", // 移动端要显示的来源文本
+					mobile: "", // 移动端要显示的来源文本
 				},
 				url: {
 					desktop: "", // 桌面端原始艺术品或艺术家页面的 URL 链接
@@ -153,7 +153,7 @@ export const siteConfig: SiteConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "/assets/images/avatar.webp",
+	avatar: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=640",
 	name: "皮梦",
 	bio: "这里是皮梦！",
 	links: [
