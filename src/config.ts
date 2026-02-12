@@ -241,10 +241,17 @@ export const widgetConfigs = {
 } as const;
 
 export const umamiConfig = {
-	enabled: false, // 是否显示Umami统计
-	apiKey: "api_XXXXXXXXXX", // 你的API密钥
+	enabled: true, // 是否显示Umami统计
+	apiKey: "api_qgZRHa8IEqDUWb3NklDfAF2jvohjxLr0", // 你的API密钥
 	baseUrl: "https://api.umami.is", // Umami Cloud API地址
 	scripts: `
-<script defer src="XXXX.XXX" data-website-id="ABCD1234"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="fea88728-9fea-4c91-a53d-3d4af284a08e"></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "vg0bj54tc1");
+</script>
   `.trim(), // 上面填你要插入的Script,不用再去Layout中插入
 } as const;
