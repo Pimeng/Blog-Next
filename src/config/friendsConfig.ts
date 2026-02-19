@@ -28,6 +28,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Download"],
     weight: 98,
     enabled: true,
+  },
+  {
+    title: "Chongxi の咖啡屋",
+    imgurl: "https://blog.chongxi.us/images/14.webp",
+    desc: "Lose yourself to find yourself",
+    siteurl: "https://blog.chongxi.us/",
+    tags: ["Blog"],
+    weight: 97,
+    enabled: true,
   }
 ];
 
