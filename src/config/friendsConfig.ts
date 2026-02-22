@@ -37,6 +37,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 97,
     enabled: true,
+  },
+  {
+    title: "chuzouX Blog",
+    imgurl: "https://q2.qlogo.cn/headimg_dl?dst_uin=3451860760&spec=0",
+    desc: "技术分享与实践",
+    siteurl: "https://chuzoux.top/",
+    tags: ["Blog"],
+    weight: 96,
+    enabled: true,
   }
 ];
 
