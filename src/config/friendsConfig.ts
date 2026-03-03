@@ -46,6 +46,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 96,
     enabled: true,
+  },
+  {
+    title: "星晨伴月的个人博客",
+    imgurl: "https://q1.qlogo.cn/g?b=qq&nk=7618557&s=640",
+    desc: "飞萤扑火，向死而生",
+    siteurl: "https://xcby.top",
+    tags: ["Blog"],
+    weight: 95,
+    enabled: true,
   }
 ];
 
