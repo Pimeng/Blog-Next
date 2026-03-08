@@ -31,9 +31,9 @@ export const friendsConfig: FriendLink[] = [
   },
   {
     title: "Chongxi の咖啡屋",
-    imgurl: "https://blog.chongxi.us/images/14.webp",
+    imgurl: "https://xice.cx/images/14.webp",
     desc: "Lose yourself to find yourself",
-    siteurl: "https://blog.chongxi.us/",
+    siteurl: "https://xice.cx/",
     tags: ["Blog"],
     weight: 97,
     enabled: true,
