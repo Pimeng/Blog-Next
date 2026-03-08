@@ -1,0 +1,21 @@
+---
+import ScheduleViewer from "../components/ScheduleViewer.svelte";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+---
+
+<MainGridLayout title="课程表" description="看看皮梦在上什么课喵">
+    <div
+        class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32"
+    >
+        <div class="card-base z-10 p-6 md:p-8 relative w-full">
+            <ScheduleViewer client:load />
+        </div>
+    </div>
+</MainGridLayout>
+
+<style>
+    .card-base {
+        background-color: var(--card-bg);
+        box-shadow: var(--card-shadow);
+    }
+</style>

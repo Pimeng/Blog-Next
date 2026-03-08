@@ -19,9 +19,11 @@ import type {
 const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 
 export const siteConfig: SiteConfig = {
-	title: "Blog Next",
+	title: "皮梦 の 茶馆",
 	subtitle: "Pimeng's Blog",
 	keywords: [
+		"皮梦の茶馆",
+		"皮梦的茶馆",
 		"皮梦的个人博客",
 		"Pimeng's Blog",
 		"Pimeng Blog",
@@ -31,16 +33,16 @@ export const siteConfig: SiteConfig = {
 
 	themeColor: {
 		hue: 250, // 主题色的默认色相，范围从 0 到 360。例如：红色：0，青色：200，蓝绿色：250，粉色：345
-		fixed: false, // 对访问者隐藏主题色选择器
+		fixed: true, // 对访问者隐藏主题色选择器
 		defaultMode: "system", // 默认模式："light" 浅色，"dark" 深色，"system" 跟随系统
 	},
 
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-			src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=32", // 图标文件路径
+			src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=100", // 图标文件路径
 			theme: "light", // 可选，指定主题 'light' | 'dark'
-			sizes: "32x32", // 可选，图标大小
+			sizes: "", // 可选，图标大小
 		},
 	],
 
@@ -191,8 +193,8 @@ export const commentConfig: CommentConfig = {
 };
 
 export const announcementConfig: AnnouncementConfig = {
-	title: "公告", // 公告标题
-	content: "test", // 公告内容
+	title: "呜哇", // 公告标题
+	content: "恭喜你发现了这里的一片天地诶？", // 公告内容
 	closable: true, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
