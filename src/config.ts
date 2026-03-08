@@ -40,7 +40,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-			src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=100", // 图标文件路径
+			src: "", // 图标文件路径
 			theme: "light", // 可选，指定主题 'light' | 'dark'
 			sizes: "", // 可选，图标大小
 		},
