@@ -50,14 +50,35 @@
     schedules: ScheduleItem[];
   }
 
-  interface CurrentCourse {
+  interface CourseWithStatus {
     course: CourseSource;
     schedule: ScheduleItem;
     timeRange: string;
+    isCurrent: boolean;
     progress: number;
+    isCompleted: boolean;
+    startMinutes: number;
+    endMinutes: number;
   }
 
   const DAY_NAMES = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
+  // 解析课程名称，提取括号内的标记
+  function parseCourseName(name: string): { mainName: string; badges: string[] } {
+    const badges: string[] = [];
+    // 匹配中文括号（）或英文括号 ()
+    const badgePattern = /[（(]([^）)]+)[）)]/g;
+    let match;
+    
+    while ((match = badgePattern.exec(name)) !== null) {
+      badges.push(match[1]);
+    }
+    
+    // 移除所有括号内容得到主名称
+    const mainName = name.replace(/[（(][^）)]+[）)]/g, '').trim();
+    
+    return { mainName, badges };
+  }
 
   let scheduleData: ScheduleData | null = null;
   let viewMode: 'today' | 'week' = 'today';
@@ -65,8 +86,9 @@
   let currentDay = 1;
   let semesterStart: Date;
   let loading = true;
-  let currentCourse: CurrentCourse | null = null;
   let updateInterval: ReturnType<typeof setInterval>;
+  let showCompletedCourses = false; // 是否显示已过时间的课程
+  let currentTimeMinutes = 0;
 
   // 计算当前是第几周第几天
   function calculateCurrentWeekAndDay() {
@@ -84,15 +106,9 @@
     
     // 计算当前是周几 (1-7, 周一是1)
     currentDay = (now.getDay() + 6) % 7 + 1;
-  }
-
-  // 解析颜色
-  function parseColor(color: string): string {
-    // 处理 #ffxxxxxx 格式 (带alpha的hex)
-    if (color.startsWith('#ff') && color.length === 9) {
-      return '#' + color.slice(3);
-    }
-    return color;
+    
+    // 更新当前时间（分钟）
+    currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
   }
 
   // 获取时间槽信息
@@ -113,61 +129,27 @@
     return `${startSlot.startTime}-${endSlot.endTime}`;
   }
 
-  // 检查当前是否有正在进行的课程
-  function updateCurrentCourse() {
-    if (!scheduleData) {
-      currentCourse = null;
-      return;
-    }
-
-    const now = new Date();
-    const currentTime = now.getHours() * 60 + now.getMinutes();
-
-    // 遍历今日课程，检查是否有正在进行的
-    for (const schedule of scheduleData.schedules) {
-      // 检查是否在今天
-      if (schedule.day !== currentDay) continue;
-      // 检查是否在本周
-      if (currentWeek < schedule.startWeek || currentWeek > schedule.endWeek) continue;
-
-      const startSlot = getTimeSlot(schedule.startNode);
-      const endSlot = getTimeSlot(schedule.startNode + schedule.step - 1);
-      
-      if (!startSlot || !endSlot) continue;
-
-      const [startHour, startMin] = startSlot.startTime.split(':').map(Number);
-      const [endHour, endMin] = endSlot.endTime.split(':').map(Number);
-      
-      const courseStartTime = startHour * 60 + startMin;
-      const courseEndTime = endHour * 60 + endMin;
-
-      // 检查当前时间是否在课程时间内
-      if (currentTime >= courseStartTime && currentTime < courseEndTime) {
-        const course = scheduleData.sources.find(c => c.id === schedule.id);
-        if (course) {
-          const totalDuration = courseEndTime - courseStartTime;
-          const elapsed = currentTime - courseStartTime;
-          const progress = Math.round((elapsed / totalDuration) * 100);
-
-          currentCourse = {
-            course,
-            schedule,
-            timeRange: `${startSlot.startTime}-${endSlot.endTime}`,
-            progress
-          };
-          return;
-        }
-      }
-    }
-
-    currentCourse = null;
+  // 获取课程的开始和结束时间（分钟）
+  function getCourseTimeRange(schedule: ScheduleItem): { start: number; end: number } {
+    const startSlot = getTimeSlot(schedule.startNode);
+    const endSlot = getTimeSlot(schedule.startNode + schedule.step - 1);
+    
+    if (!startSlot || !endSlot) return { start: 0, end: 0 };
+    
+    const [startHour, startMin] = startSlot.startTime.split(':').map(Number);
+    const [endHour, endMin] = endSlot.endTime.split(':').map(Number);
+    
+    return {
+      start: startHour * 60 + startMin,
+      end: endHour * 60 + endMin
+    };
   }
 
-  // 获取今日课程
-  function getTodayCourses(): Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string }> {
+  // 获取今日课程（带状态）
+  function getTodayCoursesWithStatus(): CourseWithStatus[] {
     if (!scheduleData) return [];
     
-    const result: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string }> = [];
+    const result: CourseWithStatus[] = [];
     
     scheduleData.schedules.forEach(schedule => {
       // 检查是否在今天
@@ -177,26 +159,60 @@
       
       const course = scheduleData!.sources.find(c => c.id === schedule.id);
       if (course) {
+        const timeRange = formatTimeRange(schedule);
+        const { start, end } = getCourseTimeRange(schedule);
+        
+        const isCurrent = currentTimeMinutes >= start && currentTimeMinutes < end;
+        const isCompleted = currentTimeMinutes >= end;
+        
+        let progress = 0;
+        if (isCurrent) {
+          const totalDuration = end - start;
+          const elapsed = currentTimeMinutes - start;
+          progress = Math.round((elapsed / totalDuration) * 100);
+        } else if (isCompleted) {
+          progress = 100;
+        }
+        
         result.push({
           course,
           schedule,
-          timeRange: formatTimeRange(schedule)
+          timeRange,
+          isCurrent,
+          progress,
+          isCompleted,
+          startMinutes: start,
+          endMinutes: end
         });
       }
     });
     
     // 按开始节次排序
-    return result.sort((a, b) => a.schedule.startNode - b.schedule.startNode);
+    result.sort((a, b) => a.schedule.startNode - b.schedule.startNode);
+    
+    return result;
+  }
+
+  // 获取今日课程（过滤后的）
+  function getTodayCourses(): CourseWithStatus[] {
+    const courses = getTodayCoursesWithStatus();
+    
+    if (showCompletedCourses) {
+      return courses;
+    }
+    
+    // 隐藏已过时间的课程
+    return courses.filter(c => !c.isCompleted);
   }
 
   // 获取本周课程
-  function getWeekCourses(): Array<{ day: number; dayName: string; courses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string }> }> {
+  function getWeekCourses(): Array<{ day: number; dayName: string; isToday: boolean; courses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string; isCurrent: boolean; progress: number; isCompleted: boolean }> }> {
     if (!scheduleData) return [];
     
-    const weekDays: Array<{ day: number; dayName: string; courses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string }> }> = [];
+    const weekDays: Array<{ day: number; dayName: string; isToday: boolean; courses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string; isCurrent: boolean; progress: number; isCompleted: boolean }> }> = [];
     
     for (let day = 1; day <= 7; day++) {
-      const dayCourses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string }> = [];
+      const dayCourses: Array<{ course: CourseSource; schedule: ScheduleItem; timeRange: string; isCurrent: boolean; progress: number; isCompleted: boolean }> = [];
       
       scheduleData.schedules.forEach(schedule => {
         if (schedule.day !== day) return;
@@ -204,10 +220,29 @@
         
         const course = scheduleData!.sources.find(c => c.id === schedule.id);
         if (course) {
+          const timeRange = formatTimeRange(schedule);
+          const { start, end } = getCourseTimeRange(schedule);
+          
+          const isToday = day === currentDay;
+          const isCurrent = isToday && currentTimeMinutes >= start && currentTimeMinutes < end;
+          const isCompleted = isToday && currentTimeMinutes >= end;
+          
+          let progress = 0;
+          if (isCurrent) {
+            const totalDuration = end - start;
+            const elapsed = currentTimeMinutes - start;
+            progress = Math.round((elapsed / totalDuration) * 100);
+          } else if (isCompleted) {
+            progress = 100;
+          }
+          
           dayCourses.push({
             course,
             schedule,
-            timeRange: formatTimeRange(schedule)
+            timeRange,
+            isCurrent,
+            progress,
+            isCompleted
           });
         }
       });
@@ -215,14 +250,31 @@
       // 按开始节次排序
       dayCourses.sort((a, b) => a.schedule.startNode - b.schedule.startNode);
       
-      weekDays.push({
-        day,
-        dayName: DAY_NAMES[day - 1],
-        courses: dayCourses
-      });
+      // 如果不是今天或者开启了显示已完成课程，不过滤
+      if (day !== currentDay || showCompletedCourses) {
+        weekDays.push({
+          day,
+          dayName: DAY_NAMES[day - 1],
+          isToday: day === currentDay,
+          courses: dayCourses
+        });
+      } else {
+        // 今天是当前天，且隐藏已完成课程
+        weekDays.push({
+          day,
+          dayName: DAY_NAMES[day - 1],
+          isToday: day === currentDay,
+          courses: dayCourses.filter(c => !c.isCompleted)
+        });
+      }
     }
     
     return weekDays;
+  }
+
+  // 更新时间
+  function updateTime() {
+    calculateCurrentWeekAndDay();
   }
 
   // 加载数据
@@ -250,11 +302,10 @@
       };
 
       calculateCurrentWeekAndDay();
-      updateCurrentCourse();
       
-      // 每分钟更新一次当前课程状态
+      // 每分钟更新一次当前时间状态
       updateInterval = setInterval(() => {
-        updateCurrentCourse();
+        updateTime();
       }, 60000);
     } catch (error) {
       console.error('Failed to load schedule data:', error);
@@ -289,32 +340,64 @@
       </p>
     </div>
     
-    <!-- 切换按钮 -->
-    <div class="flex-shrink-0 flex bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
-      <button 
-        class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
-        class:bg-white={viewMode === 'today'}
-        class:dark:bg-neutral-700={viewMode === 'today'}
-        class:shadow-sm={viewMode === 'today'}
-        class:text-primary={viewMode === 'today'}
-        class:text-neutral-600={viewMode !== 'today'}
-        class:dark:text-neutral-400={viewMode !== 'today'}
-        on:click={() => viewMode = 'today'}
-      >
-        今日
-      </button>
-      <button 
-        class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
-        class:bg-white={viewMode === 'week'}
-        class:dark:bg-neutral-700={viewMode === 'week'}
-        class:shadow-sm={viewMode === 'week'}
-        class:text-primary={viewMode === 'week'}
-        class:text-neutral-600={viewMode !== 'week'}
-        class:dark:text-neutral-400={viewMode !== 'week'}
-        on:click={() => viewMode = 'week'}
-      >
-        本周
-      </button>
+    <!-- 右侧控制区：开关 + 切换按钮 -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <!-- 显示已完成课程开关 - 仅在今日视图显示 -->
+      {#if viewMode === 'today'}
+        <button 
+          class="flex items-center gap-1.5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all border"
+          class:border-primary={showCompletedCourses}
+          class:bg-primary={showCompletedCourses}
+          class:text-white={showCompletedCourses}
+          class:border-neutral-200={!showCompletedCourses}
+          class:dark:border-neutral-700={!showCompletedCourses}
+          class:bg-neutral-100={!showCompletedCourses}
+          class:dark:bg-neutral-800={!showCompletedCourses}
+          class:text-neutral-600={!showCompletedCourses}
+          class:dark:text-neutral-400={!showCompletedCourses}
+          on:click={() => showCompletedCourses = !showCompletedCourses}
+          title={showCompletedCourses ? '隐藏已上课程' : '显示已上课程'}
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            {#if showCompletedCourses}
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            {:else}
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            {/if}
+          </svg>
+          <span class="hidden sm:inline">{showCompletedCourses ? '显示已上' : '隐藏已上'}</span>
+        </button>
+      {/if}
+      
+      <!-- 今日/本周切换按钮 -->
+      <div class="flex bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+        <button 
+          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
+          class:bg-white={viewMode === 'today'}
+          class:dark:bg-neutral-700={viewMode === 'today'}
+          class:shadow-sm={viewMode === 'today'}
+          class:text-primary={viewMode === 'today'}
+          class:text-neutral-600={viewMode !== 'today'}
+          class:dark:text-neutral-400={viewMode !== 'today'}
+          on:click={() => viewMode = 'today'}
+        >
+          今日
+        </button>
+        <button 
+          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
+          class:bg-white={viewMode === 'week'}
+          class:dark:bg-neutral-700={viewMode === 'week'}
+          class:shadow-sm={viewMode === 'week'}
+          class:text-primary={viewMode === 'week'}
+          class:text-neutral-600={viewMode !== 'week'}
+          class:dark:text-neutral-400={viewMode !== 'week'}
+          on:click={() => viewMode = 'week'}
+        >
+          本周
+        </button>
+      </div>
     </div>
   </div>
 
@@ -327,78 +410,71 @@
       <p class="text-lg">加载课程数据失败</p>
     </div>
   {:else}
-    <!-- 正在上课模块 -->
-    {#if currentCourse}
-      <div 
-        class="current-course-card rounded-2xl p-6 mb-6 border-2 border-white/20 dark:border-white/10 relative overflow-hidden"
-        style="background: linear-gradient(135deg, {parseColor(currentCourse.course.color)}20, {parseColor(currentCourse.course.color)}08);"
-      >
-        <!-- 背景装饰 -->
-        <div class="absolute -right-6 -top-6 w-32 h-32 rounded-full opacity-20" style="background: {parseColor(currentCourse.course.color)}"></div>
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 rounded-full opacity-10" style="background: {parseColor(currentCourse.course.color)}"></div>
-        
-        <div class="relative z-10">
-          <!-- 标签 -->
-          <div class="flex items-center gap-2 mb-3">
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/80 dark:bg-black/30" style="color: {parseColor(currentCourse.course.color)}">
-              正在上
-            </span>
-            <span class="text-xs text-neutral-500 dark:text-neutral-400">
-              {currentCourse.timeRange}
-            </span>
-          </div>
-          
-          <!-- 课程名称 -->
-          <h2 class="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-            {currentCourse.course.courseName}
-          </h2>
-          
-          <!-- 进度条 -->
-          <div class="mt-4">
-            <div class="flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400 mb-1">
-              <span>课程进度</span>
-              <span>{currentCourse.progress}%</span>
-            </div>
-            <div class="h-2 rounded-full bg-white/50 dark:bg-black/20 overflow-hidden">
-              <div 
-                class="h-full rounded-full transition-all duration-500"
-                style="width: {currentCourse.progress}%; background: {parseColor(currentCourse.course.color)}"
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    {/if}
-
     {#if viewMode === 'today'}
       <!-- 今日课程视图 -->
       {#if getTodayCourses().length === 0}
         <div class="text-center py-12 text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-800/50 rounded-xl">
-          <p class="text-lg font-medium">今天没有课</p>
-          <p class="text-sm mt-1">好好休息吧！</p>
+          <p class="text-lg font-medium">皮梦今天的课上完了哦</p>
+          <p class="text-sm mt-1">赶快去骚扰他（雾</p>
         </div>
       {:else}
         <div class="space-y-3">
-          {#each getTodayCourses() as { course, schedule, timeRange }}
+          {#each getTodayCourses() as { course, schedule, timeRange, isCurrent, progress, isCompleted }}
             <div 
-              class="course-card rounded-xl p-4 border border-black/5 dark:border-white/5 transition-all hover:shadow-md"
-              style="background: linear-gradient(135deg, {parseColor(course.color)}15, {parseColor(course.color)}08);"
+              class="course-card relative rounded-xl p-4 border border-black/5 dark:border-white/5 transition-all hover:shadow-md overflow-hidden"
+              class:is-current={isCurrent}
+              class:is-completed={isCompleted}
             >
-              <div class="flex items-center gap-6 py-2">
-                <!-- 时间段 -->
-                <div class="flex-shrink-0 w-24 text-base font-medium text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
+              <!-- 背景进度条（仅当前课程显示） -->
+              {#if isCurrent}
+                <div 
+                  class="absolute inset-0 bg-primary/10 transition-all duration-500"
+                  style="width: {progress}%"
+                ></div>
+              {/if}
+              
+              <div class="relative z-10 flex items-center gap-4 py-2">
+                <!-- 时间段（主题色） -->
+                <div class="flex-shrink-0 w-24 text-base font-medium text-primary whitespace-nowrap">
                   {timeRange}
                 </div>
                 
-                <!-- 分隔线 -->
-                <div class="w-px h-8 self-center" style="background: {parseColor(course.color)}40"></div>
+                <!-- 分隔线（主题色） -->
+                <div class="w-px h-8 self-center bg-primary/30"></div>
                 
                 <!-- 课程名称 -->
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 truncate">
-                    {course.courseName}
-                  </h3>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 truncate">
+                      {parseCourseName(course.courseName).mainName}
+                    </h3>
+                    {#each parseCourseName(course.courseName).badges as badge}
+                      <span class="flex-shrink-0 px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
+                        {badge}
+                      </span>
+                    {/each}
+                  </div>
+                  {#if schedule.room || schedule.teacher}
+                    <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                      {schedule.room}{schedule.room && schedule.teacher ? ' · ' : ''}{schedule.teacher}
+                    </p>
+                  {/if}
                 </div>
+                
+                <!-- 状态 Badge -->
+                {#if isCurrent}
+                  <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-bold bg-primary text-white">
+                    进行中
+                  </span>
+                {:else if isCompleted}
+                  <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400">
+                    已结束
+                  </span>
+                {:else}
+                  <span class="flex-shrink-0 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                    待开始
+                  </span>
+                {/if}
               </div>
             </div>
           {/each}
@@ -407,14 +483,14 @@
     {:else}
       <!-- 本周课程视图 -->
       <div class="space-y-6">
-        {#each getWeekCourses() as { day, dayName, courses }}
+        {#each getWeekCourses() as { day, dayName, isToday, courses }}
           <div class="week-day">
             <h3 class="text-sm font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs">
+              <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs" class:bg-primary={isToday} class:text-white={isToday}>
                 {day}
               </span>
               {dayName}
-              {#if day === currentDay}
+              {#if isToday}
                 <span class="px-2 py-0.5 rounded-full bg-primary text-white text-xs">今天</span>
               {/if}
             </h3>
@@ -425,26 +501,57 @@
               </div>
             {:else}
               <div class="space-y-2">
-                {#each courses as { course, schedule, timeRange }}
+                {#each courses as { course, schedule, timeRange, isCurrent, progress, isCompleted }}
                   <div 
-                    class="course-card rounded-lg p-3 border border-black/5 dark:border-white/5 transition-all hover:shadow-sm"
-                    style="background: {parseColor(course.color)}10;"
+                    class="course-card relative rounded-lg p-3 border border-black/5 dark:border-white/5 transition-all hover:shadow-sm overflow-hidden"
+                    class:is-current={isCurrent}
                   >
-                    <div class="flex items-center gap-6 py-2">
-                      <!-- 时间 -->
-                      <div class="flex-shrink-0 w-24 text-base font-medium text-neutral-500 dark:text-neutral-400 whitespace-nowrap">
+                    <!-- 背景进度条（仅当前课程显示） -->
+                    {#if isCurrent}
+                      <div 
+                        class="absolute inset-0 bg-primary/10 transition-all duration-500"
+                        style="width: {progress}%"
+                      ></div>
+                    {/if}
+                    
+                    <div class="relative z-10 flex items-center gap-4 py-2">
+                      <!-- 时间（主题色） -->
+                      <div class="flex-shrink-0 w-24 text-base font-medium text-primary whitespace-nowrap">
                         {timeRange}
                       </div>
                       
-                      <!-- 分隔线 -->
-                      <div class="w-px h-8 self-center" style="background: {parseColor(course.color)}30"></div>
+                      <!-- 分隔线（主题色） -->
+                      <div class="w-px h-8 self-center bg-primary/30"></div>
                       
                       <!-- 课程名 -->
                       <div class="flex-1 min-w-0">
-                        <div class="font-bold text-neutral-900 dark:text-neutral-100 truncate text-2xl">
-                          {course.courseName}
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <div class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 truncate">
+                            {parseCourseName(course.courseName).mainName}
+                          </div>
+                          {#each parseCourseName(course.courseName).badges as badge}
+                            <span class="flex-shrink-0 px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
+                              {badge}
+                            </span>
+                          {/each}
                         </div>
+                        {#if schedule.room || schedule.teacher}
+                          <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                            {schedule.room}{schedule.room && schedule.teacher ? ' · ' : ''}{schedule.teacher}
+                          </p>
+                        {/if}
                       </div>
+                      
+                      <!-- 状态 Badge -->
+                      {#if isCurrent}
+                        <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-bold bg-primary text-white">
+                          进行中
+                        </span>
+                      {:else if isCompleted}
+                        <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-medium bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400">
+                          已结束
+                        </span>
+                      {/if}
                     </div>
                   </div>
                 {/each}
@@ -464,11 +571,15 @@
   
   .course-card {
     backdrop-filter: blur(8px);
+    background-color: var(--card-bg);
   }
   
-  .current-course-card {
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  .course-card.is-current {
+    box-shadow: 0 0 0 1px var(--primary) inset;
+  }
+  
+  .course-card.is-completed {
+    opacity: 0.7;
   }
   
   .text-primary {
