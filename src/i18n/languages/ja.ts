@@ -117,4 +117,15 @@ export const ja: Translation = {
   [Key.hour]: "時",
   [Key.minute]: "分",
   [Key.second]: "秒",
+
+  // ツール
+  [Key.tools]: "ツール",
+  [Key.scheduleConverter]: "時間割変換",
+  [Key.scheduleConverterTitle]: "時間割フォーマット変換ツール",
+  [Key.scheduleConverterDescription]: "共有キーで時間割データを取得し、標準形式でダウンロード",
+  [Key.scheduleConverterInputPlaceholder]: "共有キーを入力",
+  [Key.scheduleConverterButton]: "取得してダウンロード",
+  [Key.scheduleConverterInvalidKey]: "無効または期限切れの共有キー",
+  [Key.scheduleConverterDownload]: "時間割をダウンロード",
+  [Key.scheduleConverterPreview]: "時間割プレビュー",
 };

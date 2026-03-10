@@ -111,6 +111,17 @@ enum I18nKey {
   hour = "hour",
   minute = "minute",
   second = "second",
+
+  // 工具
+  tools = "tools",
+  scheduleConverter = "scheduleConverter",
+  scheduleConverterTitle = "scheduleConverterTitle",
+  scheduleConverterDescription = "scheduleConverterDescription",
+  scheduleConverterInputPlaceholder = "scheduleConverterInputPlaceholder",
+  scheduleConverterButton = "scheduleConverterButton",
+  scheduleConverterInvalidKey = "scheduleConverterInvalidKey",
+  scheduleConverterDownload = "scheduleConverterDownload",
+  scheduleConverterPreview = "scheduleConverterPreview",
 }
 
 export default I18nKey;

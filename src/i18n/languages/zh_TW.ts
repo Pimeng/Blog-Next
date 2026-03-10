@@ -141,4 +141,15 @@ export const zh_TW: Translation = {
   [Key.hour]: "時",
   [Key.minute]: "分",
   [Key.second]: "秒",
+
+  // 工具
+  [Key.tools]: "工具",
+  [Key.scheduleConverter]: "課程表格式轉換",
+  [Key.scheduleConverterTitle]: "課程表格式轉換工具",
+  [Key.scheduleConverterDescription]: "通過分享口令獲取課程表數據並下載為標準格式",
+  [Key.scheduleConverterInputPlaceholder]: "請輸入分享口令",
+  [Key.scheduleConverterButton]: "獲取並下載",
+  [Key.scheduleConverterInvalidKey]: "分享口令無效或已過期",
+  [Key.scheduleConverterDownload]: "下載課程表",
+  [Key.scheduleConverterPreview]: "課程表預覽",
 };

@@ -118,4 +118,15 @@ export const en: Translation = {
   [Key.hour]: "hour",
   [Key.minute]: "minute",
   [Key.second]: "second",
+
+  // Tools
+  [Key.tools]: "Tools",
+  [Key.scheduleConverter]: "Schedule Converter",
+  [Key.scheduleConverterTitle]: "Schedule Format Converter",
+  [Key.scheduleConverterDescription]: "Get schedule data via share key and download in standard format",
+  [Key.scheduleConverterInputPlaceholder]: "Enter share key",
+  [Key.scheduleConverterButton]: "Get & Download",
+  [Key.scheduleConverterInvalidKey]: "Invalid or expired share key",
+  [Key.scheduleConverterDownload]: "Download Schedule",
+  [Key.scheduleConverterPreview]: "Schedule Preview",
 };

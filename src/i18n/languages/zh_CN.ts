@@ -114,4 +114,15 @@ export const zh_CN: Translation = {
   [Key.hour]: "时",
   [Key.minute]: "分",
   [Key.second]: "秒",
+
+  // 工具
+  [Key.tools]: "工具",
+  [Key.scheduleConverter]: "课程表格式转换",
+  [Key.scheduleConverterTitle]: "课程表格式转换工具",
+  [Key.scheduleConverterDescription]: "通过分享口令获取课程表数据并下载为标准格式",
+  [Key.scheduleConverterInputPlaceholder]: "请输入分享口令",
+  [Key.scheduleConverterButton]: "获取并下载",
+  [Key.scheduleConverterInvalidKey]: "分享口令无效或已过期",
+  [Key.scheduleConverterDownload]: "下载课程表",
+  [Key.scheduleConverterPreview]: "课程表预览",
 };
