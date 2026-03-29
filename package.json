@@ -35,9 +35,11 @@
     "@iconify-json/material-symbols": "^1.2.63",
     "@iconify-json/mingcute": "^1.2.7",
     "@iconify-json/simple-icons": "^1.2.74",
+    "@iconify-json/svg-spinners": "^1.2.4",
     "@iconify/utils": "^3.1.0",
     "@swup/astro": "^1.8.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@tailwindcss/vite": "^4.1.18",
     "astro": "6.0.8",
     "astro-expressive-code": "^0.41.7",
     "astro-icon": "^1.1.5",
@@ -56,6 +58,8 @@
     "overlayscrollbars": "^2.14.0",
     "pagefind": "^1.4.0",
     "photoswipe": "^5.4.4",
+    "postcss-import": "^16.1.1",
+    "postcss-nesting": "^13.0.2",
     "qrcode": "^1.5.4",
     "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^7.1.0",
@@ -72,12 +76,10 @@
     "sharp": "^0.34.5",
     "stylus": "^0.64.0",
     "svelte": "^5.53.11",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.2",
     "unist-util-is": "^6.0.1",
-    "unist-util-visit": "^5.1.0",
-    "@tailwindcss/vite": "^4.1.18",
-    "@iconify-json/svg-spinners": "^1.2.4",
-    "tailwindcss": "^4.1.18",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@astrojs/ts-plugin": "^1.10.7",
@@ -88,9 +90,7 @@
     "@types/hast": "^3.0.4",
     "@types/mdast": "^4.0.4",
     "@types/qrcode": "^1.5.6",
-    "@types/sanitize-html": "^2.16.1",
-    "postcss-import": "^16.1.1",
-    "postcss-nesting": "^13.0.2"
+    "@types/sanitize-html": "^2.16.1"
   },
   "packageManager": "pnpm@9.14.4"
 }
