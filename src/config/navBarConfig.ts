@@ -28,17 +28,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		links.push(LinkPreset.Guestbook);
 	}
 
-	// 我的及其子菜单
-	links.push({
-		name: "课程表",
-		url: "/schedule/",
-		icon: "material-symbols:person",
-		children: [
-			// 根据配置决定是否添加相册，在siteConfig关闭pages.gallery时导航栏不显示相册
-			...(siteConfig.pages.gallery ? [LinkPreset.Gallery] : []),
-		],
-	});
-
 	// 关于及其子菜单
 	links.push({
 		name: "关于",

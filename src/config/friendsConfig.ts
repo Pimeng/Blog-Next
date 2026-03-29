@@ -84,6 +84,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 93,
     enabled: true,
+  },
+  {
+    title: "任渊の博客",
+    imgurl: "https://q1.qlogo.cn/g?b=qq&nk=3328812784&s=640",
+    desc: "神秘",
+    siteurl: "https://blog.rymc.top",
+    tags: ["Blog"],
+    weight: 92,
+    enabled: true,
   }
 ];
 

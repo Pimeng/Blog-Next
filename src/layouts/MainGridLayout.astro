@@ -11,6 +11,7 @@ import ImageWrapper from "@/components/common/ImageWrapper.astro";
 import FloatingControls from "@/components/controls/FloatingControls.astro";
 import TypewriterText from "@/components/features/TypewriterText.astro";
 import CategoryBar from "@/components/layout/CategoryBar.astro";
+import ScheduleBanner from "@/components/layout/ScheduleBanner.astro";
 import {
 	backgroundWallpaper,
 	live2dModelConfig,
@@ -874,6 +875,9 @@ const bannerCarouselInterval = Math.max(
             <div class={staticBarClass}>
                 {/* 分类导航栏 - 在所有页面渲染，由客户端JS控制显隐 */}
                 {siteConfig.categoryBar && <CategoryBar />}
+
+                {/* 课程表快捷入口 - 仅在首页显示 */}
+                <ScheduleBanner />
 
                 {/* 主内容区 - 始终渲染，确保 Swup 容器存在 */}
                 <main id="swup-container" class="transition-main">

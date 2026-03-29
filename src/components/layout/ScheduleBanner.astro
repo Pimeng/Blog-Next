@@ -1,0 +1,53 @@
+---
+import { Icon } from "astro-icon/components";
+import { url } from "@/utils/url-utils";
+
+const scheduleUrl = url("/schedule/");
+---
+
+<div class="card-base p-4 onload-animation mb-4" id="schedule-banner">
+  <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center gap-4 min-w-0">
+      <div class="w-14 h-14 rounded-xl bg-(--primary)/10 flex items-center justify-center flex-shrink-0">
+        <Icon name="material-symbols:calendar-month-outline-rounded" class="text-3xl text-(--primary)" />
+      </div>
+      <div class="flex flex-col min-w-0">
+        <span class="text-base md:text-lg font-medium text-(--btn-content) truncate">
+          你好，这是我课表，请在我没课的时候找我
+        </span>
+        <span class="text-sm text-neutral-400 truncate">
+          看看皮梦在上什么课喵
+        </span>
+      </div>
+    </div>
+    <a
+      href={scheduleUrl}
+      class="px-4 py-2 text-base font-medium whitespace-nowrap flex items-center gap-1.5 rounded-lg bg-(--primary) text-white hover:bg-(--primary)/90 active:bg-(--primary)/80 active:scale-95 transition-all"
+    >
+      查看课表
+      <Icon name="material-symbols:arrow-forward-rounded" class="text-lg" />
+    </a>
+  </div>
+</div>
+
+<script>
+  function initScheduleBanner() {
+    const banner = document.getElementById("schedule-banner");
+    if (!banner) return;
+
+    // 只在首页和首页分页显示
+    const pathname = window.location.pathname.replace(/\/$/, "");
+    const isHome = pathname === "" || pathname === "/";
+    const isHomePagination = /^\/\d+$/.test(pathname);
+
+    if (!isHome && !isHomePagination) {
+      banner.style.display = "none";
+    } else {
+      banner.style.display = "";
+    }
+  }
+
+  initScheduleBanner();
+  document.addEventListener("astro:page-load", initScheduleBanner);
+  document.addEventListener("swup:contentReplaced", initScheduleBanner);
+</script>

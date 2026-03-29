@@ -131,6 +131,16 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			showOnPostPage: false,
 		},
 		{
+			// 组件类型：课程表状态组件
+			type: "schedule",
+			// 是否启用该组件
+			enable: true,
+			// 组件位置
+			position: "sticky",
+			// 是否在文章详情页显示
+			showOnPostPage: false,
+		},
+		{
 			// 组件类型：侧边栏目录组件（只在文章详情页显示）
 			type: "sidebarToc",
 			// 是否启用该组件
