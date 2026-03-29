@@ -29,31 +29,22 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 	}
 
 	// 我的及其子菜单
-	// links.push({
-	// 	name: "我的",
-	// 	url: "/my/",
-	// 	icon: "material-symbols:person",
-	// 	children: [
-	// 		// 根据配置决定是否添加相册，在siteConfig关闭pages.gallery时导航栏不显示相册
-	// 		...(siteConfig.pages.gallery ? [LinkPreset.Gallery] : []),
-
-	// 		// 根据配置决定是否添加番组计划，在siteConfig关闭pages.bangumi时导航栏不显示番组计划
-	// 		...(siteConfig.pages.bangumi ? [LinkPreset.Bangumi] : []),
-	// 	],
-	// });
+	links.push({
+		name: "课程表",
+		url: "/schedule/",
+		icon: "material-symbols:person",
+		children: [
+			// 根据配置决定是否添加相册，在siteConfig关闭pages.gallery时导航栏不显示相册
+			...(siteConfig.pages.gallery ? [LinkPreset.Gallery] : []),
+		],
+	});
 
 	// 关于及其子菜单
 	links.push({
 		name: "关于",
-		url: "/content/",
+		url: "/about/",
 		icon: "material-symbols:info",
-		children: [
-			// 根据配置决定是否添加赞助，在siteConfig关闭pages.sponsor时导航栏不显示赞助
-			...(siteConfig.pages.sponsor ? [LinkPreset.Sponsor] : []),
-
-			// 关于页面
-			LinkPreset.About,
-		],
+		children: [],
 	});
 
 	// 自定义导航栏链接,并且支持多级菜单

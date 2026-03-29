@@ -9,9 +9,9 @@
     "room": "教学楼1栋101",
     "startNode": 1,
     "startTime": "",
-    "startWeek": 3,
+    "startWeek": 4,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "薛丽",
     "type": 0
   },
@@ -27,7 +27,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "邱冰婕",
     "type": 0
   },
@@ -43,7 +43,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "景小宁",
     "type": 0
   },
@@ -59,7 +59,7 @@
     "startTime": "",
     "startWeek": 17,
     "step": 4,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -75,7 +75,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "邹旖佳",
     "type": 0
   },
@@ -91,7 +91,7 @@
     "startTime": "",
     "startWeek": 2,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "周佳敏",
     "type": 0
   },
@@ -107,7 +107,7 @@
     "startTime": "",
     "startWeek": 17,
     "step": 8,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -123,7 +123,7 @@
     "startTime": "",
     "startWeek": 17,
     "step": 8,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -139,7 +139,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 4,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "徐祥",
     "type": 0
   },
@@ -155,7 +155,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 4,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "邓玉堃",
     "type": 0
   },
@@ -171,7 +171,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "江巧婵",
     "type": 0
   },
@@ -187,8 +187,24 @@
     "startTime": "",
     "startWeek": 5,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "王思远",
+    "type": 0
+  },
+  {
+    "day": 1,
+    "endTime": "",
+    "endWeek": 4,
+    "id": 0,
+    "level": 0,
+    "ownTime": false,
+    "room": "教学楼1栋101",
+    "startNode": 7,
+    "startTime": "",
+    "startWeek": 4,
+    "step": 2,
+    "tableId": 2,
+    "teacher": "薛丽",
     "type": 0
   },
   {
@@ -203,7 +219,7 @@
     "startTime": "",
     "startWeek": 5,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "何冬琳",
     "type": 0
   },
@@ -219,7 +235,7 @@
     "startTime": "",
     "startWeek": 7,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -235,7 +251,7 @@
     "startTime": "",
     "startWeek": 7,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -251,7 +267,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘旭倩",
     "type": 0
   },
@@ -267,7 +283,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 4,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -283,7 +299,7 @@
     "startTime": "",
     "startWeek": 2,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "李永梅",
     "type": 0
   },
@@ -299,7 +315,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -315,7 +331,7 @@
     "startTime": "",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
+    "tableId": 2,
     "teacher": "刘进添",
     "type": 0
   },
@@ -326,13 +342,13 @@
     "id": 16,
     "level": 0,
     "ownTime": true,
-    "room": "实训楼1栋208",
+    "room": "实1栋208实训室",
     "startNode": 1,
     "startTime": "09:30",
-    "startWeek": 2,
+    "startWeek": 1,
     "step": 2,
-    "tableId": 1,
-    "teacher": "",
+    "tableId": 2,
+    "teacher": "黄卓佳",
     "type": 0
   },
   {
@@ -342,45 +358,13 @@
     "id": 16,
     "level": 0,
     "ownTime": true,
-    "room": "实训楼1栋208",
+    "room": "实1栋208实训室",
     "startNode": 1,
     "startTime": "14:00",
-    "startWeek": 2,
-    "step": 2,
-    "tableId": 1,
-    "teacher": "",
-    "type": 0
-  },
-  {
-    "day": 2,
-    "endTime": "20:00",
-    "endWeek": 6,
-    "id": 17,
-    "level": 0,
-    "ownTime": true,
-    "room": "教学楼1栋1405",
-    "startNode": 11,
-    "startTime": "19:00",
     "startWeek": 1,
     "step": 2,
-    "tableId": 1,
-    "teacher": "",
-    "type": 0
-  },
-  {
-    "day": 4,
-    "endTime": "20:00",
-    "endWeek": 20,
-    "id": 17,
-    "level": 0,
-    "ownTime": true,
-    "room": "教学楼1栋1405",
-    "startNode": 11,
-    "startTime": "19:00",
-    "startWeek": 1,
-    "step": 2,
-    "tableId": 1,
-    "teacher": "",
+    "tableId": 2,
+    "teacher": "黄卓佳",
     "type": 0
   }
 ]
