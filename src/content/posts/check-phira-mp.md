@@ -8,10 +8,13 @@ image: "api"
 ---
 
 :::caution
+
 请勿将本脚本用于任何形式的非法活动,包括但不限于:
+
 - 攻击服务器
 - 破坏服务器
 - 窃取服务器数据
+
 :::
 
 ## 为什么会有这个脚本
@@ -24,7 +27,7 @@ image: "api"
 ## v2.0 脚本
 
 点击展开查看代码
-:::details
+
 ```javascript
 import { connect } from 'cloudflare:sockets';
 
@@ -271,7 +274,6 @@ async function handleCheck(url, env) {
   }
 }
 ```
-:::
 
 ## v2.1 脚本
 
@@ -284,7 +286,7 @@ async function handleCheck(url, env) {
 如果这个脚本有问题，欢迎在 [GitHub](https://github.com/Pimeng/Pimeng) 主页联系我
 
 点击展开查看代码
-:::details
+
 ```javascript
 import { connect } from 'cloudflare:sockets';
 
@@ -566,14 +568,12 @@ async function handleCheck(url, env) {
   "message": "连接成功"
 }
 ```
-:::
 
 ## v2.3 脚本
 
 这个版本估计是真的最后一个版本了，没啥问题，调试日志也比较详细，有问题再说吧，我安眠了
 
 点击展开查看代码
-:::details
 
 ```javascript
 import { connect } from 'cloudflare:sockets';
@@ -983,6 +983,7 @@ async function handleCheck(url, env) {
 ```
 
 响应示例：
+
 ```json
 {
   "success": true,
@@ -994,5 +995,3 @@ async function handleCheck(url, env) {
   "stage": "SUCCESS"
 }
 ```
-
-:::

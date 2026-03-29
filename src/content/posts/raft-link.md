@@ -11,7 +11,8 @@ image: "api"
 
 先下载这个联机修复的版本
 
-天翼网盘：https://cloud.189.cn/t/bEz2yqFvYzua   
+天翼网盘：[https://cloud.189.cn/t/bEz2yqFvYzua](https://cloud.189.cn/t/bEz2yqFvYzua)
+
 （访问码：bw4e）
 
 > 或者使用二维码保存到自己的云盘先
