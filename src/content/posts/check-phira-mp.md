@@ -4,6 +4,7 @@ published: 2026-02-08
 tags: [联机,phira,音游,脚本]
 category: '脚本'
 draft: false
+image: "api"
 ---
 
 :::caution

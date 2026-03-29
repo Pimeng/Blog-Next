@@ -3,6 +3,7 @@ title: 我的第一篇博客
 published: 2025-10-12
 category: 推文
 draft: false
+image: "api"
 ---
 
 正如你所见，此处是我创建这个博客之后发布的第一篇测试推文awa

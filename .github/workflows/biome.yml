@@ -1,12 +1,10 @@
 name: Code quality
-permissions:
-  contents: read
 
 on:
   push:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ] # Adjust branches as needed
   pull_request:
-    branches: [ main ] # Adjust branches as needed
+    branches: [ master ] # Adjust branches as needed
 
 jobs:
   quality:

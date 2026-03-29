@@ -4,6 +4,7 @@ published: 2026-03-04
 tags: [谷歌浏览器,大模型]
 category: '教程'
 draft: false
+image: "api"
 ---
 
 # 教程

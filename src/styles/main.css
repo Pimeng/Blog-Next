@@ -1,11 +1,48 @@
-/* 导入动画样式 */
-@import './transition.css';
-@import './animation-enhancements.css';
+@import 'tailwindcss';
+@import './layout-styles.css';
+@import './navbar.css';
+@import './banner-title.css';
+@import './waves.css';
+@import './transition.css'; 
+@import './custom-scrollbar.css';
 
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@plugin '@tailwindcss/typography';
+
+/* 暗色模式选择器配置 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tailwind v4 配置 - 从 tailwind.config.cjs 迁移 */
+@theme {
+  --font-sans:
+    'Roboto', 'sans-serif', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* 自定义工具类 - Tailwind v4 使用 @utility 定义 */
+@utility expand-animation {
+  position: relative;
+  z-index: 0;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    scale: 0.85;
+    z-index: -10;
+    transition: all 0.15s ease-out;
+  }
+  &:hover::before {
+    background-color: var(--btn-plain-bg-hover);
+    scale: 1;
+  }
+  &:active::before {
+    background-color: var(--btn-plain-bg-active);
+  }
+  &:active {
+    background: none;
+  }
+}
 
 /* 确保平滑滚动 */
 html {
@@ -22,7 +59,7 @@ html {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.3) 30%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0.05) 80%, transparent 100%);
     pointer-events: none;
     z-index: 20;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--duration-medium) var(--ease-standard);
 }
 
 /* 暗色主题下的渐变高光效果 */
@@ -31,32 +68,122 @@ html {
 }
 
 @layer components {
-    /* 主题过渡保护类 - 临时禁用所有过渡动画 */
-    .is-theme-transitioning *,
-    .is-theme-transitioning *::before,
-    .is-theme-transitioning *::after {
-        transition: none !important;
+    /* View Transitions API 主题切换动画 */
+    /* 为整个文档根元素设置视图过渡 */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 0.5s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        /* 使用混合模式使颜色过渡更平滑 */
+        mix-blend-mode: normal;
     }
     
-    /* 波浪效果精确同步处理 */
-    .is-theme-transitioning svg use {
+    /* 视图过渡组 - 使用交叉淡化效果 */
+    ::view-transition-group(root) {
+        animation-duration: 0.5s;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 淡出旧视图 - 使用更平滑的曲线 */
+    ::view-transition-old(root) {
+        animation-name: theme-fade-out;
+        /* 确保背景色同步切换 */
+        z-index: 2;
+    }
+    
+    /* 淡入新视图 - 使用更平滑的曲线 */
+    ::view-transition-new(root) {
+        animation-name: theme-fade-in;
+        /* 确保新视图在上层 */
+        z-index: 1;
+    }
+    
+    /* 定义淡出动画 - 使用更平滑的缓动函数 */
+    @keyframes theme-fade-out {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+    
+    /* 定义淡入动画 - 从下层淡入 */
+    @keyframes theme-fade-in {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    
+    /* 确保边框和分隔线元素在主题切换时有更明确的过渡时长 */
+    .transition,
+    [class*="border"],
+    [class*="transition"] {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 0.15s;
+    }
+    
+    /* 主题过渡保护类 - 仅在非 View Transitions 模式下使用 */
+    /* 当使用 View Transitions API 时，浏览器会自动处理过渡，不需要禁用 transition */
+    .is-theme-transitioning:not(.use-view-transition) *,
+    .is-theme-transitioning:not(.use-view-transition) *::before,
+    .is-theme-transitioning:not(.use-view-transition) *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    /* 在主题切换时禁用代码块的复杂效果以提升性能 */
+    /* 使用 View Transitions 时也需要禁用代码块动画，因为它们太多了 */
+    .is-theme-transitioning .expressive-code,
+    .is-theme-transitioning .expressive-code * {
+        transition: none !important;
+        animation: none !important;
+        will-change: auto !important;
+    }
+    
+    /* 禁用复杂选择器元素的过渡 - 仅在非 View Transitions 模式下 */
+    .is-theme-transitioning:not(.use-view-transition) .float-panel,
+    .is-theme-transitioning:not(.use-view-transition) .float-panel *,
+    .is-theme-transitioning:not(.use-view-transition) .music-player,
+    .is-theme-transitioning:not(.use-view-transition) .music-player *,
+    .is-theme-transitioning:not(.use-view-transition) .widget,
+    .is-theme-transitioning:not(.use-view-transition) .widget *,
+    .is-theme-transitioning:not(.use-view-transition) .dropdown-content,
+    .is-theme-transitioning:not(.use-view-transition) .dropdown-content * {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    /* 强制使用 contain 隔离渲染上下文 - 仅在非 View Transitions 模式下 */
+    .is-theme-transitioning:not(.use-view-transition) .post-card,
+    .is-theme-transitioning:not(.use-view-transition) .widget,
+    .is-theme-transitioning:not(.use-view-transition) .float-panel {
+        contain: layout style paint !important;
+    }
+    
+    /* 水波纹效果精确同步处理 - 仅在非 View Transitions 模式下 */
+    .is-theme-transitioning:not(.use-view-transition) svg use {
         /* 禁用过渡但保持动画 */
         transition: none;
         /* 强制立即继承页面背景色 */
         fill: currentColor;
     }
     
-    /* 导航栏主题切换保护 - 完全禁用过渡以确保性能 */
-    .is-theme-transitioning #navbar > div,
-    .is-theme-transitioning #navbar[data-transparent-mode] > div,
-    .is-theme-transitioning #navbar[data-transparent-mode].scrolled > div,
-    .is-theme-transitioning body.wallpaper-transparent #navbar > div,
-    .is-theme-transitioning body.wallpaper-transparent #navbar[data-transparent-mode] > div,
-    .is-theme-transitioning body.wallpaper-transparent #navbar[data-transparent-mode].scrolled > div,
-    .is-theme-transitioning #banner-wrapper ~ * #navbar > div,
-    .is-theme-transitioning #banner-wrapper ~ * #navbar[data-transparent-mode] > div,
-    .is-theme-transitioning body:has(#banner-wrapper) #navbar > div,
-    .is-theme-transitioning body:has(#banner-wrapper) #navbar[data-transparent-mode] > div {
+    /* 导航栏主题切换保护 - 仅在非 View Transitions 模式下禁用过渡 */
+    .is-theme-transitioning:not(.use-view-transition) #navbar > div,
+    .is-theme-transitioning:not(.use-view-transition) #navbar[data-transparent-mode] > div,
+    .is-theme-transitioning:not(.use-view-transition) #navbar[data-transparent-mode].scrolled > div,
+    .is-theme-transitioning:not(.use-view-transition) body.wallpaper-transparent #navbar > div,
+    .is-theme-transitioning:not(.use-view-transition) body.wallpaper-transparent #navbar[data-transparent-mode] > div,
+    .is-theme-transitioning:not(.use-view-transition) body.wallpaper-transparent #navbar[data-transparent-mode].scrolled > div,
+    .is-theme-transitioning:not(.use-view-transition) #wallpaper-wrapper ~ * #navbar > div,
+    .is-theme-transitioning:not(.use-view-transition) #wallpaper-wrapper ~ * #navbar[data-transparent-mode] > div,
+    .is-theme-transitioning:not(.use-view-transition) body:has(#wallpaper-wrapper) #navbar > div,
+    .is-theme-transitioning:not(.use-view-transition) body:has(#wallpaper-wrapper) #navbar[data-transparent-mode] > div {
         transition: none !important;
         backdrop-filter: none !important;
     }
@@ -73,49 +200,56 @@ html {
         backdrop-filter: none !important;
     }
     
-    /* 波浪容器的颜色传递 */
-    .is-theme-transitioning #header-waves {
-        /* 设置当前颜色为页面背景色，供SVG继承 */
-        color: var(--page-bg);
-        /* 确保与页面在同一合成层 */
-        isolation: isolate;
-        /* 优化渲染性能 */
-        contain: layout style paint;
-        /* GPU层合成 */
-        transform: translateZ(0);
-        /* 确保没有背景色 */
-        background: transparent;
-    }
-    
-    .is-theme-transitioning #header-waves use {
-        /* 保持动画连续性 */
-        will-change: transform;
-        /* GPU优化 */
-        transform: translateZ(0);
-    }
-    
     .card-base {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition-colors duration-150;
+        @apply rounded-(--radius-large) overflow-hidden bg-(--card-bg) transition-colors duration-150;
     }
     .card-base-transparent {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg-transparent)] backdrop-blur-sm transition-colors duration-150;
+        @apply rounded-(--radius-large) overflow-hidden bg-(--card-bg-transparent) transition-colors duration-150;
     }
-    
+
+    /* 开启边框和阴影效果时的样式 */
+    .enable-card-border .card-base {
+        @apply transition-all duration-300 border border-(--line-divider) shadow-xs;
+    }
+    .enable-card-border .card-base-transparent {
+        @apply transition-all duration-300 border border-(--line-divider) shadow-xs;
+    }
+
+    /* 导航栏样式适配 */
+    .enable-card-border #navbar > div:not(.absolute) {
+        @apply transition-all duration-300 border shadow-xs;
+        border-color: var(--line-divider) !important;
+    }
+
+    /* 壁纸模式切换期间禁止导航栏边框和阴影闪现 */
+    .is-wallpaper-transitioning #navbar > div {
+        border-color: transparent !important;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
     /* 全屏壁纸模式下的半透明效果 */
     .wallpaper-transparent .card-base {
-        @apply bg-[var(--card-bg-transparent)] backdrop-blur-sm;
+        background-color: var(--card-bg-transparent) !important;
     }
-    
-    .wallpaper-transparent .float-panel {
-        @apply bg-[var(--card-bg-transparent)] backdrop-blur-sm;
-    }
+ 
     
     .wallpaper-transparent #navbar > div {
-    @apply bg-[var(--card-bg-transparent)] backdrop-blur-sm;
-}
+        background-color: var(--card-bg-transparent) !important;
+    }
+
+    /* Overlay 模式下，滚动后提高导航栏背景模糊度，增强与正文区分 */
+    .wallpaper-transparent #navbar.navbar-sticky-shadow > div {
+        backdrop-filter: blur(20px) !important;
+     
+    }
+
+    :root.dark .wallpaper-transparent #navbar.navbar-sticky-shadow > div {
+        backdrop-filter: blur(20px) !important;
+    }
     
     .wallpaper-transparent .btn-card {
-        @apply bg-[var(--card-bg-transparent)] backdrop-blur-sm;
+        background-color: var(--card-bg-transparent) !important;
     }
     
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
@@ -124,10 +258,6 @@ html {
     .card-shadow {
         @apply drop-shadow-[0_2px_4px_rgba(0,0,0,0.005)]
     }
-    .expand-animation {
-        @apply relative before:ease-out before:transition active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0
-        before:absolute before:rounded-[inherit] before:inset-0 before:scale-[0.85] hover:before:scale-100 before:-z-10
-    }
     .link {
         @apply transition-colors duration-150 rounded-md p-1 -m-1 expand-animation;
     }
@@ -135,40 +265,46 @@ html {
         @apply transition-colors duration-150 rounded-md p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition-colors duration-150 shadow-xl dark:shadow-none
+        @apply top-21 rounded-(--radius-large) overflow-hidden bg-(--card-bg) transition-colors duration-150 shadow-xl border border-black/5 dark:border-white/10
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
     }
+    .float-panel-closed * {
+        @apply pointer-events-none
+    }
     .search-panel mark {
-        @apply bg-transparent text-[var(--primary)]
+        @apply bg-transparent text-(--primary)
     }
 
     .btn-card {
-        @apply transition-colors duration-150 flex items-center justify-center bg-[var(--card-bg)] hover:bg-[var(--btn-card-bg-hover)]
-        active:bg-[var(--btn-card-bg-active)]
+        @apply transition-colors duration-150 flex items-center justify-center bg-(--card-bg) hover:bg-(--btn-card-bg-hover)
+        active:bg-(--btn-card-bg-active)
     }
     .btn-card.disabled {
         @apply pointer-events-none text-black/10 dark:text-white/10
     }
     .btn-plain {
         @apply transition-colors duration-150 relative flex items-center justify-center bg-none
-        text-black/75 hover:text-[var(--primary)] dark:text-white/75 dark:hover:text-[var(--primary)];
+        text-black/75 hover:text-(--primary) dark:text-white/75 dark:hover:text-(--primary);
         &:not(.scale-animation) {
-            @apply hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)]
+            @apply hover:bg-(--btn-plain-bg-hover) active:bg-(--btn-plain-bg-active)
         }
         &.scale-animation {
             @apply expand-animation;
         }
     }
+    .current-theme-btn {
+        @apply bg-(--btn-plain-bg-hover) text-(--primary);
+    }
     .btn-regular {
-        @apply transition-colors duration-150 flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
-        text-[var(--btn-content)] dark:text-white/75
+        @apply transition-colors duration-150 flex items-center justify-center bg-(--btn-regular-bg) hover:bg-(--btn-regular-bg-hover) active:bg-(--btn-regular-bg-active)
+        text-(--btn-content) dark:text-white/75
     }
 
     .link-underline {
-        @apply transition-colors duration-150 underline decoration-2 decoration-dashed decoration-[var(--link-underline)]
-        hover:decoration-[var(--link-hover)] active:decoration-[var(--link-active)] underline-offset-[0.25rem]
+        @apply transition-colors duration-150 underline decoration-2 decoration-dashed decoration-(--link-underline)
+        hover:decoration-(--link-hover) active:decoration-(--link-active) underline-offset-[0.25rem]
     }
 
     .toc-hide,
@@ -224,11 +360,11 @@ html {
     }
 
     .dropdown-content {
-        @apply bg-[var(--float-panel-bg)] rounded-[var(--radius-large)] shadow-xl dark:shadow-none border border-black/5 dark:border-white/10 py-2 min-w-[12rem];
+        @apply bg-(--card-bg) rounded-(--radius-large) shadow-xl border border-black/5 dark:border-white/10 py-2 min-w-48;
     }
 
     .dropdown-item {
-        @apply flex items-center justify-between px-4 py-2.5 text-black/75 dark:text-white/75 hover:text-[var(--primary)] hover:bg-[var(--btn-plain-bg-hover)] transition-colors duration-150 font-medium;
+        @apply flex items-center justify-between px-4 py-2.5 text-black/75 dark:text-white/75 hover:text-(--primary) hover:bg-(--btn-plain-bg-hover) transition-colors duration-150 font-medium;
     }
 
     .dropdown-item:first-child {
@@ -265,19 +401,19 @@ html {
     }
 
     .dropdown-item:focus {
-        @apply outline-none;
+        @apply outline-hidden;
     }
 
     .mobile-dropdown button:focus {
-        @apply outline-none;
+        @apply outline-hidden;
     }
 
     .meta-icon {
-        @apply w-8 h-8 transition-colors duration-150 rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)]
-        text-[var(--btn-content)] mr-2
+        @apply w-8 h-8 transition-colors duration-150 rounded-md flex items-center justify-center bg-(--btn-regular-bg)
+        text-(--btn-content) mr-2
     }
     .with-divider {
-        @apply before:content-['/'] before:ml-1.5 before:mr-1.5 before:text-[var(--meta-divider)] before:text-sm
+        @apply before:content-['/'] before:ml-1.5 before:mr-1.5 before:text-(--meta-divider) before:text-sm
         before:font-medium before:first-of-type:hidden before:transition-colors before:duration-150
     }
 
@@ -315,16 +451,13 @@ html {
     transform: translateY(-50%);
 }
 
-.collapsed {
-    height: var(--collapsedHeight);
-}
 
 /*剧透效果*/
 .custom-md spoiler {
   --_spoiler-mask: var(--primary);
   @apply hover:bg-transparent px-1 py-0.5 overflow-hidden rounded-md transition-all duration-150;
   background-color: var(--_spoiler-mask);
-
+  box-decoration-break: clone;
   &:not(:hover) {
     color: var(--_spoiler-mask);
     * {
@@ -336,4 +469,95 @@ html {
 /* 浅色模式：使用更浅的主题色且完全不透明 */
 :root:not(.dark) .custom-md spoiler {
   --_spoiler-mask: color-mix(in oklch, var(--primary) 55%, white 45%);
+}
+
+/* 文章列表布局切换样式 */
+.post-list-layout-switch {
+  @apply flex items-center gap-2 mb-6 p-3 bg-(--card-bg) rounded-lg border border-(--line-divider);
+}
+
+.post-list-layout-switch span {
+  @apply text-sm text-(--text-secondary);
+}
+
+.post-list-layout-switch .layout-buttons {
+  @apply flex gap-1;
+}
+
+.post-list-layout-switch button {
+  @apply px-3 py-1.5 text-sm rounded-md transition-colors;
+}
+
+.post-list-layout-switch button.active {
+  @apply bg-(--primary) text-white;
+}
+
+.post-list-layout-switch button:not(.active) {
+  @apply bg-(--bg-secondary) text-(--text-secondary) hover:bg-(--bg-hover);
+}
+
+/* 网格模式下的文章卡片样式调整 */
+.post-list-container.grid-mode .post-card-item {
+  @apply w-full;
+}
+
+.post-list-container.grid-mode .post-card-item a[href] {
+  @apply text-xl before:h-4 before:top-[28px] before:left-[-18px] truncate;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  max-height: 2.8em; /* 2行的高度 */
+}
+
+.post-list-container.grid-mode .post-card-item a[aria-label] {
+  @apply hidden;
+}
+
+.post-list-container.grid-mode .post-card-item .btn-regular {
+  @apply hidden;
+}
+
+.post-list-container.grid-mode .post-card-item .line-clamp-1 {
+  @apply line-clamp-2;
+}
+
+/* 网格模式下的卡片内容区域调整 */
+.post-list-container.grid-mode .post-card-item > div {
+  @apply p-4;
+}
+
+/* 网格模式下的元数据样式调整 */
+.post-list-container.grid-mode .post-card-item .post-meta {
+  @apply mb-2;
+}
+
+/* 网格模式下的描述文本调整 */
+.post-list-container.grid-mode .post-card-item .description {
+  @apply text-sm mb-2 line-clamp-2;
+}
+
+/* 网格模式下的统计信息调整 */
+.post-list-container.grid-mode .post-card-item .stats {
+  @apply text-xs;
+}
+
+/* 响应式分页样式 */
+.device-mobile .pagination-info {
+  @apply text-xs;
+}
+
+.device-tablet .pagination-info {
+  @apply text-sm;
+}
+
+.device-desktop .pagination-info {
+  @apply text-base;
+}
+
+/* 分页信息样式 */
+.pagination-info {
+  @apply text-sm text-(--text-secondary) text-center mb-2;
 }

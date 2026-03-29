@@ -4,6 +4,7 @@ published: 2025-10-14
 tags: [联机,raft]
 category: '游戏'
 draft: false
+image: "api"
 ---
 
 ## 游戏资源

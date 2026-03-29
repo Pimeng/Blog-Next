@@ -6,15 +6,20 @@
 
 ## 为什么换成这个博客了
 
-原来的Halo集成了太多的功能，导致服务器内存爆炸，于是改用这个了（   
+原来的Halo集成了太多的功能，导致服务器内存爆炸，于是改用这个了（ <br>
 这个轻量化，又能符合博客的使用习惯
-
 
 ## 致谢
 
-- [Cloudflare 提供的 Pages](//cloudflare.com)
+- [Cloudflare 提供的 Pages](//cloudflare-cn.com)
 
-- [弦塔](//blog.xtower.site)
+- [弦塔](//xtower.site)
 
-- 这个博客的框架
+- [李任渊](//blog.rymc.top)
+
+- [Dmocken](//github.com/Dmocken)！
+
+## 特别感谢
+
+这个博客的框架
 ::github{repo="CuteLeaf/Firefly"}

@@ -29,8 +29,11 @@ yarn.lock
 # ide
 .idea
 *.iml
+.claude
+
+# docs
+Firefly-docs/
 
 cache/
-fuwari/
-
-pnpm-lock.yaml
+package/
+.obsidian/
