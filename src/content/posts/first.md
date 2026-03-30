@@ -2,6 +2,7 @@
 title: 我的第一篇博客
 published: 2025-10-12
 category: 推文
+tags: [推文]
 draft: false
 image: "api"
 ---
