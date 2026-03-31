@@ -93,6 +93,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 92,
     enabled: true,
+  },
+  {
+    title: "弦塔",
+    imgurl: "https://blog.xtower.site/assets/images/avatar.webp",
+    desc: "「如何？为你描绘的这个世界？」",
+    siteurl: "https://blog.xtower.site",
+    tags: ["Blog"],
+    weight: 92,
+    enabled: true,
   }
 ];
 
