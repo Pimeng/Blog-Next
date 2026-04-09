@@ -353,7 +353,7 @@ export function MirrorSwitcherComponent(properties, children) {
 				]),
 			]),
 		]),
-		h("div", { class: "ms-footnote" }, "提示：浏览器探测只能反映你当前网络环境下的连通性，不能替代服务端健康检查。"),
+		h("div", { class: "ms-footnote" }, "提示：浏览器探测只能反映你当前网络环境下的连通性，不能替代服务端健康检查。因浏览器局限性，测试结果不一定准确，仅供参考。"),
 		h("script", { type: "text/javascript" }, `
 			(() => {
 				const root = document.getElementById("${switcherId}");

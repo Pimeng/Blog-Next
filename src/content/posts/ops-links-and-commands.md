@@ -13,49 +13,20 @@ image: "api"
 
 ### Python / Pypi 镜像源
 
-更新pip （使用国内镜像源）：
+::mirror-switcher{title="Python / PyPI 镜像源探测与切换" description="绿色圆点表示当前浏览器可以连通，红色感叹号表示超时或失败；结果仅代表你当前网络环境。" language="bash" default="清华 TUNA" timeout="3500" options='[{"label":"清华 TUNA","value":"https://pypi.tuna.tsinghua.edu.cn/simple","probe":"https://pypi.tuna.tsinghua.edu.cn/simple","code":"pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple"},{"label":"华为云","value":"https://repo.huaweicloud.com/repository/pypi/simple","probe":"https://repo.huaweicloud.com/repository/pypi/simple","code":"pip config set global.index-url https://repo.huaweicloud.com/repository/pypi/simple"},{"label":"阿里云","value":"http://mirrors.aliyun.com/pypi/simple","probe":"http://mirrors.aliyun.com/pypi/simple","code":"pip config set global.index-url http://mirrors.aliyun.com/pypi/simple"},{"label":"腾讯云","value":"https://mirrors.cloud.tencent.com/pypi/simple","probe":"https://mirrors.cloud.tencent.com/pypi/simple","code":"pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple"},{"label":"上海交大","value":"https://mirror.sjtu.edu.cn/pypi/web/simple","probe":"https://mirror.sjtu.edu.cn/pypi/web/simple","code":"pip config set global.index-url https://mirror.sjtu.edu.cn/pypi/web/simple"},{"label":"中科大","value":"https://mirrors.ustc.edu.cn/pypi/simple","probe":"https://mirrors.ustc.edu.cn/pypi/simple","code":"pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/simple"}]'}
+
+如果你只想手动执行，也可以直接复制：
 
 ```bash
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+pip install -i <MIRROR_URL> numpy
 ```
-
-设置全局默认镜像源：
-
-```bash
-pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-```
-
-安装包时临时使用镜像源：
-
-```bash
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy
-```
-
-:::NOTE
-上述 `https://pypi.tuna.tsinghua.edu.cn/simple` 可换成下面任意一个镜像源地址
-:::
-
-- 清华大学TUNA镜像源： https://pypi.tuna.tsinghua.edu.cn/simple
-- 华为云镜像源： https://repo.huaweicloud.com/repository/pypi/simple
-- 阿里云镜像源： http://mirrors.aliyun.com/pypi/simple
-- 腾讯云镜像源：https://mirrors.cloud.tencent.com/pypi/simple
-- 上海交通大学镜像源：https://mirror.sjtu.edu.cn/pypi/web/simple
-- 中国科学技术大学镜像源： https://mirrors.ustc.edu.cn/pypi/simple
 
 ### Node.js
 
 #### NVM（官方Node.js管理器）： 
 
-GitHub官方：
-```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-```
-
-志辉制作的 Gitee 国内加速一键安装脚本：
-
-```bash
-/bin/bash -c "$(curl -fsSL https://gitee.com/iamzhihuix/nvm-install-cn/raw/main/install.sh)"
-```
+::mirror-switcher{title="NVM 安装脚本地址探测与切换" description="用于选择 NVM 安装脚本下载地址；结果仅代表你当前网络环境。" language="bash" default="GitHub 官方" timeout="3500" options='[{"label":"GitHub 官方","value":"https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh","probe":"https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh","code":"curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash"},{"label":"Gitee 加速脚本","value":"https://gitee.com/iamzhihuix/nvm-install-cn/raw/main/install.sh","probe":"https://gitee.com/iamzhihuix/nvm-install-cn/raw/main/install.sh","code":"/bin/bash -c \"$(curl -fsSL https://gitee.com/iamzhihuix/nvm-install-cn/raw/main/install.sh)\""}]'}
 
 完成后，安装 Node.js：
 
@@ -72,25 +43,9 @@ nvm alias default 24
 
 #### NPM 镜像源
 
-:::NOTE
-推荐使用 [淘宝镜像源](https://npmmirror.com/)，速度快且稳定
-:::
+::mirror-switcher{title="NPM 镜像源探测与切换（当前用户）" description="绿色圆点表示当前浏览器可以连通，红色感叹号表示超时或失败；结果仅代表你当前网络环境。" language="bash" default="npmmirror" timeout="3500" options='[{"label":"npmmirror","value":"https://registry.npmmirror.com","probe":"https://registry.npmmirror.com","code":"npm config set registry https://registry.npmmirror.com"},{"label":"华为云","value":"https://mirrors.huaweicloud.com/repository/npm/","probe":"https://mirrors.huaweicloud.com/repository/npm/","code":"npm config set registry https://mirrors.huaweicloud.com/repository/npm/"},{"label":"腾讯云","value":"https://mirrors.cloud.tencent.com/npm/","probe":"https://mirrors.cloud.tencent.com/npm/","code":"npm config set registry https://mirrors.cloud.tencent.com/npm/"}]'}
 
-- 淘宝镜像源： https://registry.npmmirror.com
-- 华为云镜像源： https://mirrors.huaweicloud.com/repository/npm/
-- 腾讯云镜像源：https://mirrors.cloud.tencent.com/npm/
-
-换源：
-
-```bash
-npm config set registry https://registry.npmmirror.com
-```
-
-全局换源：
-
-```bash
-npm config -g set registry https://registry.npmmirror.com
-```
+::mirror-switcher{title="NPM 镜像源探测与切换（全局）" description="需要管理员权限时请在命令前加 sudo；结果仅代表你当前网络环境。" language="bash" default="npmmirror" timeout="3500" options='[{"label":"npmmirror","value":"https://registry.npmmirror.com","probe":"https://registry.npmmirror.com","code":"npm config -g set registry https://registry.npmmirror.com"},{"label":"华为云","value":"https://mirrors.huaweicloud.com/repository/npm/","probe":"https://mirrors.huaweicloud.com/repository/npm/","code":"npm config -g set registry https://mirrors.huaweicloud.com/repository/npm/"},{"label":"腾讯云","value":"https://mirrors.cloud.tencent.com/npm/","probe":"https://mirrors.cloud.tencent.com/npm/","code":"npm config -g set registry https://mirrors.cloud.tencent.com/npm/"}]'}
 
 ## Go 模块代理
 
@@ -132,32 +87,7 @@ sudo vim /etc/apt/sources.list
 
 3. 替换为国内镜像源
 
-阿里云镜像源：
-
-```bash
-deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-```
-
-清华大学镜像源：
-
-```bash
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
-```
-
-中科大镜像源：
-
-```bash
-deb https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
-deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
-```
+::mirror-switcher{title="Ubuntu 镜像源探测与切换" description="会将 sources.list 中的 Ubuntu 源地址批量替换为所选镜像并执行 apt update；结果仅代表你当前网络环境。" language="bash" default="清华" timeout="3500" options='[{"label":"阿里云","value":"http://mirrors.aliyun.com/ubuntu/","probe":"http://mirrors.aliyun.com/ubuntu/","code":"sudo sed -Ei \"s|https?://[^ ]+/ubuntu/|http://mirrors.aliyun.com/ubuntu/|g\" /etc/apt/sources.list && sudo apt update"},{"label":"清华","value":"https://mirrors.tuna.tsinghua.edu.cn/ubuntu/","probe":"https://mirrors.tuna.tsinghua.edu.cn/ubuntu/","code":"sudo sed -Ei \"s|https?://[^ ]+/ubuntu/|https://mirrors.tuna.tsinghua.edu.cn/ubuntu/|g\" /etc/apt/sources.list && sudo apt update"},{"label":"中科大","value":"https://mirrors.ustc.edu.cn/ubuntu/","probe":"https://mirrors.ustc.edu.cn/ubuntu/","code":"sudo sed -Ei \"s|https?://[^ ]+/ubuntu/|https://mirrors.ustc.edu.cn/ubuntu/|g\" /etc/apt/sources.list && sudo apt update"}]'}
 
 ## Docker
 
@@ -173,16 +103,7 @@ bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
 
 ### 镜像源（仅支持合法镜像）
 
-- ⭐推荐：毫秒镜像： https://docker.1ms.run
-- 轩辕镜像：https://docker.xuanyuan.me
-- 1Panel：https://docker.1panel.live
-- https://docker.gh-proxy.org
-
-临时使用（以nginx示例）：
-
-```bash
-docker pull docker.1ms.run/library/nginx:latest
-```
+::mirror-switcher{title="Docker 镜像地址探测与切换（临时拉取）" description="选择镜像前缀后会生成 docker pull 示例命令；结果仅代表你当前网络环境。" language="bash" default="毫秒镜像" timeout="3500" options='[{"label":"毫秒镜像","value":"https://docker.1ms.run","probe":"https://docker.1ms.run","code":"docker pull docker.1ms.run/library/nginx:latest"},{"label":"轩辕镜像","value":"https://docker.xuanyuan.me","probe":"https://docker.xuanyuan.me","code":"docker pull docker.xuanyuan.me/library/nginx:latest"},{"label":"1Panel","value":"https://docker.1panel.live","probe":"https://docker.1panel.live","code":"docker pull docker.1panel.live/library/nginx:latest"},{"label":"gh-proxy","value":"https://docker.gh-proxy.org","probe":"https://docker.gh-proxy.org","code":"docker pull docker.gh-proxy.org/library/nginx:latest"}]'}
 
 ## GitHub 代理加速
 
@@ -192,24 +113,10 @@ docker pull docker.1ms.run/library/nginx:latest
 注：不会提供GitHub能够登录的代理地址，以下地址仅用于加速GitHub的Git克隆和访问，无法登录GitHub账号
 :::
 
-- https://gh-proxy.com/
-- https://ghproxy.net/
-- https://ghfast.top/
-
-使用：
-
-```bash
-git clone https://gh-proxy.com/https://github.com/YourName/YourRepo.git
-```
+::mirror-switcher{title="GitHub 代理地址探测与切换" description="用于加速公开仓库访问与克隆，不支持 GitHub 账号登录；结果仅代表你当前网络环境。" language="bash" default="gh-proxy.com" timeout="3500" options='[{"label":"gh-proxy.com","value":"https://gh-proxy.com/","probe":"https://gh-proxy.com/","code":"git clone https://gh-proxy.com/https://github.com/YourName/YourRepo.git"},{"label":"ghproxy.net","value":"https://ghproxy.net/","probe":"https://ghproxy.net/","code":"git clone https://ghproxy.net/https://github.com/YourName/YourRepo.git"},{"label":"ghfast.top","value":"https://ghfast.top/","probe":"https://ghfast.top/","code":"git clone https://ghfast.top/https://github.com/YourName/YourRepo.git"}]'}
 
 我们推荐您基于开源项目搭建自己的GitHub代理加速服务 https://github.com/hunshcn/gh-proxy
 
 ### GHCR （GitHub Container Registry） 加速
 
-- ⭐推荐：毫秒镜像： https://ghcr.1ms.run
-
-使用：
-
-```bash
-docker pull ghcr.1ms.run/owner/image:tag
-```
+::mirror-switcher{title="GHCR 镜像地址探测与切换" description="用于选择 GHCR 拉取加速地址；结果仅代表你当前网络环境。" language="bash" default="毫秒镜像" timeout="3500" options='[{"label":"毫秒镜像","value":"https://ghcr.1ms.run","probe":"https://ghcr.1ms.run","code":"docker pull ghcr.1ms.run/owner/image:tag"},{"label":"米露云","value":"https://ghcr.milu.moe","probe":"https://ghcr.milu.moe","code":"docker pull ghcr.milu.moe/owner/image:tag"},{"label":"南京大学","value":"https://ghcr.nju.edu.cn","probe":"https://ghcr.nju.edu.cn","code":"docker pull ghcr.nju.edu.cn/owner/image:tag"}]'}
