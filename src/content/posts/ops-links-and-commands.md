@@ -94,28 +94,13 @@ npm config -g set registry https://registry.npmmirror.com
 
 ## Go 模块代理
 
-- 七牛 https://goproxy.cn
-- 阿里云 https://mirrors.aliyun.com/goproxy/
-- 官方 https://goproxy.io
+::mirror-switcher{title="Go 模块代理探测与切换" description="绿色圆点表示当前浏览器可以连通，红色感叹号表示超时或失败；结果仅代表你当前网络环境。" language="bash" default="七牛" timeout="3500" options='[{"label":"官方","value":"https://goproxy.io","probe":"https://goproxy.io","code":"go env -w GOPROXY=https://goproxy.io,direct"},{"label":"七牛","value":"https://goproxy.cn","probe":"https://goproxy.cn","code":"go env -w GOPROXY=https://goproxy.cn,direct"},{"label":"阿里云","value":"https://mirrors.aliyun.com/goproxy/","probe":"https://mirrors.aliyun.com/goproxy/","code":"go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct"}]'}
 
-设置 Go 模块代理：
-
-七牛
+如果你只想手动执行，也可以直接复制下面任意一条：
 
 ```bash
 go env -w GOPROXY=https://goproxy.cn,direct
-```
-
-阿里云
-
-```bash
 go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
-
-```
-
-官方
-
-```bash
 go env -w GOPROXY=https://goproxy.io,direct
 ```
 
