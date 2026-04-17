@@ -106,44 +106,50 @@ export function MirrorSwitcherComponent(properties, children) {
 			#${switcherId} .ms-options {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 0.6rem;
-				padding: 1rem;
+				gap: 0.2rem;
+				padding: 1rem 1rem 0;
+				border-bottom: 1px solid color-mix(in oklab, var(--line-divider) 92%, transparent);
 			}
 			#${switcherId} .ms-option {
 				display: inline-flex;
 				align-items: center;
+				justify-content: center;
 				gap: 0.55rem;
-				border: 1px solid var(--line-divider);
-				border-radius: 999px;
-				padding: 0.55rem 0.85rem;
-				background: color-mix(in oklab, var(--card-bg) 82%, var(--btn-plain-bg-hover));
-				color: inherit;
+				border: 1px solid transparent;
+				border-bottom: 1px solid transparent;
+				border-radius: 0.85rem 0.85rem 0 0;
+				padding: 0.7rem 1rem 0.72rem;
+				margin-bottom: -1px;
+				background: transparent;
+				color: color-mix(in oklab, currentColor 72%, transparent);
 				cursor: pointer;
 				transition: all 0.16s ease;
 				font: inherit;
 			}
 			#${switcherId} .ms-option:hover {
-				border-color: color-mix(in oklab, var(--primary) 35%, var(--line-divider));
-				background: var(--btn-plain-bg-hover);
+				background: color-mix(in oklab, var(--primary) 6%, var(--card-bg));
+				color: inherit;
 			}
 			#${switcherId} .ms-option[data-active="true"] {
-				border-color: color-mix(in oklab, var(--primary) 55%, var(--line-divider));
-				background: color-mix(in oklab, var(--primary) 12%, var(--card-bg));
-				box-shadow: 0 0 0 1px color-mix(in oklab, var(--primary) 10%, transparent);
+				border-color: color-mix(in oklab, var(--primary) 22%, var(--line-divider));
+				border-bottom-color: var(--card-bg);
+				background: color-mix(in oklab, var(--primary) 10%, var(--card-bg));
+				color: inherit;
+				box-shadow: inset 0 2px 0 0 color-mix(in oklab, var(--primary) 72%, transparent);
 			}
 			#${switcherId} .ms-option-label {
 				font-weight: 600;
 				font-size: 0.92rem;
 			}
 			#${switcherId} .ms-indicator {
-				width: 1rem;
-				height: 1rem;
+				width: 0.72rem;
+				height: 0.72rem;
 				border-radius: 999px;
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
 				flex: none;
-				font-size: 0.72rem;
+				font-size: 0.58rem;
 				line-height: 1;
 				background: color-mix(in oklab, currentColor 16%, transparent);
 				color: transparent;
@@ -155,7 +161,7 @@ export function MirrorSwitcherComponent(properties, children) {
 			}
 			#${switcherId} .ms-option[data-status="ok"] .ms-indicator {
 				background: #22c55e;
-				box-shadow: 0 0 0 3px color-mix(in oklab, #22c55e 18%, transparent);
+				box-shadow: 0 0 0 2px color-mix(in oklab, #22c55e 18%, transparent);
 			}
 			#${switcherId} .ms-option[data-status="error"] .ms-indicator {
 				background: #ef4444;
@@ -163,7 +169,7 @@ export function MirrorSwitcherComponent(properties, children) {
 				font-weight: 700;
 			}
 			#${switcherId} .ms-panel {
-				padding: 0 1rem 1rem;
+				padding: 0.85rem 1rem 1rem;
 			}
 			#${switcherId} .ms-code-topbar {
 				display: flex;
@@ -289,6 +295,9 @@ export function MirrorSwitcherComponent(properties, children) {
 				#${switcherId} .ms-option {
 					width: 100%;
 					justify-content: space-between;
+					border-bottom: 1px solid transparent;
+					border-radius: 0.85rem;
+					margin-bottom: 0;
 				}
 				#${switcherId} .ms-copy {
 					width: 100%;

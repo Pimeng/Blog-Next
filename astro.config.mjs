@@ -23,6 +23,7 @@ import I18nKey from "./src/i18n/i18nKey";
 import { pluginLanguageBadge } from "expressive-code-language-badge"; /* Language Badge */
 import { pluginCollapsible } from "expressive-code-collapsible"; /* Collapsible */
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
+import { CodeGroupComponent } from "./src/plugins/rehype-component-code-group.mjs";
 import { MirrorSwitcherComponent } from "./src/plugins/rehype-component-mirror-switcher-v2.mjs";
 import { rehypeMermaid } from "./src/plugins/rehype-mermaid.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
@@ -208,6 +209,7 @@ export default defineConfig({
 				rehypeComponents,
 				{
 					components: {
+						"code-group": CodeGroupComponent,
 						github: GithubCardComponent,
 						"mirror-switcher": MirrorSwitcherComponent,
 					},

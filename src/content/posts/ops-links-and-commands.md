@@ -17,9 +17,7 @@ image: "api"
 推荐使用 LinuxMirrors 换源脚本
 :::
 
-```bash
-bash <(curl -sSL https://linuxmirrors.cn/main.sh)
-```
+::code-group{title="换源脚本" description="按你当前环境选择命令，适合在同一位置切换 curl / wget 等不同写法" language="bash" default="curl" options='[{"label":"curl","description":"适用于已安装 curl 的环境","code":"bash <(curl -sSL https://linuxmirrors.cn/main.sh)"},{"label":"wget","description":"适用于已安装 wget 的环境。","code":"bash <(wget -qO- https://linuxmirrors.cn/main.sh)"}]'}
 
 1. 备份当前的软件源列表：
 
@@ -98,9 +96,7 @@ go env -w GOPROXY=https://goproxy.io,direct
 推荐使用 LinuxMirrors 的 Docker 安装脚本，方便快捷
 :::
 
-```bash
-bash <(curl -sSL https://linuxmirrors.cn/docker.sh)
-```
+::code-group{title="安装脚本" description="按你当前环境选择命令，适合在同一位置切换 curl / wget 等不同写法。" language="bash" default="curl" options='[{"label":"curl","description":"适用于已安装 curl 的环境。","code":"bash <(curl -sSL https://linuxmirrors.cn/docker.sh)"},{"label":"wget","description":"适用于已安装 wget 的环境。","code":"bash <(wget -qO- https://linuxmirrors.cn/docker.sh)"}]'}
 
 #### 镜像源（仅支持合法镜像）
 
