@@ -13,7 +13,7 @@ image: "api"
 
 把 `Enables optimization guide on device` `Prompt API for Gemini Nano` `Prompt API for Gemini Nano with Multimodal Input` 全部改为 `Disabled` 禁用
 
-![截图](/assets/images/shabi-chrome/chrome.png)
+![截图](/assets/images/posts/shabi-chrome/chrome.png)
 
 如果发现你的C盘还是红的
 
@@ -29,7 +29,7 @@ image: "api"
 
 > 你妈的谷歌真不当人啊，直接就往C盘拉，你也知道 `OptGuideOnDeviceModel`被我设置权限了拉不了你还改成 `Windows` 目录下，诗人啊？！
 
-![WizTree截图](/assets/images/shabi-chrome/wiztree.png)
+![WizTree截图](/assets/images/posts/shabi-chrome/wiztree.png)
 
 # 前言
 

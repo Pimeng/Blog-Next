@@ -16,13 +16,13 @@ image: "api"
 （访问码：bw4e）
 
 > 或者使用二维码保存到自己的云盘先
-> ![天翼云盘二维码](/assets/images/raft-link/163cloud.qrCode.jfif)
+> ![天翼云盘二维码](/assets/images/posts/raft-link/163cloud.qrCode.jfif)
 
 ## 游戏安装步骤
 
 解压完之后会见到如下的文件列表
 
-![压缩包](/assets/images/raft-link/rar.png)
+![压缩包](/assets/images/posts/raft-link/rar.png)
 
 ```bash
 Raft.v1.09.rar
@@ -52,15 +52,15 @@ Raft.v1.09.rar
 
 房主创建一个 Radmin 网络
 
-![Radmin1](/assets/images/raft-link/radmin1.png)
+![Radmin1](/assets/images/posts/raft-link/radmin1.png)
 
 网络名字和密码随意，需要记住然后发送给朋友用于加入网络
-![alt text](/assets/images/raft-link/radmin2.png)
+![alt text](/assets/images/posts/raft-link/radmin2.png)
 
 朋友这边加入同一个 Radmin 网络（相当于加入同一局域网，游戏会自动识别然后进入同一局域网的房间）。
 
 组网之后如下图所示
-![Radmin](/assets/images/raft-link/radmin.png)
+![Radmin](/assets/images/posts/raft-link/radmin.png)
 
 ## 游玩步骤
 
@@ -78,7 +78,7 @@ Raft.v1.09.rar
 此处如果选择“无人可以加入”，那么相当于单人游戏。
 :::
 
-![游戏界面](/assets/images/raft-link/game.png)
+![游戏界面](/assets/images/posts/raft-link/game.png)
 
 好友点击“加入世界”，选择你好友的房间，点击“加入世界”即可。此方案适用于异地联机（Radmin LAN）和局域网联机（直接联机即可）。
 

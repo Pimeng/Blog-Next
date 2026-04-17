@@ -2,7 +2,7 @@ import type { BackgroundWallpaperConfig } from "@/types/config";
 
 export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	// 壁纸模式："banner" 横幅壁纸，"overlay" 全屏透明，"none" 纯色背景无壁纸
-	mode: "banner",
+	mode: "overlay",
 	// 是否允许用户通过导航栏切换壁纸模式，设为false可提升性能（只渲染当前模式）
 	switchable: true,
 	/**
@@ -39,12 +39,15 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
-			"assets/images/DesktopWallpaper/d1.jpg",
+			"assets/images/wallpaper/d1.jpg",
 		],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
 		mobile: [
-			"assets/images/MobileWallpaper/m1.jpg",
+			"assets/images/wallpaper/m1.jpg",
+			"assets/images/wallpaper/m2.jpg",
+			"assets/images/wallpaper/m3.jpg",
+			"assets/images/wallpaper/m4.jpg",
 		],
 	},
 	// Banner模式特有配置
@@ -95,15 +98,15 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			},
 			text: {
 				// 桌面端要显示的来源文本
-				desktop: "Pixiv - yizyin",
+				desktop: "Pixiv - CyanAutumn",
 				// 移动端要显示的来源文本
-				mobile: "Pixiv - 鈍色玄",
+				mobile: "Pixiv - CyanAutumn",
 			},
 			url: {
 				// 桌面端原始艺术品或艺术家页面的 URL 链接
-				desktop: "https://www.pixiv.net/users/114246839",
+				desktop: "https://www.pixiv.net/users/20015785",
 				// 移动端原始艺术品或艺术家页面的 URL 链接
-				mobile: "https://www.pixiv.net/users/1250474",
+				mobile: "https://www.pixiv.net/users/20015785",
 			},
 		},
 		// 横幅导航栏配置
@@ -151,6 +154,6 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 背景模糊度
 		blur: 10,
 		// 卡片透明度，0-1之间，值越小越透明
-		cardOpacity: 0.5,
+		cardOpacity: 0.6,
 	},
 };

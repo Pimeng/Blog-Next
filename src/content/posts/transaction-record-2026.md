@@ -11,12 +11,12 @@ image: "api"
 
 以下是 **2026-02-19** 与众筹服务器有关的所有流水相关记录
 
-![农业银行流水](/assets/images/transaction-record-2026/农业银行流水.png)
+![农业银行流水](/assets/images/posts/transaction-record-2026/农业银行流水.png)
 
-![润雨云发票](/assets/images/transaction-record-2026/雨云发票.png)
+![润雨云发票](/assets/images/posts/transaction-record-2026/雨云发票.png)
 
-![微信流水1](/assets/images/transaction-record-2026/微信流水1.png)
+![微信流水1](/assets/images/posts/transaction-record-2026/微信流水1.png)
 
-![微信流水2](/assets/images/transaction-record-2026/微信流水2.png)
+![微信流水2](/assets/images/posts/transaction-record-2026/微信流水2.png)
 
-![微信流水3](/assets/images/transaction-record-2026/微信流水3.png)
+![微信流水3](/assets/images/posts/transaction-record-2026/微信流水3.png)

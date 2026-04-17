@@ -21,7 +21,7 @@ image: "api"
 
 因为知周所众的原因，`Rust` 的 `Phira-MP` 服务端没有提供一个简单的测活接口，而其他的版本(如C#，见下图)又不好测活，于是我就基于MP接受连接时的协议，写了一个简单的测活脚本
 
-![其他](/assets/images/check-phira-mp/other.png)
+![其他](/assets/images/posts/check-phira-mp/other.png)
 [原文档](https://docs.dmocken.top/mp_build_guide/)
 
 ## v2.0 脚本
