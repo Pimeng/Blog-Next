@@ -2,7 +2,7 @@
 
 ## 简单介绍自己
 
-这里是皮梦！是一个广东人。
+这里是皮梦！是一个广东人，喜欢折腾各种东西，喜欢分享一些有用的东西，喜欢开源，喜欢Vibe Coding（
 
 ## 为什么换成这个博客了
 
@@ -11,7 +11,7 @@
 
 ## 致谢
 
-- [Cloudflare 提供的 Pages](//cloudflare-cn.com)
+- [Cloudflare 提供的 Pages](//)
 
 - [弦塔](//xtower.site)
 
