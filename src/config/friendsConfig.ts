@@ -33,7 +33,7 @@ export const friendsConfig: FriendLink[] = [
   },
   {
     title: "Dmocken 的 Phira下载站",
-    imgurl: "https://phira.dmocken.top/Phira.png",
+    imgurl: "https://q1.qlogo.cn/g?b=qq&nk=3347510139&s=640",
     desc: "Phira/Phira-MP 下载站",
     siteurl: "https://phira.dmocken.top",
     tags: ["Download"],
