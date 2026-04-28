@@ -11,9 +11,9 @@
 
 ## 致谢
 
-- [Cloudflare 提供的 Pages](//)
+- [阿里云ESA Pages](//s.07210700.xyz/aliyun-pages)
 
-- [弦塔](//xtower.site)
+- [弦塔](//blog.xtower.site)
 
 - [李任渊](//blog.rymc.top)
 

@@ -20,10 +20,10 @@ image: "api"
 
 完成后，前往支付宝完成一遍学生认证
 
-![支付宝搜索](/assets/images/posts/aliyun-student-discount/alipay-student.jpg)
+![支付宝搜索](./alipay-student.jpg)
 
 完成后，前往 [这里](https://s.07210700.xyz/aliyun-student) 完成一遍阿里云的学生认证（注意要和阿里云的实名认证信息一致）
 
 完成后打开 [控制台](https://account.aliyun.com/login/login.htm?oauth_callback=https%3A%2F%2Fhome.console.aliyun.com%2Fhome%2Fdashboard&clearRedirectCookie=1&lang=zh) 找到轻量云服务器，打开续费界面，你就会发现，刚刚学生认证的优惠券可以在这里使用，然后免费续费半年😋
 
-![支付宝搜索](/assets/images/posts/aliyun-student-discount/aliyun-renewal.png)
+![支付宝搜索](./aliyun-renewal.png)
