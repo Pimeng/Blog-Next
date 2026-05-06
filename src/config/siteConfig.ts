@@ -178,7 +178,7 @@ export const siteConfig: SiteConfig = {
 			// Umami Website ID
 			websiteId: "04a575a9-87af-46a3-83d0-f444ff6ea928",
 			// Umami JS地址，支持使用自建
-			scriptUrl: "https://umami.analytics.07210700.xyz/script.js",
+			scriptUrl: "https://u.a.07210700.xyz/script.js",
 		},
 		// 51la 统计配置
 		la51Analytics: {
