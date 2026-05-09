@@ -14,7 +14,7 @@ export type SiteConfig = {
 	description?: string; // 网站描述，用于生成 <meta name="description">
 	keywords?: string[]; // 站点关键词，用于生成 <meta name="keywords">
 
-	lang: "en" | "zh_CN" ;
+	lang: "en" | "zh_CN";
 
 	themeColor: {
 		hue: number;
@@ -118,6 +118,16 @@ export type SiteConfig = {
 		umamiAnalytics?: {
 			websiteId?: string; // Umami Website ID
 			scriptUrl?: string; // Umami JS地址，支持使用自建
+			shareId?: string; // Umami 分享链接中的 shareId，用于公开读取统计数据
+			shareUrl?: string; // Umami 分享链接，可自动解析 shareId 和 API 域名
+			stats?: {
+				enable?: boolean; // 是否展示公开访问统计
+				baseUrl?: string; // Umami 服务地址，默认从 scriptUrl/shareUrl 推导
+				shareId?: string; // 覆盖上层 shareId
+				shareUrl?: string; // 覆盖上层 shareUrl
+				startAt?: number; // 统计开始时间戳，默认 0
+				cacheTtl?: number; // 客户端缓存时间，单位毫秒
+			};
 		};
 		la51Analytics?: {
 			Id?: string; // 51la 统计 ID

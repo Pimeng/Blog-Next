@@ -15,8 +15,7 @@ export const siteConfig: SiteConfig = {
 	site_url: "https://blog.07210700.xyz",
 
 	// 站点描述
-	description:
-		"这里是杂鱼皮梦的博客！",
+	description: "这里是杂鱼皮梦的博客！",
 
 	// 站点关键词
 	keywords: [
@@ -179,6 +178,17 @@ export const siteConfig: SiteConfig = {
 			websiteId: "04a575a9-87af-46a3-83d0-f444ff6ea928",
 			// Umami JS地址，支持使用自建
 			scriptUrl: "https://u.a.07210700.xyz/script.js",
+			// Umami 分享统计配置：可在部署环境中设置 UMAMI_SHARE_ID 或 UMAMI_SHARE_URL
+			shareId: import.meta.env.UMAMI_SHARE_ID || "JBMWSzEIAyHSbnYN",
+			shareUrl:
+				import.meta.env.UMAMI_SHARE_URL ||
+				"https://u.a.07210700.xyz/share/JBMWSzEIAyHSbnYN",
+			stats: {
+				enable: true,
+				baseUrl: "https://u.a.07210700.xyz",
+				startAt: 0,
+				cacheTtl: 3_600_000,
+			},
 		},
 		// 51la 统计配置
 		la51Analytics: {
