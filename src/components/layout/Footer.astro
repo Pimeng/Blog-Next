@@ -100,15 +100,9 @@ if (footerConfig.enable) {
 
 <style>
   .footer-panel {
-    background: color-mix(in oklch, var(--card-bg) 76%, transparent);
-    border: 1px solid color-mix(in oklch, var(--line-divider) 82%, transparent);
+    background-color: var(--card-bg-transparent);
+    border: 1px solid var(--line-divider);
     backdrop-filter: blur(18px) saturate(1.15);
     -webkit-backdrop-filter: blur(18px) saturate(1.15);
-  }
-
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .footer-panel {
-      background: color-mix(in oklch, var(--card-bg) 90%, transparent);
-    }
   }
 </style>
