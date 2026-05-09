@@ -102,6 +102,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 92,
     enabled: true,
+  },
+  {
+    title: "熙の主页",
+    imgurl: "https://yilx.net/api/images/612b7ea9-00d7-4a7b-8511-25b2064adf0d",
+    desc: "风带来种子，时间使之发芽",
+    siteurl: "https://yilx.net/",
+    tags: ["Homepage"],
+    weight: 91,
+    enabled: true,
   }
 ];
 
