@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import UmamiStat from "@/components/analytics/UmamiStat.astro";
 import WidgetLayout from "@/components/common/WidgetLayout.astro";
 import { siteConfig } from "@/config";
 import I18nKey from "@/i18n/i18nKey";
@@ -129,6 +130,44 @@ const stats = [
         </div>
       </div>
     ))}
+    <div class="flex items-center justify-between px-3 py-1.5">
+      <div class="flex items-center gap-2.5">
+        <div class="text-(--primary) text-xl">
+          <Icon name="material-symbols:query-stats-rounded" />
+        </div>
+        <span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+          {i18n(I18nKey.siteTotalPageViews)}
+        </span>
+      </div>
+      <div class="flex items-center">
+        <UmamiStat
+          metric="pageviews"
+          loadingText="..."
+          iconWrapperClass="hidden"
+          textClass="text-base font-bold text-neutral-900 dark:text-neutral-100"
+          title={i18n(I18nKey.siteTotalPageViews)}
+        />
+      </div>
+    </div>
+    <div class="flex items-center justify-between px-3 py-1.5">
+      <div class="flex items-center gap-2.5">
+        <div class="text-(--primary) text-xl">
+          <Icon name="material-symbols:groups-outline-rounded" />
+        </div>
+        <span class="text-neutral-700 dark:text-neutral-300 font-medium text-sm">
+          {i18n(I18nKey.siteTotalVisitors)}
+        </span>
+      </div>
+      <div class="flex items-center">
+        <UmamiStat
+          metric="visitors"
+          loadingText="..."
+          iconWrapperClass="hidden"
+          textClass="text-base font-bold text-neutral-900 dark:text-neutral-100"
+          title={i18n(I18nKey.siteTotalVisitors)}
+        />
+      </div>
+    </div>
   </div>
 </WidgetLayout>
 
