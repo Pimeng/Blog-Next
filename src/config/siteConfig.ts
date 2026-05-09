@@ -179,10 +179,10 @@ export const siteConfig: SiteConfig = {
 			// Umami JS地址，支持使用自建
 			scriptUrl: "https://u.a.07210700.xyz/script.js",
 			// Umami 分享统计配置：可在部署环境中设置 UMAMI_SHARE_ID 或 UMAMI_SHARE_URL
-			shareId: import.meta.env.UMAMI_SHARE_ID || "JBMWSzEIAyHSbnYN",
+			shareId: import.meta.env.UMAMI_SHARE_ID || "XC25ryEzZOhoFXbi",
 			shareUrl:
 				import.meta.env.UMAMI_SHARE_URL ||
-				"https://u.a.07210700.xyz/share/JBMWSzEIAyHSbnYN",
+				"https://u.a.07210700.xyz/share/XC25ryEzZOhoFXbi",
 			stats: {
 				enable: true,
 				baseUrl: "https://u.a.07210700.xyz",
