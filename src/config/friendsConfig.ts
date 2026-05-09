@@ -17,7 +17,7 @@ export const friendsPageConfig: FriendsPageConfig = {
 	showComment: false,
 
 	// 是否开启随机排序配置，如果开启，就会忽略权重，构建时进行一次随机排序
-	randomizeSort: false,
+	randomizeSort: true,
 };
 
 // 友链配置
@@ -110,6 +110,15 @@ export const friendsConfig: FriendLink[] = [
     siteurl: "https://yilx.net/",
     tags: ["Homepage"],
     weight: 91,
+    enabled: true,
+  },
+  {
+    title: "XME Notes Library",
+    imgurl: "https://image.179.life/images/avatar.png",
+    desc: "xzadudu179 的小窝",
+    siteurl: "https://blog.xzadudu179.top/",
+    tags: ["Blog"],
+    weight: 90,
     enabled: true,
   }
 ];
