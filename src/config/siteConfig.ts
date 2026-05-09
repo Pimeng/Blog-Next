@@ -54,7 +54,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		{
 			// 图标文件路径
-			src: "https://thirdqq.qlogo.cn/ek_qqapp/AQBYdE3HOBBJWzCia3BjOePcJ5icmcwpTW0cEWXlZsib48hLvjwq5KYMmdBlpKtRB3cqt3Kmgfb5v69WGKRvB3Q6av6EV7Jfmc9n5SK9ZRxnAchmKJBILw/100",
+			src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=640",
 			// 可选，指定主题 'light' | 'dark'
 			// theme: "light",
 			// 可选，图标大小
@@ -72,7 +72,7 @@ export const siteConfig: SiteConfig = {
 		// 4. 网络图片: { type: "url", value: "https://example.com/logo.png", alt: "Logo" }
 		logo: {
 			type: "url",
-			value: "https://thirdqq.qlogo.cn/ek_qqapp/AQBYdE3HOBBJWzCia3BjOePcJ5icmcwpTW0cEWXlZsib48hLvjwq5KYMmdBlpKtRB3cqt3Kmgfb5v69WGKRvB3Q6av6EV7Jfmc9n5SK9ZRxnAchmKJBILw/100",
+			value: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=640",
 			alt: "PM",
 		},
 		// 导航栏标题
@@ -97,7 +97,7 @@ export const siteConfig: SiteConfig = {
 	// 提醒框（Admonitions）配置，修改后需要重启开发服务器才能生效
 	// 主题：'github' | 'obsidian' | 'vitepress'，每个主题风格和语法不同，可根据喜好选择
 	rehypeCallouts: {
-		theme: "github",
+		theme: "obsidian",
 	},
 
 	// 文章页底部的"上次编辑时间"卡片开关
@@ -207,7 +207,7 @@ export const siteConfig: SiteConfig = {
 		// - "avif": 仅输出 AVIF 格式（最新技术，最小体积，目前兼容性较低）
 		// - "webp": 仅输出 WebP 格式（体积适中，兼容性好）
 		// - "both": 同时输出 AVIF 和 WebP（推荐，浏览器自动选择最佳格式）
-		formats: "webp",
+		formats: "both",
 		// 图片压缩质量 (1-100)，值越低体积越小但质量越差，推荐 70-85
 		quality: 85,
 		// 为特定域名的图片添加 referrerpolicy="no-referrer" 属性

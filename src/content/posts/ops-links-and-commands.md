@@ -3,11 +3,10 @@ title: 镜像源和常用命令汇总
 published: 2026-04-09
 tags: [脚本,地址,命令]
 category: '汇总'
+description: 本篇汇总一些常用的镜像源和命令，内容正在持续更新中
 draft: false
 image: "api"
 ---
-
-本篇汇总一些常用的镜像源和命令，内容正在持续更新中
 
 ## 镜像源
 

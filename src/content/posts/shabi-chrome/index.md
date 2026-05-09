@@ -3,6 +3,7 @@ title: 禁用傻逼Chrome的大模型自动下载
 published: 2026-03-04
 tags: [谷歌浏览器,大模型]
 category: '教程'
+description: 本篇教你如何将傻逼Chrome的大模型自动下载禁用
 draft: false
 image: "api"
 ---

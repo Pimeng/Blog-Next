@@ -3,6 +3,7 @@ title: 记一次简单木筏求生联机
 published: 2025-10-14
 tags: [联机,raft]
 category: '游戏'
+description: 本篇记录了一次木筏求生的一次联机记录
 draft: false
 image: "api"
 ---

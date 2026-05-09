@@ -121,7 +121,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 横幅图片轮播配置，仅在当配置多张图片时生效
 		carousel: {
 			// 是否启用横幅图片轮播；关闭时保持每次刷新随机显示一张
-			enable: true,
+			enable: false,
 			// 轮播切换间隔（毫秒）
 			interval: 5000,
 			// 是否允许用户通过控制面板切换横幅轮播
@@ -133,7 +133,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 				// 桌面端是否启用水波纹动画效果
 				desktop: true,
 				// 移动端是否启用水波纹动画效果
-				mobile: true,
+				mobile: false,
 			},
 			// 是否允许用户通过控制面板切换水波纹动画
 			switchable: true,
@@ -150,10 +150,10 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 层级，确保壁纸在背景层
 		zIndex: -1,
 		// 壁纸透明度
-		opacity: 0.9,
+		opacity: 0.3,
 		// 背景模糊度
-		blur: 15,
+		blur: 7.5,
 		// 卡片透明度，0-1之间，值越小越透明
-		cardOpacity: 0.7,
+		cardOpacity: 0.4,
 	},
 };

@@ -3,6 +3,7 @@ title: 阿里云学生优惠白嫖半年服务器
 published: 2026-02-24
 tags: [阿里云,优惠]
 category: '阿里云'
+description: 本篇介绍了如何去白嫖阿里云的学生优惠
 draft: false
 image: "api"
 ---

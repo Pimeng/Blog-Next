@@ -1,25 +1,37 @@
-# 关于我 / About Me
+# 关于我
 
-## 简单介绍自己
+## 重新认识一下吧
 
-这里是皮梦！是一个广东人，喜欢折腾各种东西，喜欢分享一些有用的东西，喜欢开源，喜欢Vibe Coding（
+我是皮梦，一个居住在 广东省云浮市 的一个普通人qwq
 
-## 为什么换成这个博客了
+## 兴趣爱好？
 
-原来的Halo集成了太多的功能，导致服务器内存爆炸，于是改用这个了（ <br>
-这个轻量化，又能符合博客的使用习惯
+平时喜欢玩一些音游，例如说是Maimai，Phira<br>
+接触一些AI，Vibe 一些代码，像是
 
-## 致谢
+::github{repo="Pimeng/tphira-mp"}
 
-- [阿里云ESA Pages](//s.07210700.xyz/aliyun-pages)
+就是Vibe的成果哦，下面这个我也有贡献一点辣
 
-- [弦塔](//blog.xtower.site)
+::github{repo="HiPM-Tech/DNSMgr"}
 
-- [李任渊](//blog.rymc.top)
+## 学业情况？
 
-- [Dmocken](//github.com/Dmocken)！
+现就读于 广东省广州市华夏职业学院 （好吧就是一个普通的学校），大专
 
-## 特别感谢
+## 参与过什么项目？
 
-这个博客的框架
-::github{repo="CuteLeaf/Firefly"}
+::github{repo="Catrong/phi-plugin"}
+::github{repo="OrbiterStellarTrek/NapcatAdapterDocs"}
+::github{repo="qiannqq/napcat-adapter"}
+::github{repo="Pimeng/tphira-mp"}
+::github{repo="Pimeng/wordle-plugin"}
+::github{repo="Pimeng/classtable"}
+
+## 创建/加入的奇奇怪怪群组/组织
+
+* **Bizarre Team** 创立者
+* **空间站「星旅」** 成员
+* **AWMC Team** 服务器维护
+* **AUTO-Phira多人联机** 服务器维护
+* \********** 不可视

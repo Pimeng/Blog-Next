@@ -3,6 +3,7 @@ title: 关于vivo健康的数据，我是如何获取的
 published: 2026-03-31
 category: 教程
 tags: [vivo, 健康数据, API, 抓包, 逆向]
+description: 本篇介绍了如何逆向vivo健康获取所有个人健康数据
 draft: false
 image: "api"
 ---

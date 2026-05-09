@@ -45,7 +45,7 @@ export const adConfig2: AdConfig = {
 	content:
 		"如果您觉得本站内容对您有帮助，欢迎支持我们的创作！您的支持是我们持续更新的动力。",
 	image: {
-		src: "http://thirdqq.qlogo.cn/ek_qqapp/AQBYdE3HOBBJWzCia3BjOePcJ5icmcwpTW0cEWXlZsib48hLvjwq5KYMmdBlpKtRB3cqt3Kmgfb5v69WGKRvB3Q6av6EV7Jfmc9n5SK9ZRxnAchmKJBILw/640",
+		src: "https://q1.qlogo.cn/g?b=qq&nk=1470458485&s=640",
 		alt: "支持博主",
 		link: "sponsor/",
 		external: false,
