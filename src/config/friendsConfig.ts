@@ -120,6 +120,15 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 90,
     enabled: true,
+  },
+  {
+    title: "户山兔兔の小窝",
+    imgurl: "https://danieltoyama.fun/img/logo.svg",
+    desc: "一般路过普通兔子",
+    siteurl: "https://danieltoyama.fun",
+    tags: ["Blog"],
+    weight: 89,
+    enabled: true,
   }
 ];
 
