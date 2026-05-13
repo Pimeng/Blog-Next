@@ -5,7 +5,7 @@ tags: [联机,phira,音游,脚本]
 category: '脚本'
 description: 一个普通的检测多人联机服务器是否活着的脚本
 draft: false
-image: cover.png
+image: cover.svg
 ---
 
 :::caution

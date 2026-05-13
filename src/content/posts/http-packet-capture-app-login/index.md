@@ -5,7 +5,7 @@ category: 教程
 tags: [抓包, 网络, 实战]
 description: 本篇介绍了比较详细的抓包实战记录
 draft: false
-image: cover.png
+image: cover.svg
 ---
 
 ## 0x00 被测环境

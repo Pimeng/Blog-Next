@@ -51,46 +51,86 @@ const isLocal = !(
 	src.startsWith("data:")
 );
 const isPublic = src.startsWith("/");
+const isSvg = src.toLowerCase().endsWith('.svg');
 
 // 动态导入本地图片
-let img: ImageMetadata | null = null;
+let img: ImageMetadata | string | null = null;
 if (isLocal) {
-	const files = import.meta.glob<ImageMetadata>(
-		"../../**/*.{png,jpg,jpeg,webp,avif}",
-		{
-			import: "default",
-		},
-	);
-	const normalizedPath = path
-		.normalize(path.join("../../", basePath, src))
-		.replace(/\\/g, "/");
-	const file = files[normalizedPath];
-	if (file) {
-		img = await file();
-	} else {
-		console.error(
-			`[ERROR] Image not found: ${normalizedPath.replace("../../", "src/")}`,
+	if (isSvg) {
+		const files = import.meta.glob<string>(
+			"../../**/*.svg",
+			{
+				import: "default",
+				query: "?url",
+			},
 		);
+		const normalizedPath = path
+			.normalize(path.join("../../", basePath, src))
+			.replace(/\\/g, "/");
+		const file = files[normalizedPath];
+		if (file) {
+			img = await file();
+		} else {
+			console.error(
+				`[ERROR] Image not found: ${normalizedPath.replace("../../", "src/")}`,
+			);
+		}
+	} else {
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{png,jpg,jpeg,webp,avif}",
+			{
+				import: "default",
+			},
+		);
+		const normalizedPath = path
+			.normalize(path.join("../../", basePath, src))
+			.replace(/\\/g, "/");
+		const file = files[normalizedPath];
+		if (file) {
+			img = await file();
+		} else {
+			console.error(
+				`[ERROR] Image not found: ${normalizedPath.replace("../../", "src/")}`,
+			);
+		}
 	}
 }
 
 // 加载回退图片
-let fallbackImg: ImageMetadata | null = null;
+let fallbackImg: ImageMetadata | string | null = null;
 const fallbackPath = coverImageConfig.randomCoverImage.fallback;
 const isFallbackPublic = fallbackPath?.startsWith("/");
+const isFallbackSvg = fallbackPath?.toLowerCase().endsWith('.svg') ?? false;
 if (fallbackPath && !isLocal && !isFallbackPublic) {
-	const files = import.meta.glob<ImageMetadata>(
-		"../../**/*.{png,jpg,jpeg,webp,avif}",
-		{
-			import: "default",
-		},
-	);
-	const normalizedFallbackPath = path
-		.normalize(path.join("../../", fallbackPath))
-		.replace(/\\/g, "/");
-	const file = files[normalizedFallbackPath];
-	if (file) {
-		fallbackImg = await file();
+	if (isFallbackSvg) {
+		const files = import.meta.glob<string>(
+			"../../**/*.svg",
+			{
+				import: "default",
+				query: "?url",
+			},
+		);
+		const normalizedFallbackPath = path
+			.normalize(path.join("../../", fallbackPath))
+			.replace(/\\/g, "/");
+		const file = files[normalizedFallbackPath];
+		if (file) {
+			fallbackImg = await file();
+		}
+	} else {
+		const files = import.meta.glob<ImageMetadata>(
+			"../../**/*.{png,jpg,jpeg,webp,avif}",
+			{
+				import: "default",
+			},
+		);
+		const normalizedFallbackPath = path
+			.normalize(path.join("../../", fallbackPath))
+			.replace(/\\/g, "/");
+		const file = files[normalizedFallbackPath];
+		if (file) {
+			fallbackImg = await file();
+		}
 	}
 }
 
@@ -140,10 +180,10 @@ const remoteReferrerPolicy =
 	</div>
 
 	<!-- 回退图片（错误时显示） -->
-	{fallbackImg && (
+	{fallbackImg && !isFallbackSvg && (
 		<div class="fallback-image absolute inset-0 hidden">
 			<Picture
-				src={fallbackImg}
+				src={fallbackImg as ImageMetadata}
 				alt="Fallback cover"
 				class={imageClass}
 				style={imageStyle}
@@ -156,6 +196,18 @@ const remoteReferrerPolicy =
 				widths={widths}
 				sizes={sizes}
 				layout={layout}
+			/>
+		</div>
+	)}
+	{fallbackImg && isFallbackSvg && (
+		<div class="fallback-image absolute inset-0 hidden">
+			<img
+				src={fallbackImg as string}
+				alt="Fallback cover"
+				class={imageClass}
+				style={imageStyle}
+				loading="lazy"
+				decoding="async"
 			/>
 		</div>
 	)}
@@ -174,9 +226,9 @@ const remoteReferrerPolicy =
 	)}
 
 	<!-- 本地图片 -->
-	{isLocal && img && (
+	{isLocal && img && !isSvg && (
 		<Picture
-			src={img}
+			src={img as ImageMetadata}
 			alt={alt || ""}
 			class={imageClass}
 			style={imageStyle}
@@ -189,6 +241,17 @@ const remoteReferrerPolicy =
 			widths={widths}
 			sizes={sizes}
 			layout={layout}
+			data-cover-img
+		/>
+	)}
+	{isLocal && img && isSvg && (
+		<img
+			src={img as string}
+			alt={alt || ""}
+			class={imageClass}
+			style={imageStyle}
+			loading={loading}
+			decoding="async"
 			data-cover-img
 		/>
 	)}

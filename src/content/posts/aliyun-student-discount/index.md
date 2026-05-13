@@ -5,7 +5,7 @@ tags: [阿里云,优惠]
 category: '阿里云'
 description: 本篇介绍了如何去白嫖阿里云的学生优惠
 draft: false
-image: cover.png
+image: cover.svg
 ---
 
 
