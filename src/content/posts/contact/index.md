@@ -6,7 +6,7 @@ description: 当然是直接给皮梦扩列辣
 tags: [联系皮梦]
 category: 推文
 draft: false
-image: "api"
+image: cover.png
 ---
 
 ## 国内一些社交平台的联系方式

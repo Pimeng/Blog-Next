@@ -5,7 +5,7 @@ category: 教程
 tags: [vivo, 健康数据, API, 抓包, 逆向]
 description: 本篇介绍了如何逆向vivo健康获取所有个人健康数据
 draft: false
-image: "api"
+image: cover.png
 ---
 
 > [!CAUTION] 警告
