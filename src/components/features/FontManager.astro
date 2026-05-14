@@ -65,7 +65,8 @@ const fontFamilyStyle = generateFontFamilyStyle();
 
     if (isExternalUrl) {
       // 外部字体链接 (如 Google Fonts, CDN等)
-      return <link rel="stylesheet" href={font.src} />;
+      // 使用 media="print" 技巧避免渲染阻塞，加载完成后切换为 all
+      return <link rel="stylesheet" href={font.src} media="print" onload={`this.media='all'`} />;
     } else {
       // 本地字体文件
       return (

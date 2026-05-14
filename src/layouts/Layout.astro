@@ -99,32 +99,6 @@ const siteLang = lang.replace("_", "-");
 <html lang={siteLang} class="bg-(--page-bg) text-[14px] md:text-[16px]" data-wallpaper-mode={backgroundWallpaper.mode}>
   <head>
     <meta charset="UTF-8" />
-    {siteConfig.analytics?.googleAnalyticsId && (
-            <GoogleAnalytics analyticsId={siteConfig.analytics.googleAnalyticsId} />
-    )}
-    {siteConfig.analytics?.microsoftClarityId && (
-            <MicrosoftClarity clarityId={siteConfig.analytics.microsoftClarityId} />
-    )}
-        {siteConfig.analytics?.umamiAnalytics?.websiteId && (
-          <UmamiAnalytics
-          websiteId={siteConfig.analytics.umamiAnalytics.websiteId}
-          scriptUrl={siteConfig.analytics.umamiAnalytics.scriptUrl}
-          />
-        )}
-        {siteConfig.analytics?.umamiAnalytics?.websiteId && (
-          <UmamiStatsProvider />
-        )}
-        {siteConfig.analytics?.la51Analytics?.Id && (
-            <La51Analytics
-            analyticsId={siteConfig.analytics.la51Analytics.Id}
-            sdkUrl={siteConfig.analytics.la51Analytics?.sdkUrl}
-            ck={siteConfig.analytics.la51Analytics?.ck}
-            autoTrack={siteConfig.analytics.la51Analytics?.autoTrack}
-            hashMode={siteConfig.analytics.la51Analytics?.hashMode}
-            screenRecord={siteConfig.analytics.la51Analytics?.screenRecord}
-            />
-    )}
-
     <title>{pageTitle}</title>
     <meta
       name="description"
@@ -163,6 +137,27 @@ const siteLang = lang.replace("_", "-");
 
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Preconnect to external domains for fonts -->
+    {siteConfig.font?.enable && siteConfig.font?.selected && (() => {
+      const selectedIds = Array.isArray(siteConfig.font.selected)
+        ? siteConfig.font.selected
+        : [siteConfig.font.selected];
+      const hasExternalFont = selectedIds.some((id) => {
+        const font = siteConfig.font.fonts[id];
+        return font?.src && (
+          font.src.startsWith('http://') ||
+          font.src.startsWith('https://') ||
+          font.src.startsWith('//')
+        );
+      });
+      return hasExternalFont ? (
+        <>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        </>
+      ) : null;
+    })()}
     {
       favicons.map((favicon) => (
         <link
@@ -504,6 +499,33 @@ const siteLang = lang.replace("_", "-");
       title={profileConfig.name}
       href={`${Astro.site}rss.xml`}
     />
+
+    <!-- Analytics scripts moved here to avoid blocking critical rendering path -->
+    {siteConfig.analytics?.googleAnalyticsId && (
+            <GoogleAnalytics analyticsId={siteConfig.analytics.googleAnalyticsId} />
+    )}
+    {siteConfig.analytics?.microsoftClarityId && (
+            <MicrosoftClarity clarityId={siteConfig.analytics.microsoftClarityId} />
+    )}
+    {siteConfig.analytics?.umamiAnalytics?.websiteId && (
+          <UmamiAnalytics
+          websiteId={siteConfig.analytics.umamiAnalytics.websiteId}
+          scriptUrl={siteConfig.analytics.umamiAnalytics.scriptUrl}
+          />
+    )}
+    {siteConfig.analytics?.umamiAnalytics?.websiteId && (
+          <UmamiStatsProvider />
+    )}
+    {siteConfig.analytics?.la51Analytics?.Id && (
+            <La51Analytics
+            analyticsId={siteConfig.analytics.la51Analytics.Id}
+            sdkUrl={siteConfig.analytics.la51Analytics?.sdkUrl}
+            ck={siteConfig.analytics.la51Analytics?.ck}
+            autoTrack={siteConfig.analytics.la51Analytics?.autoTrack}
+            hashMode={siteConfig.analytics.la51Analytics?.hashMode}
+            screenRecord={siteConfig.analytics.la51Analytics?.screenRecord}
+            />
+    )}
 
     <!-- Font Manager -->
     <FontManager />

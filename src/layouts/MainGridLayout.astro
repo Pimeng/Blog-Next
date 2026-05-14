@@ -852,7 +852,7 @@ const bannerCarouselInterval = Math.max(
             */}
             {sidebarLayoutConfig.position !== "right" ? (
                 <>
-                    <div id="left-sidebar-wrapper" class="contents" style="contain: layout style paint;">
+                    <div id="left-sidebar-wrapper" class="contents" style="contain: layout style paint; content-visibility: auto;">
                         {effectiveHasLeftComponents && (
                             <SideBar
                                 side={effectiveIsBothSidebars ? "left" : undefined}
@@ -900,7 +900,7 @@ const bannerCarouselInterval = Math.max(
             */}
             {(sidebarLayoutConfig.position === "both" || sidebarLayoutConfig.position === "right") ? (
                 <>
-                    <div id="right-sidebar-static" class="contents">
+                    <div id="right-sidebar-static" class="contents" style="contain: layout style paint; content-visibility: auto;">
                         {(effectiveIsBothSidebars || sidebarLayoutConfig.position === "right") && effectiveHasRightComponents && (
                             <SideBar side="right" class={`${rightSidebarClass} ${transparentClass}`} headings={headings}></SideBar>
                         )}
@@ -908,7 +908,7 @@ const bannerCarouselInterval = Math.max(
                     <div id="right-sidebar-dynamic" class="hidden transition-swup-fade"></div>
                 </>
             ) : (
-                <div id="right-sidebar-dynamic" class="contents transition-swup-fade">
+                <div id="right-sidebar-dynamic" class="contents transition-swup-fade" style="contain: layout style paint;">
                     {effectiveIsBothSidebars && effectiveHasRightComponents && (
                         <SideBar side="right" class={`${rightSidebarClass} ${transparentClass}`} headings={headings}></SideBar>
                     )}
@@ -922,7 +922,7 @@ const bannerCarouselInterval = Math.max(
                 </div>
             )}
 
-            <div class={footerClassName}>
+            <div class={footerClassName} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
                 <Footer></Footer>
             </div>
         </div>
