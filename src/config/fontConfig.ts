@@ -3,7 +3,8 @@ export const fontConfig = {
 	// 是否启用自定义字体功能
 	enable: true,
 	// 是否预加载字体文件
-	preload: true,
+	// 注意：预加载会阻塞页面渲染，对于大体积本地字体建议关闭，让浏览器按需加载
+	preload: false,
 	// 当前选择的字体，支持多个字体组合
 	selected: ["inter","misans-regular"],
 
@@ -40,33 +41,16 @@ export const fontConfig = {
 			display: "swap" as const,
 		},
 
-		// 小米字体 - MiSans Normal
-		"misans-normal": {
-			id: "misans-normal",
-			name: "MiSans Normal",
-			src: "https://unpkg.com/misans@4.1.0/lib/Normal/MiSans-Normal.min.css",
-			family: "MiSans",
-			weight: 400,
-			display: "swap" as const,
-		},
-
-		// 小米字体 - MiSans Regular
+		// 小米字体 - MiSans Regular（本地加载）
+		// 已从 CDN 迁移至本地 public/assets/fonts/MiSans/ 目录
+		// 仅保留 Regular 字重以减小体积，浏览器按需加载
 		"misans-regular": {
 			id: "misans-regular",
 			name: "MiSans Regular",
-			src: "https://unpkg.com/misans@4.1.0/lib/Normal/MiSans-Regular.min.css",
+			src: "/assets/fonts/MiSans/MiSans-Regular.woff2",
 			family: "MiSans",
 			weight: 500,
-			display: "swap" as const,
-		},
-
-		// 小米字体 - MiSans Semibold
-		"misans-semibold": {
-			id: "misans-semibold",
-			name: "MiSans Semibold",
-			src: "https://unpkg.com/misans@4.1.0/lib/Normal/MiSans-Semibold.min.css",
-			family: "MiSans",
-			weight: 600,
+			format: "woff2",
 			display: "swap" as const,
 		},
 	},
