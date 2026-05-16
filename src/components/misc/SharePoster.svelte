@@ -35,11 +35,17 @@ onMount(() => {
 
 function loadImage(src: string): Promise<HTMLImageElement | null> {
 	return new Promise((resolve) => {
+		// 对已知无 CORS 支持的图片使用代理，避免 canvas 被污染
+		const needsProxy = src.includes("q1.qlogo.cn") && !src.includes("images.weserv.nl");
+		const finalSrc = needsProxy
+			? `https://images.weserv.nl/?url=${encodeURIComponent(src)}&output=png`
+			: src;
+
 		const img = new Image();
 		img.crossOrigin = "anonymous";
 		img.onload = () => resolve(img);
 		img.onerror = () => {
-			if (!src.includes("images.weserv.nl")) {
+			if (!finalSrc.includes("images.weserv.nl")) {
 				const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(src)}&output=png`;
 				const proxyImg = new Image();
 				proxyImg.crossOrigin = "anonymous";
@@ -52,7 +58,7 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
 				resolve(null);
 			}
 		};
-		img.src = src;
+		img.src = finalSrc;
 	});
 }
 
