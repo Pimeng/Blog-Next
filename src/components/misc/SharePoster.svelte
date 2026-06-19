@@ -35,23 +35,48 @@ onMount(() => {
 
 function loadImage(src: string): Promise<HTMLImageElement | null> {
 	return new Promise((resolve) => {
+		// data URL 直接加载，无需代理
+		if (src.startsWith("data:")) {
+			const img = new Image();
+			img.onload = () => resolve(img);
+			img.onerror = () => resolve(null);
+			img.src = src;
+			return;
+		}
+
+		const tryProxy = (targetSrc: string) => {
+			if (targetSrc.includes("images.weserv.nl")) {
+				resolve(null);
+				return;
+			}
+			const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(targetSrc)}&output=png`;
+			const proxyImg = new Image();
+			proxyImg.crossOrigin = "anonymous";
+			proxyImg.onload = () => resolve(proxyImg);
+			proxyImg.onerror = () => resolve(null);
+			proxyImg.src = proxyUrl;
+		};
+
 		const img = new Image();
 		img.crossOrigin = "anonymous";
-		img.onload = () => resolve(img);
-		img.onerror = () => {
-			if (!src.includes("images.weserv.nl")) {
-				const proxyUrl = `https://images.weserv.nl/?url=${encodeURIComponent(src)}&output=png`;
-				const proxyImg = new Image();
-				proxyImg.crossOrigin = "anonymous";
-				proxyImg.onload = () => resolve(proxyImg);
-				proxyImg.onerror = () => {
-					resolve(null);
-				};
-				proxyImg.src = proxyUrl;
-			} else {
-				resolve(null);
+		img.onload = () => {
+			// 验证该图片是否会污染 canvas
+			try {
+				const testCanvas = document.createElement("canvas");
+				testCanvas.width = 1;
+				testCanvas.height = 1;
+				const testCtx = testCanvas.getContext("2d");
+				if (testCtx) {
+					testCtx.drawImage(img, 0, 0);
+					testCanvas.toDataURL();
+				}
+				resolve(img);
+			} catch (e) {
+				// canvas 被污染，回退到代理
+				tryProxy(src);
 			}
 		};
+		img.onerror = () => tryProxy(src);
 		img.src = src;
 	});
 }
@@ -118,9 +143,14 @@ async function generatePoster() {
 			width: 100 * scale,
 			color: { dark: "#000000", light: "#ffffff" },
 		});
+		// SVG 包含 <foreignObject> 等元素时，即使以 data URL 加载也会污染 canvas，因此跳过 SVG 封面
+		const isSvg = (src: string) =>
+			src.startsWith("data:image/svg") ||
+			/\.svg(?:[?#]|$)/i.test(src);
+		const posterCoverImage = coverImage && !isSvg(coverImage) ? coverImage : null;
 		const [qrImg, coverImg, avatarImg] = await Promise.all([
 			loadImage(qrCodeUrl),
-			coverImage ? loadImage(coverImage) : Promise.resolve(null),
+			posterCoverImage ? loadImage(posterCoverImage) : Promise.resolve(null),
 			avatar ? loadImage(avatar) : Promise.resolve(null),
 		]);
 
