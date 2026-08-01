@@ -105,7 +105,7 @@ export const friendsConfig: FriendLink[] = [
   },
   {
     title: "熙の主页",
-    imgurl: "https://yilx.net/api/images/612b7ea9-00d7-4a7b-8511-25b2064adf0d",
+    imgurl: "https://lxya.net/api/images/a3570e49-dc8d-4a83-8c28-5451227587b2",
     desc: "风带来种子，时间使之发芽",
     siteurl: "//lxya.net/",
     tags: ["Homepage"],
@@ -136,6 +136,14 @@ export const friendsConfig: FriendLink[] = [
     siteurl: "//www.nishuwu.vip",
     tags: ["Blog"],
     weight: 88,
+    enabled: true,
+  },{
+    title: "Nagayodzuki's Blog",
+    imgurl: "https://luvxcby.love/webdata/pub/03/website-icon/asst0.png",
+    desc: "此方は永夜づきですね",
+    siteurl: "//luvxcby.love",
+    tags: ["Blog"],
+    weight: 87,
     enabled: true,
   }
 ];
