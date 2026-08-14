@@ -234,6 +234,14 @@ export const en: Translation = {
 	[Key.postListLayoutList]: "List",
 	[Key.postListLayoutGrid]: "Grid",
 
+	// Post Sorting
+	[Key.sortPosts]: "Sort",
+	[Key.sortByLatest]: "Newest",
+	[Key.sortByOldest]: "Oldest",
+	[Key.sortByViews]: "Most viewed",
+	[Key.sortByLeastViews]: "Least viewed",
+	[Key.sortLoading]: "Loading views...",
+
 	// Sponsor Page
 	[Key.sponsor]: "Sponsor",
 	[Key.sponsorTitle]: "Support Me",

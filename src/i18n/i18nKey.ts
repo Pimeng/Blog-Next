@@ -224,6 +224,14 @@ enum I18nKey {
 	postListLayoutList = "postListLayoutList",
 	postListLayoutGrid = "postListLayoutGrid",
 
+	// 文章排序
+	sortPosts = "sortPosts",
+	sortByLatest = "sortByLatest",
+	sortByOldest = "sortByOldest",
+	sortByViews = "sortByViews",
+	sortByLeastViews = "sortByLeastViews",
+	sortLoading = "sortLoading",
+
 	// 赞助页面
 	sponsor = "sponsor",
 	sponsorTitle = "sponsorTitle",

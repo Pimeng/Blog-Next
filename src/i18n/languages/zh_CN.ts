@@ -226,6 +226,14 @@ export const zh_CN: Translation = {
 	[Key.postListLayoutList]: "列表",
 	[Key.postListLayoutGrid]: "网格",
 
+	// 文章排序
+	[Key.sortPosts]: "排序",
+	[Key.sortByLatest]: "最新发布",
+	[Key.sortByOldest]: "最早发布",
+	[Key.sortByViews]: "访问量最高",
+	[Key.sortByLeastViews]: "访问量最低",
+	[Key.sortLoading]: "正在读取访问量...",
+
 	// 赞助页面
 	[Key.sponsor]: "赞助",
 	[Key.sponsorTitle]: "赞助支持",

@@ -21,15 +21,21 @@ interface Post {
 		tags: string[];
 		category?: string | null;
 		published: Date;
+		pinned?: boolean;
 	};
 }
 
 interface Group {
-	year: number;
+	year: number | null;
+	pinned?: boolean;
 	posts: Post[];
 }
 
 let groups: Group[] = [];
+type SortKey = "latest" | "oldest" | "views" | "views-asc";
+const sortKeys = new Set<SortKey>(["latest", "oldest", "views", "views-asc"]);
+const viewsCache = new Map<string, number>();
+let sortRequestId = 0;
 
 function formatDate(date: Date) {
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -41,7 +47,55 @@ function formatTag(tagList: string[]) {
 	return tagList.map((t) => `#${t}`).join(" ");
 }
 
-onMount(async () => {
+function isSortKey(value: string | null): value is SortKey {
+	return value !== null && sortKeys.has(value as SortKey);
+}
+
+function getSortPreference(): SortKey {
+	const querySort = new URL(window.location.href).searchParams.get("sort");
+	if (isSortKey(querySort)) return querySort;
+
+	try {
+		const storedSort = localStorage.getItem("firefly-post-sort");
+		if (isSortKey(storedSort)) return storedSort;
+	} catch {
+		// localStorage may be unavailable in private browsing modes.
+	}
+
+	return "latest";
+}
+
+function getPageviews(stats: unknown): number {
+	if (!stats || typeof stats !== "object") return 0;
+
+	const rawValue = (stats as { pageviews?: unknown }).pageviews;
+	if (typeof rawValue === "number") return Number.isFinite(rawValue) ? rawValue : 0;
+	if (rawValue && typeof rawValue === "object") {
+		const value = (rawValue as { value?: unknown }).value;
+		const parsed = Number(value);
+		return Number.isFinite(parsed) ? parsed : 0;
+	}
+	return 0;
+}
+
+async function getPostViews(post: Post): Promise<number> {
+	const cached = viewsCache.get(post.id);
+	if (cached !== undefined) return cached;
+
+	const stats = window.FireflyUmamiStats;
+	if (!stats?.fetchStats) return 0;
+
+	try {
+		const views = getPageviews(await stats.fetchStats(getPostUrlBySlug(post.id)));
+		viewsCache.set(post.id, views);
+		return views;
+	} catch {
+		viewsCache.set(post.id, 0);
+		return 0;
+	}
+}
+
+function getFilteredPosts(): Post[] {
 	let filteredPosts: Post[] = sortedPosts;
 
 	if (tags.length > 0) {
@@ -62,12 +116,46 @@ onMount(async () => {
 		filteredPosts = filteredPosts.filter((post) => !post.data.category);
 	}
 
-	// 按发布时间倒序排序，确保不受置顶影响
-	filteredPosts = filteredPosts
-		.slice()
-		.sort((a, b) => b.data.published.getTime() - a.data.published.getTime());
+	return filteredPosts;
+}
 
-	const grouped = filteredPosts.reduce(
+async function sortPosts(posts: Post[], sort: SortKey): Promise<Post[]> {
+	const pinnedPosts = posts.filter((post) => post.data.pinned === true);
+	const sortablePosts = posts.filter((post) => post.data.pinned !== true);
+	const sorted = sortablePosts.slice();
+	const originalOrder = new Map(sorted.map((post, index) => [post.id, index]));
+	const views = new Map<string, number>();
+
+	if (sort === "views" || sort === "views-asc") {
+		await Promise.all(sorted.map(async (post) => views.set(post.id, await getPostViews(post))));
+	}
+
+	// 置顶文章始终优先，其余文章按当前排序方式排列
+	sorted.sort((a, b) => {
+		if (sort === "views" || sort === "views-asc") {
+			const difference = (views.get(b.id) || 0) - (views.get(a.id) || 0);
+			if (difference !== 0) return sort === "views" ? difference : -difference;
+		}
+
+		const publishedDifference =
+			b.data.published.getTime() - a.data.published.getTime();
+		if (publishedDifference !== 0) {
+			return sort === "oldest" ? -publishedDifference : publishedDifference;
+		}
+		return (originalOrder.get(a.id) || 0) - (originalOrder.get(b.id) || 0);
+	});
+
+	return [...pinnedPosts, ...sorted];
+}
+
+function setGroups(posts: Post[], sort: SortKey) {
+	if (sort === "views" || sort === "views-asc") {
+		groups = [{ year: null, posts }];
+		return;
+	}
+
+	const pinnedPosts = posts.filter((post) => post.data.pinned === true);
+	const grouped = posts.filter((post) => post.data.pinned !== true).reduce(
 		(acc, post) => {
 			const year = post.data.published.getFullYear();
 			if (!acc[year]) {
@@ -84,18 +172,41 @@ onMount(async () => {
 		posts: grouped[Number.parseInt(yearStr, 10)],
 	}));
 
-	groupedPostsArray.sort((a, b) => b.year - a.year);
+	groupedPostsArray.sort((a, b) =>
+		sort === "oldest" ? a.year - b.year : b.year - a.year,
+	);
 
-	groups = groupedPostsArray;
+	groups = pinnedPosts.length
+		? [{ year: null, pinned: true, posts: pinnedPosts }, ...groupedPostsArray]
+		: groupedPostsArray;
+}
+
+async function updateGroups(sort: SortKey) {
+	const requestId = ++sortRequestId;
+	const filteredPosts = await sortPosts(getFilteredPosts(), sort);
+	if (requestId !== sortRequestId) return;
+	setGroups(filteredPosts, sort);
+}
+
+onMount(() => {
+	const handleSort = (event: Event) => {
+		const sort = (event as CustomEvent<{ sort?: string }>).detail?.sort;
+		if (isSortKey(sort || null)) void updateGroups(sort);
+	};
+
+	window.addEventListener("firefly:sort-posts", handleSort);
+	void updateGroups(getSortPreference());
+
+	return () => window.removeEventListener("firefly:sort-posts", handleSort);
 });
 </script>
 
 <div class="card-base px-8 py-6">
-    {#each groups as group}
+    {#each groups as group (group.pinned ? "pinned" : group.year ?? "all")}
         <div>
             <div class="flex flex-row w-full items-center h-15">
                 <div class="w-[15%] md:w-[10%] transition text-2xl font-bold text-right text-75">
-                    {group.year}
+                    {group.pinned ? i18n(I18nKey.pinned) : group.year ?? i18n(I18nKey.all)}
                 </div>
                 <div class="w-[15%] md:w-[10%]">
                     <div
@@ -108,7 +219,7 @@ onMount(async () => {
                 </div>
             </div>
 
-            {#each group.posts as post}
+            {#each group.posts as post (post.id)}
                 <a
                         href={getPostUrlBySlug(post.id)}
                         aria-label={post.data.title}

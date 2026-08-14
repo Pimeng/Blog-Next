@@ -74,6 +74,9 @@ const descriptionText = description || remarkPluginFrontmatter.excerpt || "";
     className,
   ]}
   style={style}
+  data-post-published={published.getTime()}
+  data-post-path={url}
+  data-post-pinned={pinned ? "true" : "false"}
 >
   <!-- pinned icon -->
   <div

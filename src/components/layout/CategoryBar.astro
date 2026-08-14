@@ -12,7 +12,8 @@ const archiveUrl = url("/archive/");
 ---
 
 <div class="card-base category-bar p-3 onload-animation" id="category-bar" data-home-path={homeUrl} data-archive-path={archiveUrl}>
-  <div class="category-bar-inner flex gap-2">
+  <div class="category-bar-inner flex gap-2 items-center">
+    <div class="category-navigation flex gap-2 min-w-0">
     <a
       href={homeUrl}
       class="category-pill text-sm px-2 py-1 rounded-lg shrink-0
@@ -51,12 +52,76 @@ const archiveUrl = url("/archive/");
       </div>
       <div class="scroll-fade scroll-fade-right" aria-hidden="true"></div>
     </div>
+    </div>
+    <div class="sort-control relative shrink-0">
+      <button
+        type="button"
+        class="sort-trigger category-pill text-sm px-2.5 py-1 rounded-lg whitespace-nowrap
+               transition-colors duration-150 ease-out flex items-center justify-center gap-1"
+        aria-label={i18n(I18nKey.sortPosts)}
+        aria-expanded="false"
+        aria-controls="category-sort-menu"
+        data-sort-loading-label={i18n(I18nKey.sortLoading)}
+      >
+        <Icon name="material-symbols:sort-rounded" class="text-lg" aria-hidden="true" />
+        <span class="sort-label">{i18n(I18nKey.sortByLatest)}</span>
+        <Icon name="material-symbols:keyboard-arrow-down-rounded" class="sort-chevron text-lg" aria-hidden="true" />
+      </button>
+      <div class="sort-menu" id="category-sort-menu" role="menu" hidden>
+        <button
+          type="button"
+          class="sort-option"
+          role="menuitemradio"
+          data-sort="latest"
+          data-sort-label={i18n(I18nKey.sortByLatest)}
+        >
+          <Icon name="material-symbols:schedule-rounded" class="text-lg" aria-hidden="true" />
+          <span>{i18n(I18nKey.sortByLatest)}</span>
+        </button>
+        <button
+          type="button"
+          class="sort-option"
+          role="menuitemradio"
+          data-sort="oldest"
+          data-sort-label={i18n(I18nKey.sortByOldest)}
+        >
+          <Icon name="material-symbols:history-rounded" class="text-lg" aria-hidden="true" />
+          <span>{i18n(I18nKey.sortByOldest)}</span>
+        </button>
+        <button
+          type="button"
+          class="sort-option"
+          role="menuitemradio"
+          data-sort="views"
+          data-sort-label={i18n(I18nKey.sortByViews)}
+        >
+          <Icon name="material-symbols:trending-up-rounded" class="text-lg" aria-hidden="true" />
+          <span>{i18n(I18nKey.sortByViews)}</span>
+        </button>
+        <button
+          type="button"
+          class="sort-option"
+          role="menuitemradio"
+          data-sort="views-asc"
+          data-sort-label={i18n(I18nKey.sortByLeastViews)}
+        >
+          <Icon name="material-symbols:trending-down-rounded" class="text-lg" aria-hidden="true" />
+          <span>{i18n(I18nKey.sortByLeastViews)}</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
   .category-bar {
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 30;
+    overflow: visible;
+  }
+  .category-navigation {
+    flex: 1;
   }
   .category-divider {
     width: 1px;
@@ -119,6 +184,62 @@ const archiveUrl = url("/archive/");
     background: var(--primary);
     border-color: var(--primary);
     opacity: 0.9;
+  }
+  .sort-trigger {
+    min-height: 2rem;
+  }
+  .sort-trigger[aria-expanded="true"] {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .sort-chevron {
+    transition: transform 150ms ease-out;
+  }
+  .sort-trigger[aria-expanded="true"] .sort-chevron {
+    transform: rotate(180deg);
+  }
+  .sort-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 20;
+    min-width: 10.5rem;
+    padding: 0.375rem;
+    border-radius: var(--radius-large);
+    border: 1px solid var(--line-divider);
+    box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 12%);
+    overflow: hidden;
+    background: var(--card-bg) !important;
+    background-color: var(--card-bg) !important;
+    transition: background-color 150ms ease-out;
+  }
+  .sort-option {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.625rem;
+    border-radius: 0.5rem;
+    color: var(--btn-content);
+    text-align: left;
+    white-space: nowrap;
+    transition: color 150ms ease-out, background-color 150ms ease-out;
+  }
+  .sort-option:hover,
+  .sort-option[aria-checked="true"] {
+    color: var(--primary);
+    background: var(--btn-plain-bg-hover);
+  }
+  .sort-option[aria-checked="true"] {
+    font-weight: 600;
+  }
+  @media (max-width: 560px) {
+    .sort-label {
+      display: none;
+    }
+    .sort-trigger {
+      padding-inline: 0.5rem;
+    }
   }
 </style>
 
@@ -197,6 +318,158 @@ const archiveUrl = url("/archive/");
     scrollActiveCategoryIntoView(bar);
   }
 
+  type SortKey = "latest" | "oldest" | "views" | "views-asc";
+  const sortKeys = new Set<SortKey>(["latest", "oldest", "views", "views-asc"]);
+  let sortRequestId = 0;
+  let applyRequestId = 0;
+
+  function isSortKey(value: string | null): value is SortKey {
+    return value !== null && sortKeys.has(value as SortKey);
+  }
+
+  function getSortPreference(): SortKey {
+    const querySort = new URL(window.location.href).searchParams.get("sort");
+    if (isSortKey(querySort)) return querySort;
+
+    try {
+      const storedSort = localStorage.getItem("firefly-post-sort");
+      if (isSortKey(storedSort)) return storedSort;
+    } catch {
+      // localStorage may be unavailable in private browsing modes.
+    }
+
+    return "latest";
+  }
+
+  function setSortPreference(sort: SortKey) {
+    try {
+      localStorage.setItem("firefly-post-sort", sort);
+    } catch {
+      // localStorage may be unavailable in private browsing modes.
+    }
+
+    const currentUrl = new URL(window.location.href);
+    if (sort === "latest") {
+      currentUrl.searchParams.delete("sort");
+    } else {
+      currentUrl.searchParams.set("sort", sort);
+    }
+    window.history.replaceState(window.history.state, "", currentUrl);
+  }
+
+  function updateSortUi(sort: SortKey, loading = false) {
+    const bar = document.getElementById("category-bar");
+    if (!bar) return;
+
+    const trigger = bar.querySelector<HTMLButtonElement>(".sort-trigger");
+    const label = bar.querySelector<HTMLElement>(".sort-label");
+    const options = bar.querySelectorAll<HTMLButtonElement>(".sort-option");
+    const activeOption = bar.querySelector<HTMLButtonElement>(`[data-sort="${sort}"]`);
+
+    if (label && activeOption) {
+      label.textContent = loading
+        ? trigger?.dataset.sortLoadingLabel || ""
+        : activeOption.dataset.sortLabel || "";
+    }
+    options.forEach((option) => {
+      option.setAttribute("aria-checked", option.dataset.sort === sort ? "true" : "false");
+    });
+    trigger?.setAttribute("aria-busy", loading ? "true" : "false");
+  }
+
+  function getPageviews(stats: unknown): number {
+    if (!stats || typeof stats !== "object") return 0;
+
+    const rawValue = (stats as { pageviews?: unknown }).pageviews;
+    if (typeof rawValue === "number") return Number.isFinite(rawValue) ? rawValue : 0;
+    if (rawValue && typeof rawValue === "object") {
+      const value = (rawValue as { value?: unknown }).value;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+    return 0;
+  }
+
+  async function getPostViews(post: HTMLElement): Promise<number> {
+    const cachedViews = Number(post.dataset.postViews);
+    if (Number.isFinite(cachedViews)) return cachedViews;
+
+    const stats = window.FireflyUmamiStats;
+    const path = post.dataset.postPath;
+    if (!stats?.fetchStats || !path) return 0;
+
+    try {
+      const views = getPageviews(await stats.fetchStats(path));
+      post.dataset.postViews = String(views);
+      return views;
+    } catch {
+      post.dataset.postViews = "0";
+      return 0;
+    }
+  }
+
+  async function sortPostCards(sort: SortKey): Promise<boolean> {
+    const container = document.getElementById("post-list-container");
+    if (!container) return false;
+
+    const posts = Array.from(container.querySelectorAll<HTMLElement>(":scope > .post-card-item"));
+    const sortablePosts = posts.filter((post) => post.dataset.postPinned !== "true");
+    if (sortablePosts.length < 2) return true;
+
+    const requestId = ++sortRequestId;
+    const originalOrder = new Map(sortablePosts.map((post, index) => [post, index]));
+    const views = new Map<HTMLElement, number>();
+
+    if (sort === "views" || sort === "views-asc") {
+      updateSortUi(sort, true);
+      await Promise.all(sortablePosts.map(async (post) => views.set(post, await getPostViews(post))));
+      if (requestId !== sortRequestId) return true;
+    }
+
+    const sortedPosts = sortablePosts.slice().sort((a, b) => {
+      if (sort === "views" || sort === "views-asc") {
+        const difference = (views.get(b) || 0) - (views.get(a) || 0);
+        if (difference !== 0) return sort === "views" ? difference : -difference;
+      }
+
+      const publishedDifference =
+        Number(b.dataset.postPublished || 0) - Number(a.dataset.postPublished || 0);
+      if (publishedDifference !== 0) {
+        return sort === "oldest" ? -publishedDifference : publishedDifference;
+      }
+      return (originalOrder.get(a) || 0) - (originalOrder.get(b) || 0);
+    });
+
+    const orderChanged = sortedPosts.some((post, index) => post !== sortablePosts[index]);
+    if (orderChanged) {
+      const marker = document.createComment("post-sort-anchor");
+      sortablePosts[0].before(marker);
+      const fragment = document.createDocumentFragment();
+      fragment.append(...sortedPosts);
+      marker.replaceWith(fragment);
+      window.dispatchEvent(new Event("firefly:post-list-sorted"));
+    }
+    updateSortUi(sort);
+    return true;
+  }
+
+  async function applySort(sort: SortKey) {
+    const requestId = ++applyRequestId;
+    updateSortUi(sort, sort === "views" || sort === "views-asc");
+    await sortPostCards(sort);
+    if (requestId !== applyRequestId) return;
+    window.dispatchEvent(new CustomEvent("firefly:sort-posts", { detail: { sort } }));
+    updateSortUi(sort);
+  }
+
+  function closeSortMenu(bar: HTMLElement) {
+    const trigger = bar.querySelector<HTMLButtonElement>(".sort-trigger");
+    const menu = bar.querySelector<HTMLElement>(".sort-menu");
+    if (!trigger || !menu) return;
+    trigger.setAttribute("aria-expanded", "false");
+    menu.hidden = true;
+  }
+
   function initCategoryBarInteractions() {
     const bar = document.getElementById("category-bar");
     if (!bar || bar.dataset.clickBound === "true") return;
@@ -204,6 +477,25 @@ const archiveUrl = url("/archive/");
     bar.dataset.clickBound = "true";
     bar.addEventListener("click", (event) => {
       if (!(event.target instanceof Element)) return;
+
+      const trigger = event.target.closest<HTMLButtonElement>(".sort-trigger");
+      if (trigger) {
+        const menu = bar.querySelector<HTMLElement>(".sort-menu");
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+        if (menu) menu.hidden = isOpen;
+        trigger.setAttribute("aria-expanded", isOpen ? "false" : "true");
+        return;
+      }
+
+      const option = event.target.closest<HTMLButtonElement>(".sort-option");
+      if (option && isSortKey(option.dataset.sort || null)) {
+        event.preventDefault();
+        const sort = option.dataset.sort as SortKey;
+        setSortPreference(sort);
+        closeSortMenu(bar);
+        void applySort(sort);
+        return;
+      }
 
       const pill = event.target.closest<HTMLAnchorElement>(".category-pill");
       if (!pill) return;
@@ -226,6 +518,14 @@ const archiveUrl = url("/archive/");
 
       setActiveCategory(bar, targetUrl);
       scrollActiveCategoryIntoView(bar, "auto");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!(event.target instanceof Node) || bar.contains(event.target)) return;
+      closeSortMenu(bar);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeSortMenu(bar);
     });
   }
 
@@ -274,14 +574,23 @@ const archiveUrl = url("/archive/");
     }
   }
 
+  function applyStoredSort() {
+    const sort = getSortPreference();
+    updateSortUi(sort);
+    void applySort(sort);
+  }
+
   updateCategoryBar();
   initCategoryBarInteractions();
   initScrollFeatures();
+  applyStoredSort();
   document.addEventListener("astro:page-load", () => {
     updateCategoryBar();
     initScrollFeatures();
+    applyStoredSort();
   });
   document.addEventListener("swup:contentReplaced", () => {
     updateCategoryBar();
+    applyStoredSort();
   });
 </script>
