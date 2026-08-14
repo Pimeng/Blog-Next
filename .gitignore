@@ -22,7 +22,6 @@ pnpm-debug.log*
 
 .vercel
 
-*-lock.*
 bun.lockb
 yarn.lock
 
