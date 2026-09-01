@@ -1282,6 +1282,14 @@ function disableAnimation() {
     const mainGrid = document.getElementById("main-grid");
     if (!mainGrid) return;
 
+    // #main-grid 位于 Swup 容器外，不会随软导航被替换；从新页面携带的
+    // 标记同步页脚位置，避免进入课程表后仍保留跨行 grid 造成的空白。
+    const gridClassCarrier = document.getElementById("grid-class-carrier");
+    mainGrid.dataset.footerMode =
+      gridClassCarrier?.dataset.footerMode === "main-column"
+        ? "main-column"
+        : "grid";
+
     const isPostPage = isCurrentPagePost();
     const sidebarPosition = mainGrid.getAttribute("data-sidebar-position") || "left";
     const tabletSidebar = mainGrid.getAttribute("data-tablet-sidebar") || "left";

@@ -802,6 +802,7 @@ const bannerCarouselInterval = Math.max(
           data-sidebar-position={sidebarLayoutConfig.position}
           data-tablet-sidebar={sidebarLayoutConfig.tabletSidebar ?? "left"}
           data-show-both-sidebars-on-post={sidebarLayoutConfig.showBothSidebarsOnPostPage ? "true" : "false"}
+          data-footer-mode={title === "课程表" ? "main-column" : "grid"}
         >
             <!-- Background image credit - Desktop -->
             {hasBannerCredit && creditEnabledOnDesktop && <a 
@@ -882,18 +883,21 @@ const bannerCarouselInterval = Math.max(
                 {/* 主内容区 - 始终渲染，确保 Swup 容器存在 */}
                 <main id="swup-container" class="transition-main">
                 {/* 携带网格布局类名，用于JS更新父容器 */}
-                <div id="grid-class-carrier" data-grid-class={gridCols} class="hidden"></div>
+                <div
+                    id="grid-class-carrier"
+                    data-grid-class={gridCols}
+                    data-footer-mode={title === "课程表" ? "main-column" : "grid"}
+                    class="hidden"
+                ></div>
                 {/* 为每个页面提供一个隐藏的h1标题，用于SEO和可访问性 */}
                 <h1 class="sr-only">{title}</h1>
                 <div id="content-wrapper" class="onload-animation transition-leaving">
                     <slot></slot>
                 </div>
             </main>
-            {title === "课程表" && (
-                <div class="footer onload-animation hidden md:block">
-                    <Footer></Footer>
-                </div>
-            )}
+            <div class="footer main-column-footer onload-animation">
+                <Footer></Footer>
+            </div>
             </div>
 
             {/* 右侧边栏 - 双侧边栏模式或仅右侧栏模式 */}
@@ -927,15 +931,9 @@ const bannerCarouselInterval = Math.max(
                 </div>
             )}
 
-            {title !== "课程表" ? (
-                <div class={footerClassName} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
-                    <Footer></Footer>
-                </div>
-            ) : (
-                <div class={`${footerClassName} md:hidden`}>
-                    <Footer></Footer>
-                </div>
-            )}
+            <div class={`${footerClassName} grid-footer`} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
+                <Footer></Footer>
+            </div>
         </div>
 
         <SpineModel></SpineModel>
@@ -949,6 +947,26 @@ const bannerCarouselInterval = Math.max(
 </Layout>
 
 <style is:global>
+  /*
+   * 课程表内容较短，而两侧栏跨越主内容与页脚两行。桌面端把页脚留在
+   * grid 的第二行时，侧栏的最小高度会被分摊到两行，形成大片空白。
+   * 两份页脚常驻静态布局，并由可随 Swup 内容更新的 data 属性切换，
+   * 这样软导航与硬刷新保持一致，移动端仍沿用底部 grid 页脚。
+   */
+  .main-column-footer {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    #main-grid[data-footer-mode="main-column"] .main-column-footer {
+      display: block;
+    }
+
+    #main-grid[data-footer-mode="main-column"] > .grid-footer {
+      display: none;
+    }
+  }
+
   /* 右侧栏平滑过渡 */
   #right-sidebar {
     transition: opacity 0.35s ease-in-out,
