@@ -889,6 +889,11 @@ const bannerCarouselInterval = Math.max(
                     <slot></slot>
                 </div>
             </main>
+            {title === "课程表" && (
+                <div class="footer onload-animation">
+                    <Footer></Footer>
+                </div>
+            )}
             </div>
 
             {/* 右侧边栏 - 双侧边栏模式或仅右侧栏模式 */}
@@ -922,9 +927,11 @@ const bannerCarouselInterval = Math.max(
                 </div>
             )}
 
-            <div class={footerClassName} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
-                <Footer></Footer>
-            </div>
+            {title !== "课程表" && (
+                <div class={footerClassName} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
+                    <Footer></Footer>
+                </div>
+            )}
         </div>
 
         <SpineModel></SpineModel>
@@ -954,4 +961,3 @@ const bannerCarouselInterval = Math.max(
   }
 
 </style>
-
