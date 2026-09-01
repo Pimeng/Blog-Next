@@ -89,6 +89,7 @@
   let updateInterval: ReturnType<typeof setInterval>;
   let showCompletedCourses = false; // 是否显示已过时间的课程
   let currentTimeMinutes = 0;
+  let prefersReducedMotion = false;
 
   // 计算当前是第几周第几天
   function calculateCurrentWeekAndDay() {
@@ -316,6 +317,18 @@
 
   onMount(() => {
     loadScheduleData();
+
+    const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncReducedMotion = () => {
+      prefersReducedMotion = reducedMotionMedia.matches;
+    };
+
+    syncReducedMotion();
+    reducedMotionMedia.addEventListener('change', syncReducedMotion);
+
+    return () => {
+      reducedMotionMedia.removeEventListener('change', syncReducedMotion);
+    };
   });
 
   onDestroy(() => {
@@ -372,27 +385,36 @@
       {/if}
       
       <!-- 今日/本周切换按钮 -->
-      <div class="flex bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+      <div class="view-switch relative grid grid-cols-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+        <span
+          class="schedule-view-switch-indicator absolute bg-white dark:bg-neutral-700 rounded-md shadow-sm"
+          style:inset-block="0.25rem"
+          style:left="0.25rem"
+          style:width="calc(50% - 0.25rem)"
+          style:transform={viewMode === 'week' ? 'translateX(100%)' : 'translateX(0)'}
+          style:transition={prefersReducedMotion ? 'none' : 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1)'}
+          aria-hidden="true"
+        ></span>
         <button 
-          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
-          class:bg-white={viewMode === 'today'}
-          class:dark:bg-neutral-700={viewMode === 'today'}
-          class:shadow-sm={viewMode === 'today'}
+          type="button"
+          class="schedule-view-switch-button relative z-10 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+          style:transition={prefersReducedMotion ? 'none' : 'color 180ms ease'}
           class:text-primary={viewMode === 'today'}
           class:text-neutral-600={viewMode !== 'today'}
           class:dark:text-neutral-400={viewMode !== 'today'}
+          aria-pressed={viewMode === 'today'}
           on:click={() => viewMode = 'today'}
         >
           今日
         </button>
         <button 
-          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all"
-          class:bg-white={viewMode === 'week'}
-          class:dark:bg-neutral-700={viewMode === 'week'}
-          class:shadow-sm={viewMode === 'week'}
+          type="button"
+          class="schedule-view-switch-button relative z-10 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+          style:transition={prefersReducedMotion ? 'none' : 'color 180ms ease'}
           class:text-primary={viewMode === 'week'}
           class:text-neutral-600={viewMode !== 'week'}
           class:dark:text-neutral-400={viewMode !== 'week'}
+          aria-pressed={viewMode === 'week'}
           on:click={() => viewMode = 'week'}
         >
           本周
