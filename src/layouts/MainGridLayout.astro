@@ -890,7 +890,7 @@ const bannerCarouselInterval = Math.max(
                 </div>
             </main>
             {title === "课程表" && (
-                <div class="footer onload-animation">
+                <div class="footer onload-animation hidden md:block">
                     <Footer></Footer>
                 </div>
             )}
@@ -927,8 +927,12 @@ const bannerCarouselInterval = Math.max(
                 </div>
             )}
 
-            {title !== "课程表" && (
+            {title !== "课程表" ? (
                 <div class={footerClassName} style="content-visibility: auto; contain-intrinsic-size: 0 200px;">
+                    <Footer></Footer>
+                </div>
+            ) : (
+                <div class={`${footerClassName} md:hidden`}>
                     <Footer></Footer>
                 </div>
             )}

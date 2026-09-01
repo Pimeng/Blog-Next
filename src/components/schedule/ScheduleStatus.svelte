@@ -218,8 +218,8 @@
   });
 </script>
 
-<div class="card-base p-5 mb-6">
-  <div class="flex items-center gap-2 mb-4">
+<a href="/schedule/" class="block p-3 mb-2">
+  <div class="flex items-center gap-2 mb-2">
     <div class="w-8 h-8 rounded-lg bg-(--primary)/10 flex items-center justify-center">
       <svg class="w-4 h-4 text-(--primary)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path fill="currentColor" d="M5 22q-.825 0-1.412-.587T3 20V6q0-.825.588-1.412T5 4h1V3q0-.425.288-.712T7 2t.713.288T8 3v1h8V3q0-.425.288-.712T17 2t.713.288T18 3v1h1q.825 0 1.413.588T21 6v14q0 .825-.587 1.413T19 22zm0-2h14V10H5zM5 8h14V6H5zm0 0V6zm7 6q-.425 0-.712-.288T11 13t.288-.712T12 12t.713.288T13 13t-.288.713T12 14m-4.712-.288Q7 13.426 7 13t.288-.712T8 12t.713.288T9 13t-.288.713T8 14t-.712-.288M16 14q-.425 0-.712-.288T15 13t.288-.712T16 12t.713.288T17 13t-.288.713T16 14m-4 4q-.425 0-.712-.288T11 17t.288-.712T12 16t.713.288T13 17t-.288.713T12 18m-4.712-.288Q7 17.426 7 17t.288-.712T8 16t.713.288T9 17t-.288.713T8 18t-.712-.288M16 18q-.425 0-.712-.288T15 17t.288-.712T16 16t.713.288T17 17t-.288.713T16 18"></path>
@@ -235,20 +235,12 @@
   {:else}
     {@const status = getCurrentStatus()}
     
-    <div class="text-center py-4">
+    <div class="text-left py-2">
       {#if status.type === 'current'}
         <!-- 正在上课 -->
-        <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-(--primary)/10 flex items-center justify-center">
-          <svg class="w-8 h-8 text-(--primary)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
-          </svg>
-        </div>
         <p class="text-lg font-semibold text-(--btn-content) mb-1">正在上课</p>
         <p class="text-sm text-neutral-500 dark:text-neutral-400">{status.course.courseName}</p>
-        {#if status.schedule.room}
-          <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">{status.schedule.room}</p>
-        {/if}
-        <div class="mt-3 mx-auto max-w-[200px]">
+        <div class="mt-2 max-w-[200px]">
           <div class="h-1.5 w-full bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
             <div class="h-full bg-(--primary) rounded-full transition-all duration-500" style="width: {status.progress}%"></div>
           </div>
@@ -265,10 +257,6 @@
         </div>
         <p class="text-lg font-semibold text-(--btn-content) mb-1">距离上课还有 {status.minutesUntil} 分钟</p>
         <p class="text-sm text-neutral-500 dark:text-neutral-400">{status.course.courseName}</p>
-        {#if status.schedule.room}
-          <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">{status.schedule.room}</p>
-        {/if}
-        
       {:else if status.type === 'no-class'}
         <!-- 今天没课 -->
         <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
@@ -292,13 +280,5 @@
       {/if}
     </div>
 
-    <div class="mt-4 pt-4 border-t border-neutral-100 dark:border-neutral-800 text-center">
-      <a href="/schedule/" class="inline-flex items-center gap-1 text-sm text-(--primary) hover:opacity-80 transition-opacity">
-        查看完整课表
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-      </a>
-    </div>
   {/if}
-</div>
+</a>
