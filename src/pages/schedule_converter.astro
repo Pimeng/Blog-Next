@@ -207,7 +207,7 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
     }
 
     const shareKeyInput = document.getElementById('shareKeyInput') as HTMLInputElement;
-    const getJsonBtn = document.getElementById('getJsonBtn') as HTMLAnchorElement;
+    const getJsonBtn = document.getElementById('getJsonBtn') as HTMLButtonElement;
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     const jsonInput = document.getElementById('jsonInput') as HTMLTextAreaElement;
     const convertBtn = document.getElementById('convertBtn') as HTMLButtonElement;
@@ -258,7 +258,7 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
     }
 
     // 处理粘贴事件
-    shareKeyInput.addEventListener('paste', (e) => {
+    shareKeyInput.addEventListener('paste', () => {
         // 使用 setTimeout 让粘贴内容先进入输入框
         setTimeout(() => {
             const text = shareKeyInput.value.trim();
@@ -300,25 +300,51 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
         }
     });
 
-    function parseScheduleData(rawData: string) {
-        let dataContent: string;
-        
-        // 尝试解析为完整的API响应格式
-        try {
-            const apiResponse = JSON.parse(rawData);
-            if (apiResponse.status === 1 && apiResponse.data && typeof apiResponse.data === 'string') {
-                // 这是完整的API响应，提取data字段
-                dataContent = apiResponse.data;
-            } else {
-                // 可能是直接的data内容，尝试使用原数据
-                dataContent = rawData;
+    function extractScheduleContent(rawData: string): string {
+        let current: unknown = rawData.trim();
+
+        // API 返回的数据可能有多层 JSON：
+        // { data: { shareData: "...五行数据..." } }
+        // 也兼容旧版的 { status: 1, data: "...五行数据..." }。
+        for (let depth = 0; depth < 5; depth += 1) {
+            if (typeof current === 'string') {
+                try {
+                    const parsed: unknown = JSON.parse(current);
+                    if (typeof parsed === 'string' || (parsed && typeof parsed === 'object')) {
+                        current = parsed;
+                        continue;
+                    }
+                } catch {
+                    return current as string;
+                }
             }
-        } catch {
-            // 解析失败，假设是直接的data内容
-            dataContent = rawData;
+
+            if (current && typeof current === 'object') {
+                const record = current as Record<string, unknown>;
+                if (typeof record.shareData === 'string') {
+                    current = record.shareData;
+                    continue;
+                }
+                if (record.data !== undefined) {
+                    current = record.data;
+                    continue;
+                }
+            }
+
+            break;
         }
+
+        if (typeof current !== 'string') {
+            throw new Error('未找到课表数据，请检查 JSON 是否为 WakeUp 分享数据');
+        }
+
+        return current;
+    }
+
+    function parseScheduleData(rawData: string) {
+        const dataContent = extractScheduleContent(rawData);
         
-        const lines = dataContent.trim().split('\n');
+        const lines = dataContent.trim().split(/\r?\n/);
         
         if (lines.length < 5) {
             throw new Error('数据格式不正确，需要至少5行数据');
