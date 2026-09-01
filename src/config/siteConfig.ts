@@ -228,7 +228,7 @@ export const siteConfig: SiteConfig = {
 
 	// 字体配置
 	// 在src/config/fontConfig.ts中配置具体字体
-	font: fontConfig,
+	font: fontConfig as unknown as SiteConfig["font"],
 
 	// 站点语言，在本配置文件顶部SITE_LANG定义
 	lang: SITE_LANG,
