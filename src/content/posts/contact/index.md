@@ -13,7 +13,7 @@ image: cover.svg
 
 - [QQ 1470458485](https://qm.qq.com/cgi-bin/qm/qr?k=hsFXJNxXDUkOKvBdb_cQWN0FoPJI2mvZ&s=1) <br>
 - [QQ Group](https://qm.qq.com/q/wWMH13Ib5K) ←加群答案：皮梦
-- [邮箱：i@07210700.xyz](mailto:i@07210700.xyz) <br>
+- [邮箱：pm@3c.ci](mailto:pm@3c.ci) <br>
 - [哔哩哔哩：皮梦](https://space.bilibili.com/36191664) <br>
 
 ## 国外联系方式
