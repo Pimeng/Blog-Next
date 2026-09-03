@@ -9,6 +9,8 @@ draft: false
 image: cover.svg
 ---
 
+好像写着写着变成了环境搭建教程了…
+
 ## 0x00 被测环境
 
 本篇使用 `Reqable` 双端协同工具进行演示，使用 `Phira` 作为被测APP，使用 `Mumu模拟器` 作为已经被Root的设备（配置SSL证书信任需要）
