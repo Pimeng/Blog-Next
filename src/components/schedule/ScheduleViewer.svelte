@@ -61,6 +61,20 @@
     endMinutes: number;
   }
 
+  interface FullCourseEntry {
+    course: CourseSource;
+    schedule: ScheduleItem;
+    timeRange: string;
+    startMinutes: number;
+    endMinutes: number;
+  }
+
+  interface FullScheduleGroup {
+    timeRange: string;
+    startMinutes: number;
+    courses: FullCourseEntry[];
+  }
+
   const DAY_NAMES = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
 
   // 解析课程名称，提取括号内的标记
@@ -81,7 +95,7 @@
   }
 
   let scheduleData: ScheduleData | null = null;
-  let viewMode: 'today' | 'week' = 'today';
+  let viewMode: 'today' | 'week' | 'full' = 'today';
   let currentWeek = 1;
   let currentDay = 1;
   let semesterStart: Date;
@@ -132,6 +146,16 @@
 
   // 获取课程的开始和结束时间（分钟）
   function getCourseTimeRange(schedule: ScheduleItem): { start: number; end: number } {
+    if (schedule.ownTime && schedule.startTime && schedule.endTime) {
+      const [startHour, startMin] = schedule.startTime.split(':').map(Number);
+      const [endHour, endMin] = schedule.endTime.split(':').map(Number);
+
+      return {
+        start: startHour * 60 + startMin,
+        end: endHour * 60 + endMin
+      };
+    }
+
     const startSlot = getTimeSlot(schedule.startNode);
     const endSlot = getTimeSlot(schedule.startNode + schedule.step - 1);
     
@@ -263,6 +287,58 @@
     return weekDays;
   }
 
+  function formatWeekRange(schedule: ScheduleItem): string {
+    return schedule.startWeek === schedule.endWeek
+      ? `第 ${schedule.startWeek} 周`
+      : `第 ${schedule.startWeek}-${schedule.endWeek} 周`;
+  }
+
+  // 获取整个学期的课程，按时间、星期和周次整理。
+  function getFullScheduleByTime(): FullScheduleGroup[] {
+    if (!scheduleData) return [];
+
+    const entries: FullCourseEntry[] = [];
+
+    scheduleData.schedules.forEach(schedule => {
+      const course = scheduleData!.sources.find(source => source.id === schedule.id);
+      if (!course) return;
+
+      const { start, end } = getCourseTimeRange(schedule);
+      entries.push({
+        course,
+        schedule,
+        timeRange: formatTimeRange(schedule),
+        startMinutes: start,
+        endMinutes: end
+      });
+    });
+
+    entries.sort((a, b) =>
+      a.startMinutes - b.startMinutes ||
+      a.endMinutes - b.endMinutes ||
+      a.schedule.day - b.schedule.day ||
+      a.schedule.startWeek - b.schedule.startWeek
+    );
+
+    const groups = new Map<string, FullScheduleGroup>();
+    entries.forEach(entry => {
+      const key = `${entry.startMinutes}-${entry.endMinutes}`;
+      const group = groups.get(key);
+
+      if (group) {
+        group.courses.push(entry);
+      } else {
+        groups.set(key, {
+          timeRange: entry.timeRange,
+          startMinutes: entry.startMinutes,
+          courses: [entry]
+        });
+      }
+    });
+
+    return Array.from(groups.values());
+  }
+
   // 更新时间
   function updateTime() {
     calculateCurrentWeekAndDay();
@@ -330,7 +406,7 @@
 
 <div class="schedule-viewer">
   <!-- 头部信息 -->
-  <div class="flex items-start justify-between gap-3 mb-6">
+  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-6">
     <div class="min-w-0">
       <h1 class="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-1">
         皮梦的课程表
@@ -344,7 +420,7 @@
     </div>
     
     <!-- 右侧控制区：开关 + 切换按钮 -->
-    <div class="flex items-center gap-2 flex-shrink-0">
+    <div class="flex items-center justify-between sm:justify-end gap-2 flex-shrink-0">
       <!-- 显示已完成课程开关 - 仅在今日视图显示 -->
       {#if viewMode === 'today'}
         <button 
@@ -374,14 +450,14 @@
         </button>
       {/if}
       
-      <!-- 今日/本周切换按钮 -->
-      <div class="view-switch relative grid grid-cols-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+      <!-- 今日/本周/完整课表切换按钮 -->
+      <div class="view-switch relative grid grid-cols-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
         <span
           class="schedule-view-switch-indicator absolute bg-white dark:bg-neutral-700 rounded-md shadow-sm"
           style:inset-block="0.25rem"
           style:left="0.25rem"
-          style:width="calc(50% - 0.25rem)"
-          style:transform={viewMode === 'week' ? 'translateX(100%)' : 'translateX(0)'}
+          style:width="calc((100% - 0.5rem) / 3)"
+          style:transform={viewMode === 'today' ? 'translateX(0)' : viewMode === 'week' ? 'translateX(100%)' : 'translateX(200%)'}
           style:transition={prefersReducedMotion ? 'none' : 'transform 260ms cubic-bezier(0.22, 1, 0.36, 1)'}
           aria-hidden="true"
         ></span>
@@ -408,6 +484,18 @@
           on:click={() => viewMode = 'week'}
         >
           本周
+        </button>
+        <button
+          type="button"
+          class="schedule-view-switch-button relative z-10 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium"
+          style:transition={prefersReducedMotion ? 'none' : 'color 180ms ease'}
+          class:text-primary={viewMode === 'full'}
+          class:text-neutral-600={viewMode !== 'full'}
+          class:dark:text-neutral-400={viewMode !== 'full'}
+          aria-pressed={viewMode === 'full'}
+          on:click={() => viewMode = 'full'}
+        >
+          完整课表
         </button>
       </div>
     </div>
@@ -492,7 +580,7 @@
           {/each}
         </div>
       {/if}
-    {:else}
+    {:else if viewMode === 'week'}
       <!-- 本周课程视图 -->
       <div class="space-y-6">
         {#each getWeekCourses() as { day, dayName, isToday, courses }}
@@ -570,6 +658,61 @@
               </div>
             {/if}
           </div>
+        {/each}
+      </div>
+    {:else}
+      <!-- 整个学期的完整课表，按上课时间排列 -->
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-4 py-3 rounded-xl bg-primary/10 text-sm">
+          <span class="font-medium text-neutral-700 dark:text-neutral-200">
+            {scheduleData.sources.length} 门课程 · {scheduleData.schedules.length} 个安排
+          </span>
+          <span class="text-xs text-neutral-500 dark:text-neutral-400">
+            第 1-{scheduleData.config.maxWeek} 周
+          </span>
+        </div>
+
+        {#each getFullScheduleByTime() as { timeRange, courses }}
+          <section class="full-schedule-group rounded-xl border border-black/5 dark:border-white/5 overflow-hidden">
+            <div class="flex items-center gap-3 px-4 py-3 bg-neutral-100/80 dark:bg-neutral-800/80">
+              <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 7v5l3 2"></path>
+              </svg>
+              <h3 class="font-bold text-neutral-800 dark:text-neutral-100">{timeRange}</h3>
+              <span class="text-xs text-neutral-400">{courses.length} 个安排</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-black/5 dark:bg-white/5">
+              {#each courses as { course, schedule }}
+                <article class="full-course-card min-w-0 p-4 bg-[var(--card-bg)]">
+                  <div class="flex items-start gap-3">
+                    <span class="flex-shrink-0 px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-bold">
+                      {DAY_NAMES[schedule.day - 1]}
+                    </span>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <h4 class="font-bold text-neutral-900 dark:text-neutral-100">
+                          {parseCourseName(course.courseName).mainName}
+                        </h4>
+                        {#each parseCourseName(course.courseName).badges as badge}
+                          <span class="px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
+                            {badge}
+                          </span>
+                        {/each}
+                      </div>
+                      <p class="mt-1.5 text-xs font-medium text-primary">{formatWeekRange(schedule)}</p>
+                      {#if schedule.room || schedule.teacher}
+                        <p class="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
+                          {schedule.room}{schedule.room && schedule.teacher ? ' · ' : ''}{schedule.teacher}
+                        </p>
+                      {/if}
+                    </div>
+                  </div>
+                </article>
+              {/each}
+            </div>
+          </section>
         {/each}
       </div>
     {/if}
