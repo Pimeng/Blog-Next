@@ -251,23 +251,13 @@
       // 按开始节次排序
       dayCourses.sort((a, b) => a.schedule.startNode - b.schedule.startNode);
       
-      // 如果不是今天或者开启了显示已完成课程，不过滤
-      if (day !== currentDay || showCompletedCourses) {
-        weekDays.push({
-          day,
-          dayName: DAY_NAMES[day - 1],
-          isToday: day === currentDay,
-          courses: dayCourses
-        });
-      } else {
-        // 今天是当前天，且隐藏已完成课程
-        weekDays.push({
-          day,
-          dayName: DAY_NAMES[day - 1],
-          isToday: day === currentDay,
-          courses: dayCourses.filter(c => !c.isCompleted)
-        });
-      }
+      // “隐藏已上”仅属于今日视图，本周视图始终展示完整课程。
+      weekDays.push({
+        day,
+        dayName: DAY_NAMES[day - 1],
+        isToday: day === currentDay,
+        courses: dayCourses
+      });
     }
     
     return weekDays;
