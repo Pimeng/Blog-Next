@@ -2,7 +2,7 @@
 title: 使用 Python 实现 Windows Hello 鉴权
 published: 2026-05-11
 tags: [脚本, Python, Windows Hello, 鉴权]
-category: 'Python'
+category: '编程'
 description: 本篇记录如何使用 Python 调起 Windows 凭据对话框，并结合 Windows Hello / PIN / 密码完成本机身份确认
 draft: false
 image: cover.svg
