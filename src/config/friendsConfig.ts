@@ -129,7 +129,8 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 89,
     enabled: true,
-  },{
+  },
+  {
     title: "术无的个人博客",
     imgurl: "https://nishuwu.vip/_astro/demo-avatar.yQfSQiDt_Z2oAUhh.webp",
     desc: "嗷呜～",
@@ -137,11 +138,12 @@ export const friendsConfig: FriendLink[] = [
     tags: ["Blog"],
     weight: 88,
     enabled: true,
-  },{
-    title: "Nagayodzuki's Blog",
-    imgurl: "https://luvxcby.love/webdata/pub/03/website-icon/asst0.png",
-    desc: "此方は永夜づきですね",
-    siteurl: "//luvxcby.love",
+  },
+  {
+    title: "Inverted World.",
+    imgurl: "https://invtwd.25nightcord.icu/logo.jpg",
+    desc: "Can you still hear the song of the cosmos?",
+    siteurl: "//invtwd.25nightcord.icu/",
     tags: ["Blog"],
     weight: 87,
     enabled: true,
