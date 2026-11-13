@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "@/config";
+import { url } from "@/utils/url-utils";
 
 const { font: fontConfig } = siteConfig;
 
@@ -63,10 +64,20 @@ const fontFamilyStyle = generateFontFamilyStyle();
       font.src.startsWith("https://") ||
       font.src.startsWith("//");
 
-    if (isExternalUrl) {
-      // 外部字体链接 (如 Google Fonts, CDN等)
-      // 使用 media="print" 技巧避免渲染阻塞，加载完成后切换为 all
-      return <link rel="stylesheet" href={font.src} media="print" onload={`this.media='all'`} />;
+    // 本地生成的字体样式表（.css，含按需分片的 @font-face，如 MiSans/Inter）
+    const isLocalStylesheet = !isExternalUrl && font.src.endsWith(".css");
+
+    if (isExternalUrl || isLocalStylesheet) {
+      // 字体样式表（外部 CDN 或本地分片 result.css）
+      // 使用 media="print" 技巧避免渲染阻塞，加载完成后切换为 all；
+      // 字体本身 font-display:swap，首屏先用回退字体渲染，分片按需换入
+      const href = isExternalUrl ? font.src : url(font.src);
+      return (
+        <>
+          <link rel="stylesheet" href={href} media="print" onload={`this.media='all'`} />
+          <noscript><link rel="stylesheet" href={href} /></noscript>
+        </>
+      );
     } else {
       // 本地字体文件
       return (
@@ -92,7 +103,7 @@ const fontFamilyStyle = generateFontFamilyStyle();
   fontConfig.enable &&
     fontConfig.preload &&
     selectedFonts
-      .filter((font) => !font.src.startsWith("http"))
+      .filter((font) => !font.src.startsWith("http") && !font.src.endsWith(".css"))
       .map((font) => (
         <link
           rel="preload"

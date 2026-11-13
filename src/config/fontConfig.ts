@@ -32,25 +32,27 @@ export const fontConfig = {
 			display: "swap" as const,
 		},
 
-		// Google Fonts - Inter
+		// Inter（本地自托管 latin 子集）
+		// 由 scripts/split-fonts.js 从 @fontsource/inter 生成，
+		// src 指向本地生成的样式表（含各字重 @font-face），不再依赖 Google Fonts
 		inter: {
 			id: "inter",
 			name: "Inter",
-			src: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
+			src: "/assets/fonts/Inter/result.css",
 			family: "Inter",
 			display: "swap" as const,
 		},
 
-		// 小米字体 - MiSans Regular（本地加载）
-		// 已从 CDN 迁移至本地 public/assets/fonts/MiSans/ 目录
-		// 仅保留 Regular 字重以减小体积，浏览器按需加载
+		// 小米字体 - MiSans（本地分片按需加载）
+		// 由 scripts/split-fonts.js 用 cn-font-split 切分，src 指向生成的
+		// result.css（含上百个带 unicode-range 的 @font-face），浏览器只下载
+		// 当前页面实际用到的字形分片，弱网下显著降低首屏字体体积。
+		// 重新切分：pnpm fonts:split（源字体位于 fonts-src/MiSans-Regular.woff2）
 		"misans-regular": {
 			id: "misans-regular",
-			name: "MiSans Regular",
-			src: "/assets/fonts/MiSans/MiSans-Regular.woff2",
+			name: "MiSans",
+			src: "/assets/fonts/MiSans/result.css",
 			family: "MiSans",
-			weight: 500,
-			format: "woff2",
 			display: "swap" as const,
 		},
 	},
